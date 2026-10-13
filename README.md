@@ -61,7 +61,7 @@ O workflow `.github/workflows/pages.yml` testa, verifica os recursos, prepara `d
 
 ## Render
 
-O `render.yaml` descreve um Web Service e um Key Value gratuitos em Virginia. O servidor usa `PORT` e `/health`. Instalação: `corepack enable && pnpm install --frozen-lockfile`; início: `node server/index.mjs`.
+O `render.yaml` descreve um Web Service e um Key Value gratuitos em Virginia. O servidor usa `PORT` e `/health`. Instalação: `corepack pnpm install --frozen-lockfile`; início: `node server/index.mjs`. O comando direto evita alterar os executáveis protegidos do ambiente Render.
 
 Variáveis: `CLIENT_ORIGIN=https://fernandobalbino.github.io`, `REDIS_URL` com a conexão privada do Key Value, `TICK_RATE=20`, `SNAPSHOT_RATE=10`. Tokens são aleatórios por sala/aluno, armazenados como hashes no servidor; não existe senha fixa nem segredo administrativo no build estático.
 

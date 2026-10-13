@@ -1,5 +1,10 @@
 # Atribuições dos recursos visuais
 
+## Recursos novos do LabirintoOnline
+
+- Bandeiras, atlas dos dez poderes online e vírus controlável: desenhos SVG originais em pixel art, construídos para este projeto em `scripts/sprites.mjs`. Manifesto em `client/assets/maze-game/online-sprites.json`. Podem ser redistribuídos com o projeto.
+- Os atlas, fontes, recursos e sons do Labirinto da Informática original foram preservados. Base: CentralJogos, commit `e1db29efa16b865e2e3087de2c2502b73c826270`.
+
 Todos os recursos usados pelo site são armazenados localmente. Este arquivo complementa os créditos exibidos na interface.
 
 ## Balcão da Informática
