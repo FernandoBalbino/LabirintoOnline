@@ -12,13 +12,14 @@ function merge(client,d){if(!client.state)return;const s={...client.state,clock:
 async function connectClient(role,index=0){
  const socket=io(url,{autoConnect:false,reconnection:true,reconnectionDelay:300,reconnectionDelayMax:2000,timeout:20000,transports:['websocket','polling']});
  const client={socket,index,state:null,maze:null,seq:0,busy:false,planned:false,goal:null,path:[],pathAt:0,token:null,role};
- socket.on('snapshot',s=>{const old=client.state;client.state=s;if(s.maze)client.maze=s.maze;if(old?.me?.state!==s.me?.state){if(s.me?.state==='INFECTED')stats.inflections++;if(s.me?.state==='ESCAPED')stats.escapes++;}if(client.state.me?.teleportVersion!==old?.me?.teleportVersion)client.path=[];countPacket(s);});
- socket.on('delta',d=>{merge(client,d);countPacket(d);});
+ socket.on('snapshot',s=>{observeCadence(client,s);const old=client.state;client.state=s;if(s.maze)client.maze=s.maze;if(old?.me?.state!==s.me?.state){if(s.me?.state==='INFECTED')stats.inflections++;if(s.me?.state==='ESCAPED')stats.escapes++;}if(client.state.me?.teleportVersion!==old?.me?.teleportVersion)client.path=[];countPacket(s);});
+ socket.on('delta',d=>{observeCadence(client,d);merge(client,d);countPacket(d);});
  socket.on('disconnect',()=>{if(!running||roundBusy)return;if(client.planned)stats.intentionalDisconnects++;else stats.unexpectedDisconnects++;client.lostAt=performance.now();});
  socket.on('connect',async()=>{client.seq=0;if(client.token&&running&&!roundBusy){try{await request(socket,'room:resume',{code:currentCode,token:client.token});if(client.lostAt){stats.reconnections++;stats.reconnectMs.push(performance.now()-client.lostAt);client.lostAt=null;client.planned=false;}}catch(e){stats.errors.push(e.message);}}});
  socket.connect();await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('Conexão não estabelecida')),90000);socket.once('connect',()=>{clearTimeout(timer);resolve();});});return client;
 }
 function countPacket(data){stats.packets++;stats.packetBytes+=Buffer.byteLength(JSON.stringify(data));}
+function observeCadence(client,data){const now=performance.now();if(client.lastArrival&&data.clock>client.lastClock){stats.syncDelayMs.push(Math.max(0,(now-client.lastArrival)-(data.clock-client.lastClock)));if(stats.syncDelayMs.length>100000)stats.syncDelayMs.shift();}client.lastArrival=now;client.lastClock=data.clock;}
 async function newRound(){
  roundBusy=true;for(const c of clients)c.socket.disconnect();teacher?.socket.disconnect();clients=[];
  teacher=await connectClient('teacher');const created=await request(teacher.socket,'room:create',{config:{name:'Carga automatizada • 24 clientes',maxPlayers:24,teamCount:2,timeLimit:150}});currentCode=created.code;teacher.token=created.token;
@@ -53,7 +54,7 @@ try{
  clearInterval(inputTimer);running=false;await request(teacher.socket,'teacher:finish').catch(()=>{});
  stats.elapsedSeconds=(performance.now()-started)/1000;stats.completed=stats.elapsedSeconds>=duration;stats.finishedAt=new Date().toISOString();
  const percentile=(values,p)=>{const sorted=[...values].sort((a,b)=>a-b);return sorted[Math.min(sorted.length-1,Math.floor(sorted.length*p))]||0;};
- stats.summary={latencyMedianMs:percentile(stats.latencies,.5),latencyP95Ms:percentile(stats.latencies,.95),reconnectP95Ms:percentile(stats.reconnectMs,.95),averagePacketBytes:stats.packetBytes/Math.max(1,stats.packets),tickMaxMs:Math.max(...stats.samples.map(s=>s.tickMax)),cpuPeakPercent:Math.max(...stats.samples.map(s=>s.cpuPercent)),memoryFirstRss:stats.samples[0]?.memory.rss,memoryLastRss:stats.samples.at(-1)?.memory.rss};
+ stats.summary={latencyMedianMs:percentile(stats.latencies,.5),latencyP95Ms:percentile(stats.latencies,.95),syncCadenceDelayP95Ms:percentile(stats.syncDelayMs,.95),reconnectP95Ms:percentile(stats.reconnectMs,.95),averagePacketBytes:stats.packetBytes/Math.max(1,stats.packets),tickMaxMs:Math.max(...stats.samples.map(s=>s.tickMax)),cpuPeakPercent:Math.max(...stats.samples.map(s=>s.cpuPercent)),memoryFirstRss:stats.samples[0]?.memory.rss,memoryLastRss:stats.samples.at(-1)?.memory.rss};
  // Nunca salvar tokens das sessões no relatório.
  await mkdir('docs',{recursive:true});await writeFile(output,JSON.stringify(stats,null,2));console.log(JSON.stringify({completed:stats.completed,elapsedSeconds:stats.elapsedSeconds,rounds:stats.rounds,summary:stats.summary,errors:stats.errors.length},null,2));
 }catch(error){running=false;stats.completed=false;stats.errors.push(error.message);await writeFile(output,JSON.stringify(stats,null,2));console.error(error.message);process.exitCode=1;}finally{for(const c of clients)c.socket.disconnect();teacher?.socket.disconnect();}
