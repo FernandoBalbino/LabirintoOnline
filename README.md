@@ -65,7 +65,9 @@ O `render.yaml` descreve um Web Service e um Key Value gratuitos em Virginia. O 
 
 Variáveis: `CLIENT_ORIGIN=https://fernandobalbino.github.io`, `REDIS_URL` com a conexão privada do Key Value, `TICK_RATE=20`, `SNAPSHOT_RATE=10`. Tokens são aleatórios por sala/aluno, armazenados como hashes no servidor; não existe senha fixa nem segredo administrativo no build estático.
 
-Para publicação manual, importe o repositório e aplique o Blueprint. Nunca coloque conexões privadas ou tokens no Git. Atualizações do frontend e do backend podem ser publicadas separadamente.
+O backend é publicado pelo workflow `backend.yml`, após testes, usando o segredo de repositório `RENDER_DEPLOY_HOOK`. O Auto-Deploy do Render fica desativado para evitar duplicações: o novo repositório público não está entre os repositórios autorizados no aplicativo GitHub do Render. O gatilho privado está somente nos secrets do GitHub, nunca no frontend. Mudanças somente na documentação ou no cliente não reiniciam o backend.
+
+Para publicação manual, importe o repositório e aplique o Blueprint, ou use Manual Deploy no serviço. Nunca coloque conexões privadas ou tokens no Git. Atualizações do frontend e do backend podem ser publicadas separadamente.
 
 ## Arquitetura
 
