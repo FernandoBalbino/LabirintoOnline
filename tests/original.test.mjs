@@ -4,7 +4,7 @@ import { access, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { challengeTemplateCounts, mazeChallenges, mazeEvents, mazePowers } from "../server/challenges.mjs";
+import { challengeTemplateCounts, mazeChallenges, mazeEvents, mazePowers } from "../server/original-challenges.mjs";
 import { ChallengeManager } from "../client/js/maze-game-challenges.mjs";
 import {
   BASE_CHEST_COUNT,

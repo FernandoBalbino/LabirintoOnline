@@ -1,4 +1,5 @@
 // Interface original; validação exclusivamente no servidor.
+import {renderBrowser,handleBrowserClick,handleBrowserSubmit} from './browser-challenges.mjs';
 
 const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
@@ -118,6 +119,7 @@ export class ChallengeManager {
   }
 
   renderContent(challenge) {
+    if (challenge.template === 'browser-sim') return renderBrowser(this);
     if (this.isSortTemplate()) return this.renderSorter(challenge);
     if (challenge.template === "hardware") return this.renderHardware(challenge);
     if (["software-scenario", "peripheral-select"].includes(challenge.template)) return this.renderChoice(challenge);
@@ -283,6 +285,8 @@ export class ChallengeManager {
 
   handleClick(event) {
     if (this.resolved) return;
+    if (this.pending) return;
+    if (this.challenge?.template === 'browser-sim' && handleBrowserClick(this,event)) return;
     const item = event.target.closest("[data-item-id]");
     const target = event.target.closest("[data-target-id]");
     if (target && this.isSortTemplate() && this.selectedItem) {
@@ -404,6 +408,8 @@ export class ChallengeManager {
   }
 
   handleSubmit(event) {
+    if (this.pending) { event.preventDefault(); return; }
+    if (this.challenge?.template === 'browser-sim' && handleBrowserSubmit(this,event)) return;
     if (this.resolved) {
       event.preventDefault();
       return;

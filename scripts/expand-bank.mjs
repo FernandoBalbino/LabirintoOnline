@@ -1,0 +1,13 @@
+import {readFile,writeFile} from 'node:fs/promises';
+const original=await readFile(process.argv[2],'utf8');
+await writeFile('server/original-challenges.mjs',original);
+await writeFile('server/challenges.mjs',`import {mazeChallenges as original} from './original-challenges.mjs';
+import {extraHardware,browserChallenges} from './extra-challenges.mjs';
+export {mazePowers,mazeEvents} from './original-challenges.mjs';
+export const mazeChallenges=[...original,...extraHardware,...browserChallenges];
+export const challengeTemplateCounts=mazeChallenges.reduce((counts,c)=>({...counts,[c.template]:(counts[c.template]||0)+1}),{});
+export const challengeById=new Map(mazeChallenges.map(c=>[c.id,c]));
+`);
+await writeFile('tests/original.test.mjs',(await readFile('tests/original.test.mjs','utf8')).replace('../server/challenges.mjs','../server/original-challenges.mjs'));
+await writeFile('tests/arena.test.mjs',(await readFile('tests/arena.test.mjs','utf8')).replace('catálogo preserva 36 desafios, 15 poderes antigos e 10 novos','catálogo reúne 60 desafios, 15 poderes antigos e 10 novos').replace('assert.equal(mazeChallenges.length,36)','assert.equal(mazeChallenges.length,60)'));
+await writeFile('README.md',(await readFile('README.md','utf8')).replace('36 desafios originais','60 desafios (36 originais, 16 de navegador e 8 novos de hardware)'));

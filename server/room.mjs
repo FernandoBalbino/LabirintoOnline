@@ -2,6 +2,7 @@ import {randomBytes,createHash} from 'node:crypto';
 import {createSeededRandom,movePlayer,PLAYER_SPEED,MAZE_TILE_SIZE,positionToCell,findShortestPath,reachedExit,createVirusState,createChallengeDeck,takeNextChallenge,applyCorrectAnswer,applyWrongAnswer,resumeAfterChallenge,validateChallengeResponse,pickPowerChoices} from '../shared/maze-core.mjs';
 import {DEFAULT_CONFIG,teams,powers,labels} from '../shared/online-catalog.mjs';
 import {mazeChallenges,challengeById} from './challenges.mjs';
+import {validateBrowserResponse} from './extra-challenges.mjs';
 import {generateArena,teamSpawnCells,center,effectiveMaze,cellDistance,findSafeTeleportDestination} from './maps.mjs';
 import {bonusChests,choosePower,teleport,randomEvent} from './powers.mjs';
 export const token=()=>randomBytes(32).toString('base64url');
@@ -66,7 +67,7 @@ export class Room{
  }
  answer(p,{challengeId,questionSerial,response}){
   if(this.status!=='PLAYING'||p.state!=='ANSWERING'||challengeId!==p.challenge||questionSerial!==p.questionSerial||p.successAt)throw new Error('Este desafio não está disponível.');
-  const challenge=challengeById.get(p.challenge),correct=validateChallengeResponse(challenge,response);
+  const challenge=challengeById.get(p.challenge),correct=challenge.template==='browser-sim'?validateBrowserResponse(challenge,response):validateChallengeResponse(challenge,response);
   const next=correct?applyCorrectAnswer(p):applyWrongAnswer(p);
   for(const key of ['currentFreeTime','remainingTime','correctStreak','highestStreak','questionsAnswered','wrongAnswers'])p[key]=next[key];
   if(correct){p.correctAnswers++;p.successAt=this.clock+700;p.effects.immuneUntil=p.successAt+500;}
@@ -164,7 +165,7 @@ export class Room{
   const hidden=viewer?.state==='INFECTED';
   const players=this.players.filter(p=>!p.removed||p.state==='ESCAPED').filter(p=>!hidden||p.id===viewer.id||p.state==='INFECTED'||!(p.effects.invisibleUntil>this.clock)).map(p=>({id:p.id,name:p.name,team:p.team,state:p.state,connected:p.connected,position:p.position,teleportVersion:p.teleportVersion,infectedAt:p.infectedAt,shielded:p.effects.shieldCharges>0,protected:this.immune(p)}));
   const me=viewer?{...players.find(p=>p.id===viewer.id),remainingTime:viewer.remainingTime,currentFreeTime:viewer.currentFreeTime,correctStreak:viewer.correctStreak,correctAnswers:viewer.correctAnswers,effects:viewer.effects,chests:viewer.chests,bits:viewer.bits,meteors:viewer.meteors,challenge:this.publicChallenge(viewer),questionUntil:viewer.questionUntil,questionExpired:viewer.questionExpired,powerChoice:viewer.powerChoice,interaction:viewer.interaction,successAt:viewer.successAt,fakeExit:viewer.fakeExit?.until>this.clock?viewer.fakeExit:null,phantoms:viewer.effects.phantomUntil>this.clock?viewer.phantoms:[],lastInputSeq:viewer.lastInputSeq,virusSpeed:viewer.virusSpeed}:null;
-  return {code:this.code,config:this.config,status:this.status,clock:this.clock,version:this.version,eventId:this.eventId,recovering:this.recovering,teacherConnected:this.teacherConnected,players,me,scoreboard:this.scoreboard(),viruses:this.viruses.map(({path,...v})=>v),walls:teacher?this.walls:this.walls.filter(w=>w.team===viewer?.team),activeEvent:this.activeEvent?.until>this.clock?this.activeEvent:null,result:this.result,...includeMap?{maze:this.maze}:{}};
+  return {code:this.code,config:this.config,status:this.status,clock:this.clock,version:this.version,eventId:this.eventId,recovering:this.recovering,teacherConnected:this.teacherConnected,players,me,scoreboard:this.scoreboard(),viruses:this.viruses.map(({path,...v})=>v),walls:teacher?this.walls:viewer?.state==='INFECTED'?[]:this.walls.filter(w=>w.team===viewer?.team),activeEvent:this.activeEvent?.until>this.clock?this.activeEvent:null,result:this.result,...includeMap?{maze:this.maze}:{}};
  }
  serialize(){const {random,notify,broadcast,onCritical,commands,services,commandQueue,joinQueue,...data}=this;return JSON.parse(JSON.stringify(data));}
 }

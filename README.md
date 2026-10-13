@@ -5,7 +5,7 @@ Evolução multiplayer do jogo original do [CentralJogos](https://github.com/Fer
 - Jogo: https://fernandobalbino.github.io/LabirintoOnline/
 - Backend e saúde: https://labirinto-online.onrender.com/health
 - Até 24 alunos e professor sem ocupar vaga; 2, 3 ou 4 equipes.
-- 36 desafios originais, 15 poderes preservados, 10 sabotagens e cinco eventos aleatórios.
+- 60 desafios (36 originais, 16 de navegador e 8 novos de hardware), 15 poderes preservados, 10 sabotagens e cinco eventos aleatórios.
 - Infecção em cadeia, baús individuais, placar ao vivo, espectador e reconexão.
 
 ## Rodar localmente
@@ -65,7 +65,7 @@ O `render.yaml` descreve um Web Service e um Key Value gratuitos em Virginia. O 
 
 Variáveis: `CLIENT_ORIGIN=https://fernandobalbino.github.io`, `REDIS_URL` com a conexão privada do Key Value, `TICK_RATE=20`, `SNAPSHOT_RATE=10`. Tokens são aleatórios por sala/aluno, armazenados como hashes no servidor; não existe senha fixa nem segredo administrativo no build estático.
 
-O backend é publicado pelo workflow `backend.yml`, após testes, usando o segredo de repositório `RENDER_DEPLOY_HOOK`. O Auto-Deploy do Render fica desativado para evitar duplicações: o novo repositório público não está entre os repositórios autorizados no aplicativo GitHub do Render. O gatilho privado está somente nos secrets do GitHub, nunca no frontend. Mudanças somente na documentação ou no cliente não reiniciam o backend.
+O novo repositório público não está entre os repositórios autorizados no aplicativo GitHub do Render. Por isso, o Auto-Deploy do serviço fica desativado e atualizações do backend são publicadas pelo controle de deploy do Render. O frontend continua sendo publicado automaticamente pelo GitHub Actions. Essa configuração evita guardar credenciais adicionais no GitHub.
 
 Para publicação manual, importe o repositório e aplique o Blueprint, ou use Manual Deploy no serviço. Nunca coloque conexões privadas ou tokens no Git. Atualizações do frontend e do backend podem ser publicadas separadamente.
 
