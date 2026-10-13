@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: labirinto-online
+    runtime: node
+    plan: free
+    region: virginia
+    buildCommand: corepack enable && pnpm install --frozen-lockfile
+    startCommand: node server/index.mjs
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 24
+      - key: CLIENT_ORIGIN
+        value: https://fernandobalbino.github.io
+      - key: REDIS_URL
+        fromService:
+          name: labirinto-online-state
+          type: keyvalue
+          property: connectionString
+  - type: keyvalue
+    name: labirinto-online-state
+    plan: free
+    region: virginia
+    maxmemoryPolicy: noeviction
+    ipAllowList: []

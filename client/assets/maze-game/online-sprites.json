@@ -1,0 +1,30 @@
+{
+  "cell": 32,
+  "powers": {
+    "file": "online-powers-atlas.svg",
+    "columns": 5,
+    "rows": 2,
+    "ids": [
+      "inverter",
+      "apagao",
+      "caos",
+      "congelamento-coletivo",
+      "saida-falsa",
+      "maldicao",
+      "muralha",
+      "separacao",
+      "fantasma",
+      "troca"
+    ]
+  },
+  "flags": {
+    "file": "team-flags.svg",
+    "columns": 4,
+    "rows": 1
+  },
+  "infected": {
+    "file": "infected-player-sprites.svg",
+    "columns": 4,
+    "rows": 1
+  }
+}

@@ -1,0 +1,13 @@
+import {readFile,writeFile} from 'node:fs/promises';
+const original=await readFile(process.argv[2],'utf8');
+let source=original.replace('../js/maze-game-data.mjs','../server/challenges.mjs').replace('../js/maze-game-challenges.mjs','../client/js/maze-game-challenges.mjs').replace('../js/maze-game-core.mjs','../shared/maze-core.mjs').replace('  canRestartChallenge,\n','').replace('  canRestartChallenge,\r\n','');
+source=source.slice(0,source.indexOf('test("rota, card, senha'));
+source=source.replace(/\s*assert\.(?:equal|ok)\(canRestartChallenge[^\n]+/g,'');
+source=source.replace('resolve(projectRoot, item.icon)','resolve(projectRoot, "client", item.icon)');
+source=source.replaceAll('resolve(projectRoot, "assets/','resolve(projectRoot, "client/assets/');
+source=source.replace('readFile(resolve(projectRoot, "service-worker.js"), "utf8")','readFile(resolve(projectRoot, "client/precache.json"), "utf8")');
+source=source.replace('serviceWorker.includes(icon)','serviceWorker.includes(icon.replace(/^\\.\\//, ""))');
+source=source.replace('test("desafio correto é processado uma única vez mesmo com vários envios", () => {','test("desafio correto é processado uma única vez mesmo com vários envios", async () => {');
+source=source.replace('new ChallengeManager({ onCorrect:', 'new ChallengeManager({ submitResponse: async () => ({correct:true,message:"Tempo liberado"}), onCorrect:');
+source=source.replace('  assert.equal(correctCalls, 1);','  await new Promise(resolve=>setImmediate(resolve));\n  assert.equal(correctCalls, 1);');
+await writeFile('tests/original.test.mjs',source);
