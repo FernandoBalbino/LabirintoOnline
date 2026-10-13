@@ -58,7 +58,7 @@ export function choosePower(room,p,powerId){
     const proxy={...target,position:candidate};
     // Le service central doit accepter la cellule proposée selon les mêmes contraintes.
     const safe=findSafeTeleportDestination(room,proxy,{reserved});
-    if(safe&&d>=Math.max(cellDistance(field,maze,target.position),Math.max(...field)*.6)&&!reserved.some(c=>c.x===positionToCell(candidate).x&&c.y===positionToCell(candidate).y)&&!room.viruses.some(v=>Math.hypot(v.x-candidate.x,v.y-candidate.y)<MAZE_TILE_SIZE*6)&&!room.players.some(v=>v.state==='INFECTED'&&Math.hypot(v.position.x-candidate.x,v.position.y-candidate.y)<MAZE_TILE_SIZE*6))destination=candidate;
+    if(safe&&d>=Math.max(cellDistance(field,maze,target.position),Math.max(...field)*.6)&&cellDistance(room.exitDistances,room.maze,candidate)>=Math.max(cellDistance(room.exitDistances,room.maze,target.position),room.maximumDistance*.6)&&!reserved.some(c=>c.x===positionToCell(candidate).x&&c.y===positionToCell(candidate).y)&&!room.viruses.some(v=>Math.hypot(v.x-candidate.x,v.y-candidate.y)<MAZE_TILE_SIZE*6)&&!room.players.some(v=>v.state==='INFECTED'&&Math.hypot(v.position.x-candidate.x,v.position.y-candidate.y)<MAZE_TILE_SIZE*6))destination=candidate;
    }
    destination ||= findSafeTeleportDestination(room,target,{reserved,minSeparation:powerId==='separacao'?12:3});
    if(teleport(room,target,destination))reserved.push(positionToCell(destination));

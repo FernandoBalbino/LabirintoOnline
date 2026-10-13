@@ -50,12 +50,13 @@ export function effectiveMaze(room,player){
 export function findSafeTeleportDestination(room,player,{reserved=[],avoidViruses=true,minSeparation=3}={}){
  const maze=effectiveMaze(room,player),field=distanceField(maze),maximum=Math.max(...field);
  const current=cellDistance(field,maze,player.position),threshold=Math.max(current,Math.ceil(maximum*.6));
+ const baseField=room.exitDistances,baseThreshold=Math.max(cellDistance(baseField,room.maze,player.position),Math.ceil(room.maximumDistance*.6));
  const viruses=[...room.viruses.filter(v=>v.respawnAt<=room.clock),...room.players.filter(p=>p.state==='INFECTED'&&!p.removed).map(p=>p.position)];
  const virusFields=avoidViruses?viruses.map(v=>distanceField(maze,positionToCell(v))):[];
  const occupied=[...room.players.filter(p=>p.id!==player.id&&!p.removed&&p.state!=='ESCAPED').map(p=>positionToCell(p.position)),...reserved];
  const pick=(separation)=>getWalkableCells(maze).filter(c=>{
   const index=c.y*maze.width+c.x,pos=center(c);
-  return field[index]>=threshold&&(c.x!==maze.exit.x||c.y!==maze.exit.y)&&canOccupy(maze.grid,pos.x,pos.y)&&!occupied.some(o=>Math.abs(o.x-c.x)+Math.abs(o.y-c.y)<separation)&&virusFields.every(f=>f[index]===-1||f[index]>=6);
+  return field[index]>=threshold&&baseField[index]>=baseThreshold&&(c.x!==maze.exit.x||c.y!==maze.exit.y)&&canOccupy(maze.grid,pos.x,pos.y)&&!occupied.some(o=>Math.abs(o.x-c.x)+Math.abs(o.y-c.y)<separation)&&virusFields.every(f=>f[index]===-1||f[index]>=6);
  });
  let candidates=pick(minSeparation);if(!candidates.length)candidates=pick(1);
  if(!candidates.length)return null;
@@ -71,7 +72,7 @@ export function addSafeWall(room,team,near){
   if(room.viruses.some(v=>Math.hypot(v.x-center(c).x,v.y-center(c).y)<MAZE_TILE_SIZE))continue;
   const grid=maze.grid.map(r=>[...r]);grid[c.y][c.x]=1;
   const field=distanceField({...maze,grid});
-  if(room.players.filter(p=>p.team===team&&p.state==='EXPLORING'&&!p.removed).every(p=>cellDistance(field,maze,p.position)>=0)){
+  if(room.players.filter(p=>p.team===team&&['EXPLORING','ANSWERING'].includes(p.state)&&!p.removed).every(p=>cellDistance(field,maze,p.position)>=0)){
    room.walls.push({...c,team,until:room.clock+12000});return c;
   }
  }

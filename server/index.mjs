@@ -48,6 +48,7 @@ export async function startServer({port=Number(process.env.PORT)||3000,persisten
  }
  io.on('connection',socket=>{
   socket.data.rate=[];
+  socket.lobbyReceipts=[];
   function action(name,handler,{teacher=false,player=false,critical=true}={}){
    socket.on(name,(payload={},ack=()=>{})=>{
     const now=Date.now();socket.data.rate=socket.data.rate.filter(t=>t>now-1000);if(socket.data.rate.length>=40){ack({ok:false,error:'Muitas mensagens. Aguarde um instante.'});return;}socket.data.rate.push(now);
@@ -57,11 +58,13 @@ export async function startServer({port=Number(process.env.PORT)||3000,persisten
      try{
       if(closing)throw new Error('Servidor reiniciando. Reconecte em instantes.');
       const receiptId=payload.requestId;
+      if(['room:create','room:join'].includes(name)){const cached=socket.lobbyReceipts.find(r=>r.key===`${name}:${receiptId}`);if(cached){ack(cached.result);return;}}
       if(critical&&room&&(!receiptId||typeof receiptId!=='string'||receiptId.length>80))throw new Error('Identificador de operação inválido.');
       const receiptOwner=p||room,receiptKey=`${name}:${receiptId}`;
       const cached=receiptOwner?.receipts?.find(r=>r.key===receiptKey);if(cached){ack(cached.result);return;}
       const data=await handler(payload,room,p);
       const result={ok:true,...data,version:room?.version};
+      if(['room:create','room:join'].includes(name)){socket.lobbyReceipts.push({key:`${name}:${receiptId}`,result});if(socket.lobbyReceipts.length>10)socket.lobbyReceipts.shift();}
       if(critical&&room){receiptOwner.receipts||=[];receiptOwner.receipts.push({key:receiptKey,result});if(receiptOwner.receipts.length>128)receiptOwner.receipts.shift();await store.save(room);}
       ack(result);if(room&&critical)for(const s of connections.values())if(s.data.code===room.code)sendSnapshot(s,name==='teacher:start');
      }catch(error){ack({ok:false,error:error.message});}
