@@ -1,0 +1,8 @@
+{
+  "environment": "Local; não representa a latência do serviço publicado",
+  "players": 24,
+  "refreshes": 100,
+  "oldTotalMs": 1217.9521,
+  "newTotalMs": 33.508600000000115,
+  "reductionPercent": 97.24877521866418
+}

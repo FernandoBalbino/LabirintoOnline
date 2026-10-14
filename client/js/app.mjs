@@ -4,10 +4,12 @@ import {ArenaRenderer} from './arena-renderer.mjs';
 import {ChallengeManager} from './maze-game-challenges.mjs';
 import {GameAudio} from './audio.mjs';
 import {teams,powerById,labels,DEFAULT_CONFIG} from '../../shared/online-catalog.mjs';
-import {formatClock,movePlayer,PLAYER_SPEED,findShortestPath,positionToCell} from '../../shared/maze-core.mjs';
+import {formatClock,movePlayer,PLAYER_SPEED,findShortestPath,positionToCell,canOccupy} from '../../shared/maze-core.mjs';
+import {replayPendingInputs} from '../../shared/prediction.mjs';
 const app=document.querySelector('#app'),modal=document.querySelector('#modal'),status=document.querySelector('#connection-status'),audio=new GameAudio();
 const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let snapshot=null,maze=null,renderer=null,manager=null,viewKey='',questionKey='',choiceKey='',lastReceived=0,previousActors=new Map(),currentActors=new Map(),predicted=null,keys=new Set(),virtual=null,lastFrame=0,lastStep=0,toastTimer=null,spectatorId=null;
+let correctionOffset={x:0,y:0};
 const connection=new Connection({onSnapshot:receive,onNotice:notice,onStatus:(text,connected)=>{status.textContent=text;status.classList.toggle('lost',!connected);if(!connected){keys.clear();virtual=null;}},onRemoved:()=>{snapshot=null;showHome();showMessage('Participação encerrada','O professor removeu você desta sala.');}});
 const dir={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
 showHome();status.textContent='Arena online • conexão necessária';
@@ -31,12 +33,13 @@ function renderPanel(s){
 function configForm(c){return `<h2>Configurar partida</h2><form class="online-form" data-config><div class="field-row"><label>Vagas<input name="maxPlayers" type="number" min="2" max="24" value="${c.maxPlayers}"></label><label>Equipes<select name="teamCount">${[2,3,4].map(n=>`<option ${c.teamCount===n?'selected':''}>${n}</option>`).join('')}</select></label></div><label>Mapa<select name="mapSize"><option value="auto" ${c.mapSize==='auto'?'selected':''}>Automático</option><option value="custom" ${c.mapSize==='custom'?'selected':''}>Personalizado</option></select></label><div class="field-row"><label>Largura<input name="width" type="number" min="31" max="131" step="2" value="${c.width}"></label><label>Altura<input name="height" type="number" min="31" max="101" step="2" value="${c.height}"></label></div><label>Limite da partida (minutos)<input name="timeMinutes" type="number" min="0" max="120" value="${c.timeLimit/60}"><small>0 = sem limite geral</small></label>${[['powers','Ativar poderes'],['controlledViruses','Infectados controlam seus vírus'],['allowJoin','Aceitar novos alunos no lobby']].map(([key,text])=>`<label class="check-label"><input name="${key}" type="checkbox" ${c[key]?'checked':''}>${text}</label>`).join('')}<button class="maze-primary-button" type="submit">SALVAR CONFIGURAÇÃO</button></form>`;}
 function mountGame(){
  viewKey='game';document.body.classList.add('maze-game-active');app.innerHTML=gameShell;
+ app.querySelector('.maze-game-brand').href='https://fernandobalbino.github.io/CentralJogos/';
  app.querySelector('.maze-canvas').tabIndex=0;
  app.querySelector('.maze-hud').insertAdjacentHTML('beforeend','<div class="live-score" data-score></div>');
  app.querySelector('.maze-viewport').insertAdjacentHTML('beforeend','<div class="online-effect-badge" hidden></div><div class="online-question-clock" hidden></div>');
  renderer=new ArenaRenderer(app.querySelector('canvas'));renderer.ready.catch(error=>showMessage('Recurso indisponível',error.message));
  manager=new ChallengeManager({submitResponse:(question,response)=>connection.request('player:answer',{challengeId:question.id,questionSerial:question.questionSerial,response}),playSound:kind=>audio.playSound(kind)});manager.mount(app.querySelector('.maze-challenge-host'));
- questionKey='';choiceKey='';keys.clear();virtual=null;predicted=null;app.querySelector('.maze-canvas').focus();
+ questionKey='';choiceKey='';keys.clear();virtual=null;predicted=null;correctionOffset={x:0,y:0};app.querySelector('.maze-canvas').focus();
 }
 function receive(s){
  if(s.version<snapshot?.version&&s.code===snapshot.code)return;
@@ -47,9 +50,18 @@ function receive(s){
  if(['FINISHED','CANCELLED'].includes(s.status)){if(viewKey!=='result'){renderResult(s);audio.playSound('victory');}return;}
  if(s.status!=='PLAYING'||!s.me||!maze)return;
  if(viewKey!=='game')mountGame();
- if(!before?.me||before.me.teleportVersion!==s.me.teleportVersion)predicted={...s.me.position};
- else if(!predicted||Math.hypot(predicted.x-s.me.position.x,predicted.y-s.me.position.y)>25)predicted={...s.me.position};
- else predicted={...s.me.position};
+ const displayed=predicted?{x:predicted.x+correctionOffset.x,y:predicted.y+correctionOffset.y}:null;
+ const pending=connection.pendingInputs(s.me.lastInputSeq),teleported=before?.me&&before.me.teleportVersion!==s.me.teleportVersion;
+ predicted={...s.me.position};
+ if(!before?.me||before.me.teleportVersion!==s.me.teleportVersion)connection.inputHistory=[];
+ else if((s.me.state==='EXPLORING'||s.me.state==='INFECTED'&&s.config.controlledViruses)&&!s.me.interaction&&!s.recovering){
+  let predictionMaze=maze;if(s.walls.length){const grid=maze.grid.map(row=>[...row]);for(const wall of s.walls)grid[wall.y][wall.x]=1;predictionMaze={...maze,grid};}
+  const p=s.me,speed=(p.state==='INFECTED'?p.virusSpeed:PLAYER_SPEED*(p.effects.speedUntil>s.clock?2:1)*(p.effects.slowUntil>s.clock?.5:1))*(p.effects.freezeUntil>s.clock||p.effects.stunUntil>s.clock?0:1);
+  predicted=replayPendingInputs({maze:predictionMaze,position:p.position,commands:pending,now:lastReceived,speed,inverted:p.effects.invertUntil>s.clock});
+ }
+ const canSmooth=displayed&&!teleported&&before?.me?.state===s.me.state&&Math.hypot(displayed.x-predicted.x,displayed.y-predicted.y)<72;
+ correctionOffset=canSmooth?{x:displayed.x-predicted.x,y:displayed.y-predicted.y}:{x:0,y:0};
+ if(teleported)toast('TELEPORTE!','Um poder mudou sua posição no labirinto.');
  const q=s.me.challenge,qKey=q?`${q.id}:${q.questionSerial}`:'';
  const layer=app.querySelector('.maze-challenge-layer');
  if(qKey&&qKey!==questionKey){manager.show(q);audio.playSound('challenge');keys.clear();virtual=null;}else if(!qKey&&questionKey){manager.hide();app.querySelector('canvas').focus();}
@@ -89,6 +101,7 @@ function notice(n){
  else if(n.type==='escape')toast('VOCÊ ENCONTROU A SAÍDA!','Acompanhe a partida enquanto sua equipe continua.');
  else if(n.type==='timeout')toast('Tempo do desafio esgotado','Um erro foi registrado e a proteção terminou. Tente responder.');
  else if(n.type==='trap')toast('SAÍDA FALSA!','Você caiu em uma armadilha digital.');
+ else if(n.type==='teleport')toast('TELEPORTE!','Um poder mudou sua posição no labirinto.');
 }
 function toast(title,message){const box=app.querySelector('.maze-power-toast');if(!box)return;clearTimeout(toastTimer);box.hidden=false;box.innerHTML=`<strong>${escape(title)}</strong><span>${escape(message)}</span>`;toastTimer=setTimeout(()=>box.hidden=true,4000);}
 document.addEventListener('click',async event=>{
@@ -134,6 +147,9 @@ function frame(now){requestAnimationFrame(frame);const dt=Math.min(.05,(now-last
   const speed=(me.state==='INFECTED'?me.virusSpeed:PLAYER_SPEED*(me.effects.speedUntil>snapshot.clock?2:1)*(me.effects.slowUntil>snapshot.clock?.5:1))*(me.effects.freezeUntil>snapshot.clock||me.effects.stunUntil>snapshot.clock||!connection.connected||snapshot.recovering?0:1);
   let predictionMaze=maze;if(snapshot.walls.length){const grid=maze.grid.map(r=>[...r]);for(const w of snapshot.walls)grid[w.y][w.x]=1;predictionMaze={...maze,grid};}
   predicted=movePlayer({maze:predictionMaze,position:predicted||pos,input:movement,deltaSeconds:dt,speed});pos=predicted;
+  const decay=Math.exp(-dt/.12);correctionOffset={x:correctionOffset.x*decay,y:correctionOffset.y*decay};
+  const smooth={...pos,x:pos.x+correctionOffset.x,y:pos.y+correctionOffset.y};
+  if(canOccupy(predictionMaze.grid,smooth.x,smooth.y))pos=smooth;else correctionOffset={x:0,y:0};
   if(pos.moving&&now-lastStep>180){audio.playSound('step');lastStep=now;}
  }
  const fraction=Math.min(1,(now-lastReceived)/100),actors=[...currentActors.values()].map(p=>{if(p.id===me.id)return {...p,position:pos};const old=previousActors.get(p.id);if(!old||old.teleportVersion!==p.teleportVersion)return p;return {...p,position:{...p.position,x:old.position.x+(p.position.x-old.position.x)*fraction,y:old.position.y+(p.position.y-old.position.y)*fraction}};});

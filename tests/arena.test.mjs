@@ -28,3 +28,12 @@ test('vitória, empate, vírus, limite e encerramento têm um único resultado',
 });
 test('saída ganha da captura no mesmo tick e invisíveis não aparecem para vírus',()=>{const r=room(),p=r.players[0];p.position=center(r.maze.exit);r.viruses[0]={...r.viruses[0],...p.position,nextSprintAt:999999};r.tick(.05);assert.equal(p.state,'ESCAPED');const q=r.players[1];r.players[2].state='INFECTED';q.effects.invisibleUntil=r.clock+8000;assert.equal(r.snapshot(r.players[2]).players.some(p=>p.id===q.id),false);});
 test('snapshot restaura estado sem promessas nem segredos públicos',()=>{const r=room();r.openQuestion(r.players[0]);r.commandQueue=Promise.resolve();const restored=new Room({saved:r.serialize()});assert.equal(restored.players[0].challenge,r.players[0].challenge);assert.equal(restored.commandQueue,undefined);assert.equal(JSON.stringify(restored.snapshot(restored.players[0])).includes('tokenHash'),false);assert.equal(JSON.stringify(restored.snapshot(restored.players[0])).includes('teacherHash'),false);});
+test('vírus escolhe o mesmo alvo pelo menor caminho com uma busca compartilhada',()=>{
+ for(let seed=0;seed<12;seed++){
+  const r=room(24,{},`virus-routing:${seed}`),v=r.viruses[0];
+  Object.assign(v,center(r.maze.exit),{sprinting:true,sprintEndsAt:999999,pathRefreshAt:0});
+  const paths=r.players.filter(p=>Math.abs(p.position.x-v.x)+Math.abs(p.position.y-v.y)<=36*50).map(p=>findShortestPath(r.maze,positionToCell(v),positionToCell(p.position))).filter(p=>p.length);
+  const expected=paths.reduce((best,path)=>!best||path.length<best.length?path:best,null)||[];
+  r.advanceVirus(v,0);assert.deepEqual(v.path,expected.slice(1));
+ }
+});

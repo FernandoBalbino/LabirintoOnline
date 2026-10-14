@@ -1,0 +1,8 @@
+.maze-challenge-layer{grid-template-columns:minmax(0,1fr)}
+.maze-challenge-layer .maze-challenge-host{min-width:0;max-width:960px;width:100%}
+.maze-challenge-host .maze-challenge-card{min-width:0;max-width:100%;width:100%}
+.maze-challenge-host .maze-challenge-actions{min-width:0;max-width:100%;flex-wrap:wrap}
+.maze-challenge-host .maze-challenge-actions>small{overflow-wrap:anywhere;flex:1 1 120px}
+.browser-simulation .browser-toolbar>form{flex:1 1 0;min-width:0}
+.browser-simulation .browser-poster-row span{min-width:0;flex:1 1 0}
+.maze-game-shell .online-question-clock{z-index:21}

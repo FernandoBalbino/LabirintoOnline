@@ -3,7 +3,7 @@ import {createSeededRandom,movePlayer,PLAYER_SPEED,MAZE_TILE_SIZE,positionToCell
 import {DEFAULT_CONFIG,teams,powers,labels} from '../shared/online-catalog.mjs';
 import {mazeChallenges,challengeById} from './challenges.mjs';
 import {validateBrowserResponse} from './extra-challenges.mjs';
-import {generateArena,teamSpawnCells,center,effectiveMaze,cellDistance,findSafeTeleportDestination} from './maps.mjs';
+import {generateArena,teamSpawnCells,center,effectiveMaze,cellDistance,distanceField,findSafeTeleportDestination} from './maps.mjs';
 import {bonusChests,choosePower,teleport,randomEvent} from './powers.mjs';
 export const token=()=>randomBytes(32).toString('base64url');
 export const hashToken=value=>createHash('sha256').update(String(value)).digest('hex');
@@ -92,8 +92,11 @@ export class Room{
   if(!v.sprinting)return;
   if(this.clock>=v.pathRefreshAt||!v.path?.length){
    const targets=this.players.filter(p=>['EXPLORING','ANSWERING'].includes(p.state)&&!p.removed&&!this.immune(p)&&!(p.effects.invisibleUntil>this.clock));
-   let shortest=null;for(const p of targets){if(Math.abs(p.position.x-v.x)+Math.abs(p.position.y-v.y)>MAZE_TILE_SIZE*50)continue;const path=findShortestPath(this.maze,positionToCell(v),positionToCell(p.position));if(path.length&&(!shortest||path.length<shortest.length))shortest=path;}
-   v.path=shortest||[];v.pathRefreshAt=this.clock+400;
+   const nearby=targets.filter(p=>Math.abs(p.position.x-v.x)+Math.abs(p.position.y-v.y)<=MAZE_TILE_SIZE*50);
+   // Uma BFS encontra a distância de todos os alvos; só o alvo mais próximo precisa de um caminho.
+   let target=null,shortest=Infinity;
+   if(nearby.length){const distances=distanceField(this.maze,positionToCell(v));for(const p of nearby){const distance=cellDistance(distances,this.maze,p.position);if(distance>=0&&distance<shortest){target=p;shortest=distance;}}}
+   v.path=target?findShortestPath(this.maze,positionToCell(v),positionToCell(target.position)):[];v.pathRefreshAt=this.clock+400;
   }
   const current=positionToCell(v);while(v.path?.[0]?.x===current.x&&v.path?.[0]?.y===current.y)v.path.shift();
   const target=v.path?.[0];if(!target){v.moving=false;return;}

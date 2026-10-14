@@ -3,7 +3,7 @@
 Evolução multiplayer do jogo original do [CentralJogos](https://github.com/FernandoBalbino/CentralJogos), preservado a partir de `e1db29efa16b865e2e3087de2c2502b73c826270`.
 
 - Jogo: https://fernandobalbino.github.io/LabirintoOnline/
-- Backend e saúde: https://labirinto-online.onrender.com/health
+- Backend ativo e saúde: https://labirinto-online.dev-fernandobalbino.workers.dev/health
 - Até 24 alunos e professor sem ocupar vaga; 2, 3 ou 4 equipes.
 - 60 desafios (36 originais, 16 de navegador e 8 novos de hardware), 15 poderes preservados, 10 sabotagens e cinco eventos aleatórios.
 - Infecção em cadeia, baús individuais, placar ao vivo, espectador e reconexão.
@@ -49,9 +49,11 @@ Cada aluno tem 16 baús pessoais. Um baú oferece quatro poderes, com 15 segundo
 - Vence a equipe com mais salvos. Empate: quem atingiu aquela pontuação primeiro. Sem salvos e todos infectados, ou tempo geral esgotado, vencem os vírus. O primeiro escape não encerra a partida, exceto quando já define uma vitória impossível de superar ou empatar.
 - Encerramento manual sem salvos cancela a partida, sem vencedor.
 
-Com `REDIS_URL`, checkpoints são feitos a cada dois segundos e em eventos críticos, com expiração após duas horas sem participantes conectados. Após reinício do backend, o professor reconecta e escolhe **RETOMAR PARTIDA RECUPERADA**. O relógio fica congelado durante a indisponibilidade. Movimentos desde o último checkpoint podem retroceder até dois segundos.
+No Cloudflare, cada sala usa um Durable Object com armazenamento SQLite persistente. Checkpoints são feitos a cada dois segundos e em eventos críticos, com expiração após duas horas sem participantes conectados. Após recuperação, o professor reconecta e escolhe **RETOMAR PARTIDA RECUPERADA**. O relógio fica congelado durante a indisponibilidade. Movimentos desde o último checkpoint podem retroceder até dois segundos.
 
-Sem armazenamento disponível, o painel indica a limitação e a partida continua em RAM. O **Key Value gratuito perde dados se ele reiniciar**. O backend gratuito pode adormecer e a cota de horas é compartilhada com outros serviços do workspace. Abra a sala antes da aula para aquecer o serviço; não há chamadas artificiais para impedir o repouso. Não é possível garantir recuperação após reinício do próprio armazenamento. [Limitações oficiais](https://render.com/docs/free).
+O plano gratuito do Cloudflare tem cotas diárias. Os limites atuais incluem 100 mil solicitações equivalentes e 13 mil GB-s de Durable Objects por dia, e 5 GB de armazenamento. Mensagens WebSocket recebidas usam proporção 20:1 para a cota de solicitações; mensagens enviadas não são cobradas como solicitações. Ao esgotar uma cota gratuita, as operações falham até a renovação. A simulação ativa impede hibernação; a sala para quando não há conexões. Não existe garantia de atraso zero ou disponibilidade contínua. [Limites oficiais](https://developers.cloudflare.com/durable-objects/platform/pricing/).
+
+O backend Render anterior continua disponível para referência, com sua persistência Redis opcional. O Key Value gratuito do Render perde dados se reiniciar; não é a persistência utilizada pelo backend Cloudflare ativo. [Limitações do Render](https://render.com/docs/free).
 
 O cache offline guarda somente os recursos estáticos. Participar da arena exige conexão. A tela inicial pode abrir sem rede, mas criar/entrar em uma sala depende do backend.
 
@@ -69,9 +71,22 @@ O novo repositório público não está entre os repositórios autorizados no ap
 
 Para publicação manual, importe o repositório e aplique o Blueprint, ou use Manual Deploy no serviço. Nunca coloque conexões privadas ou tokens no Git. Atualizações do frontend e do backend podem ser publicadas separadamente.
 
+## Cloudflare gratuito
+
+`wrangler.jsonc` declara o Worker `labirinto-online` e uma classe de Durable Object com SQLite. Não requer Key Value, plano pago ou mudança do visual. Depois de autenticar sua conta com o Wrangler:
+
+```sh
+pnpm exec wrangler dev
+pnpm exec wrangler deploy
+```
+
+O frontend permanece no GitHub Pages; `PUBLIC_SERVER_URL` aponta para o Worker. O transporte Cloudflare usa WebSocket nativo com o mesmo protocolo de ações confirmadas da aplicação. O adaptador Socket.IO continua disponível para Node/Render. Uma migração entre provedores exige criar novas salas; os tokens existentes ficam vinculados ao backend que os emitiu.
+
+O cálculo dos caminhos dos vírus compartilha uma BFS entre todos os alvos. O cliente reaplica comandos ainda não confirmados após uma atualização autoritativa, respeitando paredes e teleporte. Teleportes de poderes continuam intencionais e agora mostram aviso.
+
 ## Arquitetura
 
-`client/`: composição, CSS, sprites, renderizador Canvas e gerenciador de desafios reutilizados, acrescidos da conexão, lobby, efeitos, predição e interpolação. `shared/`: geração, movimento, colisão e catálogos públicos. `server/`: salas autoritativas, banco privado, teleporte, poderes, vitória, autenticação e persistência.
+`client/`: composição, CSS, sprites, renderizador Canvas e gerenciador de desafios reutilizados, acrescidos da conexão, lobby, efeitos, predição e interpolação. `shared/`: geração, movimento, colisão, transporte e catálogos públicos. `server/`: salas autoritativas, banco privado, teleporte, poderes, vitória, autenticação e persistência Node. `cloudflare/`: execução dessas mesmas salas no Worker/Durable Objects.
 
 Os comandos críticos recebem `requestId` e confirmação; repetições retornam o mesmo resultado. Movimentos usam sequência e direção, não coordenadas. Snapshots completos enviam o mapa na entrada/início/reconexão; atualizações usam deltas compactos. Respostas e baús pertencem somente ao destinatário. Operações administrativas validam a sessão de professor.
 

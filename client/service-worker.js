@@ -1,4 +1,4 @@
-const CACHE='labirinto-online-8bac8f56373e';
+const CACHE='labirinto-online-3d57969881fb';
 const BASE=new URL('./',self.location.href);
 self.addEventListener('install',event=>event.waitUntil((async()=>{const response=await fetch(new URL('precache.json',BASE),{cache:'no-store'});if(!response.ok)throw new Error('Lista de recursos indisponível.');const files=await response.json();const cache=await caches.open(CACHE);await cache.addAll(files.map(file=>new URL(file,BASE).href));await self.skipWaiting();})()));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{for(const key of await caches.keys())if(key.startsWith('labirinto-online-')&&key!==CACHE)await caches.delete(key);await self.clients.claim();})()));

@@ -3,7 +3,7 @@ import {powers,powerById,mazeEvents} from '../shared/online-catalog.mjs';
 import {center,effectiveMaze,findSafeTeleportDestination,addSafeWall,distanceField,cellDistance} from './maps.mjs';
 const explorer=p=>!p.removed&&['EXPLORING','ANSWERING'].includes(p.state);
 const extend=(room,p,key,seconds)=>p.effects[key]=Math.max(p.effects[key]||0,room.clock+seconds*1000);
-export function teleport(room,p,destination){if(!destination)return false;p.position=destination;p.input={x:0,y:0};p.teleportVersion++;extend(room,p,'immuneUntil',1);return true;}
+export function teleport(room,p,destination){if(!destination)return false;p.position=destination;p.input={x:0,y:0};p.teleportVersion++;extend(room,p,'immuneUntil',1);room.notify(p.id,'teleport',{});return true;}
 export function bonusChests(room,p,count=2){
  const field=room.exitDistances;let added=0;
  for(let attempt=0;attempt<12&&added<count;attempt++){

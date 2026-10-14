@@ -111,6 +111,7 @@ export class ChallengeManager {
   }
 
   helpText() {
+    if (this.challenge.template === 'browser-sim') return 'Use os controles do navegador e clique em VERIFICAR quando terminar.';
     if (this.isSortTemplate()) return "Arraste ou clique em um item e depois no destino.";
     if (this.challenge.template === "rename-file") return "Use o botão direito ou “Mais ações” para encontrar Renomear.";
     if (this.challenge.template === "windows-sim") return "Interaja com a área de trabalho como faria no computador.";

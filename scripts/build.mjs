@@ -6,12 +6,12 @@ await mkdir('dist',{recursive:true});
 await cp('client','dist',{recursive:true});
 await cp('shared','dist/shared',{recursive:true});
 // As importações ../../shared partem de js/; no Pages o cliente é a raiz.
-for (const file of ['maze-game-renderer.mjs','arena-renderer.mjs','app.mjs']) {
+for (const file of ['maze-game-renderer.mjs','arena-renderer.mjs','app.mjs','connection.mjs']) {
  const p=`dist/js/${file}`;
  const text=await readFile(p,'utf8');
  await writeFile(p,text.replaceAll('../../shared/','../shared/'));
 }
-const serverUrl=process.env.PUBLIC_SERVER_URL||'https://labirinto-online.onrender.com';
+const serverUrl=process.env.PUBLIC_SERVER_URL||'https://labirinto-online.dev-fernandobalbino.workers.dev';
 await writeFile('dist/config.mjs',`export const SERVER_URL=${JSON.stringify(serverUrl)};\n`);
 async function list(dir){return(await Promise.all((await readdir(dir,{withFileTypes:true})).map(d=>d.isDirectory()?list(`${dir}/${d.name}`):[`${dir}/${d.name}`]))).flat();}
 const precache=(await list('dist')).filter(f=>!f.endsWith('precache.json')).map(f=>f.slice(5));
