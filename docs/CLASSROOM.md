@@ -1,16 +1,15 @@
-# Checklist para uma aula com 24 alunos
+# Checklist para a aula (até 24 alunos)
 
-- [ ] Abrir o jogo e criar uma sala antes da aula; aguardar o indicador de conexão.
-- [ ] Confirmar 24 vagas, quantidade de equipes, poderes e vírus controláveis.
-- [ ] Conferir se a recuperação do backend aparece ativa.
-- [ ] Divulgar o código e confirmar nomes; não usar dados pessoais além do nome de exibição.
-- [ ] Confirmar 24 alunos conectados e equipes equilibradas (12/12, 8/8/8 ou 6/6/6/6).
-- [ ] Explicar setas/WASD, perguntas individuais, baús, infecção e objetivo de salvar integrantes.
-- [ ] Iniciar e confirmar que todos receberam seus personagens e cronômetros.
-- [ ] Acompanhar exploradores, respondendo, infectados e salvos pelo painel.
-- [ ] Ajudar alunos usando “Liberar 30s” quando necessário.
-- [ ] Em queda de Wi-Fi, aguardar reconexão sem criar uma segunda inscrição.
-- [ ] Se o backend reiniciar, reconectar o professor e retomar a partida recuperada.
-- [ ] Encerrar pelo painel quando necessário e conferir placar, ordem de chegada e acertos.
+1. **5 minutos antes:** abra o jogo e crie a sala. Se o servidor gratuito estiver "dormindo", a primeira conexão leva até 1 minuto (aparece "Conectando ao servidor…").
+2. Mostre na TV o **código da sala** (5 letras) e o endereço do jogo. Cada aluno clica em **Iniciar missão › Sou aluno** e digita nome + código.
+3. Confira as equipes no painel. Use **Sortear equipes** se precisar e ajuste as opções (poderes, tarefas no OSLab, vírus controláveis, tempo limite).
+4. Clique em **Iniciar partida**. O painel vira um **mapa ao vivo** — use **Mapa em tela cheia** para projetar na TV.
+5. Durante o jogo:
+   - Aluno travado num desafio? Use **Liberar 30s** ao lado do nome.
+   - Aluno saiu da sala? Ele volta sozinho ao reabrir o jogo no mesmo navegador (fica protegido por até 2 minutos acumulados).
+   - Os desafios práticos abrem o **Windows do OSLab** dentro do jogo; o progresso do OSLab normal dos alunos não é alterado.
+6. **Encerrar partida** mostra o placar, a ordem de chegada e os acertos de cada aluno.
 
-Não há capacidade de jogar a arena offline. O serviço gratuito tem limites de disponibilidade e cota compartilhada; conferir `/health` antes da aula.
+Observações:
+- O jogo precisa de internet durante a partida. O servidor gratuito do Render pode reiniciar raramente; nesse caso crie uma sala nova.
+- Indicador no canto superior do jogo mostra o atraso até o servidor (verde < 200 ms).

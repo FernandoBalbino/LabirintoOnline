@@ -1,0 +1,17 @@
+{
+  "retrieved": "2026-10-11",
+  "sources": {
+    "spotify": "https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_Green.png",
+    "spotify-white": "https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png",
+    "drive": "https://www.gstatic.com/images/branding/product/2x/drive_2020q4_48dp.png",
+    "google": "https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png",
+    "gmail": "https://www.gstatic.com/images/branding/product/2x/gmail_2020q4_48dp.png",
+    "outlook": "https://res.cdn.office.net/files/fabric-cdn-prod_20230815.002/assets/brand-icons/product/svg/outlook_48x1.svg",
+    "discord": "https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d80db9971f10a9757c99_Symbol.svg",
+    "discord-white": "https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d7f4ef6498ac018f2c55_Symbol.svg",
+    "yahoo": "https://cdn.prod.website-files.com/6721939c8726e5c8dc6b9f96/6734d1b6de8c3ac2a443fe9b_yahoo-logo.svg",
+    "netflix": "https://assets.nflxext.com/us/ffe/siteui/common/icons/nficon2016.png",
+    "yahoo-mail": "https://cdn.prod.website-files.com/6721939c8726e5c8dc6b9f96/676195b6d6dd15823a8cb812_yahoo_mail.png",
+    "yahoo-icon": "https://cdn.prod.website-files.com/6721939c8726e5c8dc6b9f96/67367de4b98df909095dd7ad_yahoo_webclip.png"
+  }
+}

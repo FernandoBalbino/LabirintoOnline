@@ -1,0 +1,113 @@
+/* Modo do Windows (claro/escuro) escolhido pelo aluno. O claro é o padrão das folhas; aqui ficam o escuro e a escolha com miniaturas. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --win-bg: #202020;
+  --win-surface: #2b2b2b;
+  --win-solid: #2b2b2b;
+  --win-hover: rgba(255, 255, 255, .06);
+  --win-selected: rgba(255, 255, 255, .085);
+  --win-border: rgba(255, 255, 255, .08);
+  --win-text: #ffffff;
+  --win-muted: #c5c5c5;
+  --win-accent: #4cc2ff;
+  --win-icon-filter: brightness(0) invert(1);
+  --glass: rgba(32, 32, 32, .82);
+  --glass-strong: rgba(44, 44, 44, .96);
+}
+
+/* janelas do sistema */
+:root[data-theme="dark"] .app-window { border-color: rgba(255, 255, 255, .1); }
+:root[data-theme="dark"] .window-toolbar .window-address { color: var(--win-text); background: var(--win-surface); border-color: var(--win-border); }
+:root[data-theme="dark"] .settings-window .window-content, :root[data-theme="dark"] .settings-shell, :root[data-theme="dark"] .settings-main, :root[data-theme="dark"] .settings-sidebar { color: var(--win-text); background: var(--win-bg); }
+:root[data-theme="dark"] .settings-window :is(.settings-card, .settings-row, .settings-select-row, .settings-overview, .settings-status-summary, .settings-category-hero, .settings-network-hero, .settings-time-hero, .personalization-hero, .detailed-settings-row, .account-card, .add-user-panel, .settings-home-grid > *) { color: var(--win-text); background-color: var(--win-surface); border-color: var(--win-border); }
+:root[data-theme="dark"] .settings-window :is(h1, h2, h3, strong, label, span) { color: inherit; }
+:root[data-theme="dark"] .settings-window :is(small, p) { color: var(--win-muted); }
+:root[data-theme="dark"] .settings-window :is(select, input:not([type=range]):not([type=checkbox]):not([type=radio])) { color: var(--win-text); background: #2d2d2d; border-color: rgba(255, 255, 255, .12); }
+:root[data-theme="dark"] .settings-symbol { color: #fff; }
+:root[data-theme="dark"] .settings-switch { border-color: #d0d0d0; background: transparent; }
+:root[data-theme="dark"] :is(.snd-row, .snd-choice, .snd-link, .snd-empty) { color: var(--win-text); background: var(--win-surface); border-color: var(--win-border); }
+:root[data-theme="dark"] :is(.snd-row, .snd-choice, .snd-link) small, :root[data-theme="dark"] .snd-tip { color: var(--win-muted); }
+:root[data-theme="dark"] :is(.snd-ic svg, .snd-iconbtn svg) { fill: #fff; }
+:root[data-theme="dark"] .texteditor-window .window-content, :root[data-theme="dark"] .editor-app, :root[data-theme="dark"] .editor-app textarea { color: #fff; background: #272727; }
+:root[data-theme="dark"] .editor-app header { color: #fff; background: #202020; border-color: var(--win-border); }
+
+/* menus, avisos e caixas de diálogo */
+:root[data-theme="dark"] :is(.context-menu, .context-submenu, .item-context-menu, .taskbar-context-menu, .calendar-panel, .power-menu, .profile-menu) { color: #fff; background: rgba(44, 44, 44, .96); border-color: rgba(255, 255, 255, .08); }
+:root[data-theme="dark"] :is(.context-menu, .context-submenu, .item-context-menu, .taskbar-context-menu, .power-menu) button { color: #fff; }
+:root[data-theme="dark"] .oslab-toast { color: #fff; background: #2c2c2c; border-color: rgba(255, 255, 255, .1); }
+:root[data-theme="dark"] .oslab-toast small { color: #c5c5c5; }
+:root[data-theme="dark"] :is(.oslab-dialog, .uac-dialog) { color: #fff; background: #2b2b2b; }
+
+/* Configurações rápidas no escuro */
+:root[data-theme="dark"] #quick-panel { color: #fff; background: #2c2c2c; border-color: rgba(255, 255, 255, .1); }
+:root[data-theme="dark"] #quick-panel .quick-actions button { color: #fff; }
+:root[data-theme="dark"] #quick-panel .quick-actions .quick-tile { background: #373737; border-color: rgba(255, 255, 255, .08); }
+:root[data-theme="dark"] #quick-panel .quick-actions button:hover .quick-tile { background: #3f3f3f; }
+:root[data-theme="dark"] #quick-panel .quick-actions button.is-active .quick-tile { background: #4cc2ff; border-color: #4cc2ff; }
+:root[data-theme="dark"] #quick-panel .quick-actions img, :root[data-theme="dark"] #quick-panel .quick-slider img, :root[data-theme="dark"] #quick-panel .battery-status img { filter: brightness(0) invert(1); }
+:root[data-theme="dark"] #quick-panel .quick-actions button.is-active img { filter: brightness(0); }
+:root[data-theme="dark"] #quick-panel .quick-footer { color: #fff; background: #202020; border-top-color: rgba(255, 255, 255, .08); }
+:root[data-theme="dark"] #quick-panel .battery-status strong { color: #fff; }
+:root[data-theme="dark"] #quick-panel .quick-slider input { accent-color: #4cc2ff; }
+:root[data-theme="dark"] #quick-panel .quick-slider input::-webkit-slider-thumb { border-color: #454545; background: #4cc2ff; box-shadow: none; }
+:root[data-theme="dark"] .wifi-quick, :root[data-theme="dark"] .wifi-quick * { color: #fff; }
+
+/* escolha do modo: miniaturas com o papel de parede atual */
+.os-theme-backdrop { position: fixed; inset: 0; z-index: 900; display: grid; place-items: center; padding: 16px; background: rgba(0, 0, 0, .5); animation: os-fade .2s ease-out; }
+.os-theme { display: flex; width: min(600px, 100%); flex-direction: column; align-items: center; gap: 8px; padding: 28px; border: 1px solid rgba(0, 0, 0, .08); border-radius: 12px; color: #1b1b1b; background: #f3f3f3; box-shadow: 0 32px 64px rgba(0, 0, 0, .35); font-family: "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif; animation: os-pop .22s ease-out; }
+.os-theme > img { width: 44px; height: 44px; }
+.os-theme h2 { margin: 6px 0 0; font-size: 24px; font-weight: 600; }
+.os-theme p { max-width: 440px; margin: 0 0 14px; color: #5d5d5d; font-size: 14px; text-align: center; }
+.os-theme-options { display: grid; width: 100%; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
+.os-theme-card { display: flex; flex-direction: column; gap: 10px; border: 2px solid transparent; border-radius: 10px; padding: 8px 8px 12px; background: rgba(0, 0, 0, .03); color: inherit; font: inherit; cursor: pointer; transition: border-color .15s, transform .15s; }
+.os-theme-card:hover, .os-theme-card:focus-visible { border-color: #0067c0; transform: translateY(-2px); }
+.os-theme-card.is-on { border-color: #0067c0; }
+:root[data-theme="dark"] .os-theme-card { background: rgba(255, 255, 255, .04); }
+:root[data-theme="dark"] .os-theme-card:hover, :root[data-theme="dark"] .os-theme-card.is-on { border-color: #4cc2ff; }
+.os-theme-card strong { font-size: 14px; font-weight: 600; text-align: center; }
+.os-mini { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 6px; background-size: cover; background-position: center; }
+.os-mini-window { position: absolute; top: 12%; left: 8%; width: 52%; height: 50%; border-radius: 4px; box-shadow: 0 4px 10px rgba(0, 0, 0, .3); }
+.os-mini-window i { display: block; height: 16%; border-radius: 4px 4px 0 0; }
+.os-mini-window b { display: block; height: 7%; margin: 9% 10% 0; border-radius: 3px; }
+.os-mini-start { position: absolute; bottom: 14%; left: 50%; display: grid; width: 34%; grid-template-columns: repeat(3, 1fr); gap: 6%; padding: 6%; border-radius: 5px; transform: translateX(-10%); }
+.os-mini-start i { display: block; aspect-ratio: 1; border-radius: 3px; background: #4aa3e8; }
+.os-mini-bar { position: absolute; right: 0; bottom: 0; left: 0; display: flex; height: 10%; align-items: center; justify-content: center; gap: 3%; }
+.os-mini-bar i { width: 4%; aspect-ratio: 1; border-radius: 2px; background: #4aa3e8; }
+.os-mini[data-mini="light"] .os-mini-window { background: #f9f9f9; }
+.os-mini[data-mini="light"] .os-mini-window i { background: #e9edf3; }
+.os-mini[data-mini="light"] .os-mini-window b { background: #dcdcdc; }
+.os-mini[data-mini="light"] .os-mini-start, .os-mini[data-mini="light"] .os-mini-bar { background: rgba(243, 243, 243, .92); }
+.os-mini[data-mini="dark"] .os-mini-window { background: #2a2a2a; }
+.os-mini[data-mini="dark"] .os-mini-window i { background: #202020; }
+.os-mini[data-mini="dark"] .os-mini-window b { background: #474747; }
+.os-mini[data-mini="dark"] .os-mini-start, .os-mini[data-mini="dark"] .os-mini-bar { background: rgba(32, 32, 32, .92); }
+.settings-card .os-theme-options { max-width: 560px; margin-top: 14px; }
+:root[data-theme="dark"] .os-theme { color: #fff; background: #2b2b2b; border-color: rgba(255, 255, 255, .08); }
+:root[data-theme="dark"] .os-theme p { color: #c5c5c5; }
+@keyframes os-fade { from { opacity: 0; } }
+@keyframes os-pop { from { opacity: 0; transform: translateY(10px) scale(.98); } }
+@media (prefers-reduced-motion: reduce) { .os-theme-backdrop, .os-theme, .os-theme-card { animation: none; transition: none; } }
+@media (max-width: 520px) { .os-theme-options { grid-template-columns: 1fr; } }
+
+/* só os ícones pretos de uma cor ficam brancos no escuro; os coloridos mantêm as cores, como no modo claro */
+:root[data-theme="dark"] img[src$="context/delete.png"], :root[data-theme="dark"] img[src$="context/refresh.png"], :root[data-theme="dark"] img[src$="settings-rows/colors.png"], :root[data-theme="dark"] img[src$="settings-rows/devices.png"], :root[data-theme="dark"] img[src$="settings-rows/ethernet.png"], :root[data-theme="dark"] img[src$="settings-rows/focus.png"], :root[data-theme="dark"] img[src$="settings-rows/keyboard.png"], :root[data-theme="dark"] img[src$="settings-rows/location.png"], :root[data-theme="dark"] img[src$="settings-rows/lock.png"], :root[data-theme="dark"] img[src$="settings-rows/mobile.png"], :root[data-theme="dark"] img[src$="settings-rows/multitasking.png"], :root[data-theme="dark"] img[src$="settings-rows/nearshare.png"], :root[data-theme="dark"] img[src$="settings-rows/sound.png"], :root[data-theme="dark"] img[src$="settings-rows/usb.png"], :root[data-theme="dark"] img[src$="settings-rows/vpn.png"], :root[data-theme="dark"] img[src$="ui/airplane.png"], :root[data-theme="dark"] img[src$="ui/audio.png"], :root[data-theme="dark"] img[src$="ui/battery.png"], :root[data-theme="dark"] img[src$="ui/bluetooth.png"], :root[data-theme="dark"] img[src$="ui/brightness.png"], :root[data-theme="dark"] img[src$="ui/close.png"], :root[data-theme="dark"] img[src$="ui/left.png"], :root[data-theme="dark"] img[src$="ui/maximize.png"], :root[data-theme="dark"] img[src$="ui/minimize.png"], :root[data-theme="dark"] img[src$="ui/moon.png"], :root[data-theme="dark"] img[src$="ui/nightlight.png"], :root[data-theme="dark"] img[src$="ui/refresh.png"], :root[data-theme="dark"] img[src$="ui/restore.png"], :root[data-theme="dark"] img[src$="ui/right.png"], :root[data-theme="dark"] img[src$="ui/wifi.png"] { filter: brightness(0) invert(1); }
+
+/* Wi-Fi (Configurações › Rede e Internet e a lista de redes) no escuro */
+:root[data-theme="dark"] :is(.wifi-settings-row, .wifi-properties) { color: #fff; background: #2b2b2b; border-color: rgba(255, 255, 255, .08); }
+:root[data-theme="dark"] button.wifi-settings-row:hover { background: #323232; }
+:root[data-theme="dark"] :is(.wifi-settings-heading h1, .wifi-row-link, .wifi-properties > summary, .wifi-network-overview h2) { color: #fff; }
+:root[data-theme="dark"] :is(.wifi-settings-row small, .wifi-property-line > span + span, .wifi-technical-details dd, .wifi-network-overview p, .wifi-settings-heading > button, .wifi-profile small, .wifi-metered-property small) { color: #c5c5c5; }
+:root[data-theme="dark"] :is(.wifi-property-line, .wifi-profile, .wifi-metered-property, .wifi-technical-details) { border-top-color: rgba(255, 255, 255, .08); }
+:root[data-theme="dark"] :is(.wifi-settings-row, .wifi-properties, .wifi-row-link, .wifi-settings-heading, .wifi-network-overview, .wifi-network, .wifi-flyout-footer) img:not([src*="win11"]) { filter: brightness(0) invert(1); }
+:root[data-theme="dark"] .wifi-text-link { color: #4cc2ff; }
+:root[data-theme="dark"] .wifi-password-dialog { color: #fff; background: #2b2b2b; border-color: #444; }
+:root[data-theme="dark"] .wifi-password-dialog :is(p, dt, small) { color: #c5c5c5; }
+:root[data-theme="dark"] .wifi-password-dialog footer { background: #202020; }
+:root[data-theme="dark"] .wifi-network { color: #fff; }
+:root[data-theme="dark"] :is(.wifi-network:hover, .wifi-network.is-expanded) { background: #383838; }
+:root[data-theme="dark"] .wifi-flyout-footer { color: #fff; background: #202020; border-top-color: rgba(255, 255, 255, .08); }
+:root[data-theme="dark"] .wifi-network-actions input[name="password"] { color: #fff; background: #2d2d2d; border-color: #666; }
+:root[data-theme="dark"] .wifi-signal-icon > img + img { background: #2c2c2c; }
+:root[data-theme="dark"] .settings-title-search { border-color: rgba(255, 255, 255, .1); border-bottom-color: #4cc2ff; background: #2d2d2d; }
+:root[data-theme="dark"] .settings-title-search input { color: #fff; }
+:root[data-theme="dark"] .settings-title-search img { filter: brightness(0) invert(1); }

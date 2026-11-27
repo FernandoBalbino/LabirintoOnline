@@ -1,0 +1,13 @@
+{
+  "retrieved": "2026-10-11",
+  "page": "https://www.netflix.com/br/",
+  "hero": "https://assets.nflxext.com/ffe/siteui/vlv3/f0b42cac-9ced-425f-8677-777eadbdbe2f/web/BR-pt-20261005-TRIFECTA-perspective_765034ec-4650-4e81-a857-a895f39e0eae_large.jpg",
+  "wordmark": "https://occ.a.nflxso.net/dnmt/api/v6/iL4oJVDYZ8KLSrJ6eG2OwtghbfQ/AAAAAQ4TXm1OaapkwYRGseWYrT2HFpAFV7IX9bgV76BxLOD_049HTkgqZ6zq3enQ0gxU1b-868yGZj1I99Ak9oRykNILYsbpT_0d-be9QKbwkD8OfaEdWL-FHZBiORJ9ppzVCM1-mVn63afS.svg",
+  "fonts": {
+    "Blk": "https://assets.nflxext.com/ffe/siteui/fonts/netflix-sans/v3/NetflixSans_W_Blk.woff2",
+    "Rg": "https://assets.nflxext.com/ffe/siteui/fonts/netflix-sans/v3/NetflixSans_W_Rg.woff2",
+    "Md": "https://assets.nflxext.com/ffe/siteui/fonts/netflix-sans/v3/NetflixSans_W_Md.woff2",
+    "Bd": "https://assets.nflxext.com/ffe/siteui/fonts/netflix-sans/v3/NetflixSans_W_Bd.woff2"
+  },
+  "devices": "Imagem fornecida pelo usuário: codex-clipboard-333c0bc6-9eed-404e-b966-ab64c4efc029.png"
+}

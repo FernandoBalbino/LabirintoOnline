@@ -1,5 +1,11 @@
-const CACHE='labirinto-online-3d57969881fb';
-const BASE=new URL('./',self.location.href);
-self.addEventListener('install',event=>event.waitUntil((async()=>{const response=await fetch(new URL('precache.json',BASE),{cache:'no-store'});if(!response.ok)throw new Error('Lista de recursos indisponível.');const files=await response.json();const cache=await caches.open(CACHE);await cache.addAll(files.map(file=>new URL(file,BASE).href));await self.skipWaiting();})()));
-self.addEventListener('activate',event=>event.waitUntil((async()=>{for(const key of await caches.keys())if(key.startsWith('labirinto-online-')&&key!==CACHE)await caches.delete(key);await self.clients.claim();})()));
-self.addEventListener('fetch',event=>{const url=new URL(event.request.url);if(event.request.method!=='GET'||url.origin!==BASE.origin||!url.pathname.startsWith(BASE.pathname)||url.pathname.includes('/socket.io'))return;event.respondWith((async()=>{const cache=await caches.open(CACHE);if(event.request.mode==='navigate'){try{return await fetch(event.request);}catch{return await cache.match(new URL('index.html',BASE));}}const cached=await cache.match(event.request);return cached||fetch(event.request);})());});
+// A versão antiga do jogo instalava um cache offline. Este arquivo apaga esse cache,
+// remove o service worker e recarrega as abas abertas na versão nova.
+self.addEventListener("install", () => self.skipWaiting());
+self.addEventListener("activate", (event) => {
+  event.waitUntil((async () => {
+    for (const key of await caches.keys()) await caches.delete(key);
+    await self.registration.unregister();
+    const windows = await self.clients.matchAll({ type: "window" });
+    for (const client of windows) client.navigate(client.url);
+  })());
+});

@@ -1,21 +1,52 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import {io} from 'socket.io-client';
-import {startServer} from '../server/index.mjs';
-const request=(socket,event,payload={})=>new Promise((resolve,reject)=>socket.timeout(10000).emit(event,{requestId:crypto.randomUUID(),...payload},(error,result)=>error?reject(error):resolve(result)));
-const connect=url=>new Promise(resolve=>{const socket=io(url,{transports:['websocket']});socket.once('connect',()=>resolve(socket));});
-test('24 clientes reais: limite, autorização, snapshots privados, comandos e reconexão',async()=>{
- const server=await startServer({port:0,quiet:true}),url=`http://127.0.0.1:${server.port}`,sockets=[];
- try{
-  const teacher=await connect(url);sockets.push(teacher);const created=await request(teacher,'room:create',{config:{name:'QA rede'}});assert.ok(created.ok);
-  const joined=[];for(let i=0;i<24;i++){const socket=await connect(url);sockets.push(socket);const data=await request(socket,'room:join',{code:created.code,name:`Aluno ${i+1}`});assert.ok(data.ok);joined.push(data);}
-  const extra=await connect(url);sockets.push(extra);assert.equal((await request(extra,'room:join',{code:created.code,name:'Aluno extra'})).ok,false);
-  assert.equal((await request(sockets[1],'teacher:start')).ok,false);
-  assert.equal((await request(teacher,'teacher:start')).ok,true);const room=server.rooms.get(created.code);assert.deepEqual(room.scoreboard().map(t=>t.total),[12,12]);
-  const player=room.players[0];const seq=await request(sockets[1],'player:input',{seq:1,x:0,y:1});assert.ok(seq.accepted);assert.equal((await request(sockets[1],'player:input',{seq:1,x:0,y:1})).accepted,false);
-  const original=joined[0];sockets[1].disconnect();await new Promise(r=>setTimeout(r,100));const replacement=await connect(url);sockets.push(replacement);assert.ok((await request(replacement,'room:resume',{code:created.code,token:original.token})).ok);assert.equal(room.players.length,24);assert.equal(room.players[0].id,original.playerId);
-  const bad=await request(extra,'room:resume',{code:created.code,token:'inventado'});assert.equal(bad.ok,false);
-  room.openQuestion(player);const challengeId=player.challenge,serial=player.questionSerial,challenge=(await import('../server/challenges.mjs')).challengeById.get(challengeId);const requestId=crypto.randomUUID();const answer=await request(replacement,'player:answer',{requestId,challengeId,questionSerial:serial,response:challenge.solution});assert.ok(answer.correct);const again=await request(replacement,'player:answer',{requestId,challengeId,questionSerial:serial,response:challenge.solution});assert.ok(again.correct);assert.equal(player.correctAnswers,1);
-  const health=await (await fetch(`${url}/health`)).json();assert.ok(health.ready);const diagnostics=await request(teacher,'teacher:metrics');assert.ok(diagnostics.metrics.memory.rss>0);
- }finally{for(const socket of sockets)socket.disconnect();await server.close();}
+import test from "node:test";
+import assert from "node:assert/strict";
+import { startServer } from "../server/index.mjs";
+import { TestClient } from "./helpers.mjs";
+
+test("sala completa: entrar, iniciar, andar e ver o colega", async () => {
+  const instance = await startServer({ port: 0, quiet: true, serveFiles: false });
+  const url = `ws://127.0.0.1:${instance.port}/ws`;
+  const teacher = new TestClient(url);
+  const ana = new TestClient(url);
+  const bia = new TestClient(url);
+  try {
+    await Promise.all([teacher.open(), ana.open(), bia.open()]);
+    const created = await teacher.request("create", { name: "Teste", config: { teamCount: 2 } });
+    assert.equal(created.code.length, 5);
+    await ana.request("join", { code: created.code, name: "Ana" });
+    await bia.request("join", { code: created.code, name: "Bia" });
+    await assert.rejects(bia.request("start"), /professor/);
+    await teacher.request("start");
+    await ana.waitFor((m) => m.t === "map");
+    const me = await ana.waitFor((m) => m.t === "me" && m.state === "EXPLORING" && m.x > 0);
+    await bia.waitFor((m) => m.t === "map");
+    // Ana anda: Bia (se estiver perto) ou o professor (minimapa) recebem a nova posição.
+    const room = instance.rooms.get(created.code);
+    const anaPlayer = [...room.players.values()].find((p) => p.name === "Ana");
+    const biaPlayer = [...room.players.values()].find((p) => p.name === "Bia");
+    // Coloca as duas lado a lado para testar a área de interesse.
+    biaPlayer.x = anaPlayer.x; biaPlayer.y = anaPlayer.y;
+    room.markAnchor(biaPlayer);
+    await new Promise((resolve) => setTimeout(resolve, 120));
+    ana.state.me.tv = anaPlayer.tv;
+    const free = [[1, 0], [-1, 0], [0, 1], [0, -1]].find(([ix, iy]) => {
+      const test = { x: anaPlayer.x, y: anaPlayer.y, dir: "down" };
+      return room.grid && (Math.abs(ix) + Math.abs(iy)) && advanceProbe(room, test, ix, iy);
+    });
+    assert.ok(free, "há uma direção livre");
+    ana.move(anaPlayer.x, anaPlayer.y, free[0], free[1]);
+    const anchor = await bia.waitFor((m) => Array.isArray(m) && m[0] === 1 && m.includes(anaPlayer.id) && m[m.indexOf(anaPlayer.id) + 3] === free[0] && m[m.indexOf(anaPlayer.id) + 4] === free[1]);
+    assert.ok(anchor);
+    assert.equal(me.challenge, null);
+    const map = await teacher.waitFor((m) => Array.isArray(m) && m[0] === 3);
+    assert.ok(map.length >= 2 + 4 * 2);
+  } finally {
+    teacher.close(); ana.close(); bia.close();
+    await instance.close();
+  }
 });
+
+import { advance } from "../shared/physics.mjs";
+function advanceProbe(room, body, ix, iy) {
+  return advance(room.grid, body, ix, iy, 148, 0.2);
+}

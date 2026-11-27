@@ -18,13 +18,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: corepack enable
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm test
-      - run: pnpm check
-      - run: pnpm build
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
         env:
-          PUBLIC_SERVER_URL: ${{ vars.PUBLIC_SERVER_URL || 'https://labirinto-online.dev-fernandobalbino.workers.dev' }}
+          PUBLIC_SERVER_URL: ${{ vars.PUBLIC_SERVER_URL || 'https://labirinto-online.onrender.com' }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

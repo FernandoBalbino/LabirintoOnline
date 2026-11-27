@@ -1,65 +1,41 @@
-import {io} from 'socket.io-client';
-import {ArenaSocket} from '../shared/arena-socket.mjs';
-import {writeFile,mkdir} from 'node:fs/promises';
-import {performance} from 'node:perf_hooks';
-import {findShortestPath,positionToCell} from '../shared/maze-core.mjs';
-import {challengeById} from '../server/challenges.mjs';
-const args=process.argv.slice(2),option=(name,fallback)=>{const index=args.indexOf(`--${name}`);return index>=0?args[index+1]:fallback;};
-const url=option('url','http://localhost:3000'),duration=Number(option('seconds','1800')),output=option('output','docs/load-report.json');
-const playerCount=Math.max(2,Math.min(24,Number(option('players','24')))),timeLimit=Number(option('time-limit','150'));
-let started=performance.now();const stats={url,requestedPlayers:playerCount,requestedSeconds:duration,startedAt:new Date().toISOString(),rounds:0,inputs:0,answers:0,chests:0,powers:{},inflections:0,escapes:0,intentionalDisconnects:0,unexpectedDisconnects:0,reconnections:0,reconnectMs:[],latencies:[],syncDelayMs:[],packets:0,packetBytes:0,errors:[],samples:[],finishedRounds:[],travel:Array.from({length:playerCount},(_,index)=>({student:index+1,pixels:0,commands:0}))};
-let running=true,roundBusy=false,clients=[],teacher=null,currentCode=null,roundStarted=0;
-function request(socket,event,payload={}){const time=performance.now();return new Promise((resolve,reject)=>socket.timeout(10000).emit(event,{requestId:crypto.randomUUID(),...payload},(error,result)=>{stats.latencies.push(performance.now()-time);if(stats.latencies.length>100000)stats.latencies.shift();if(error)return reject(error);if(!result?.ok)return reject(new Error(result?.error||'Falha de comando'));resolve(result);}));}
-function merge(client,d){if(!client.state)return;const s={...client.state,clock:d.clock,version:d.version,viruses:d.viruses,players:client.state.players.map(p=>({...p,position:{...p.position}})),me:{...client.state.me,...d.me}};for(const [index,x,y,direction,moving]of d.positions)if(s.players[index])s.players[index].position={x,y,direction:['down','left','right','up'][direction],moving:!!moving};client.state=s;}
-async function connectClient(role,index=0){
- const socket=url.includes('.workers.dev')||url.includes(':8787')?new ArenaSocket(url,{reconnectionDelay:300}):io(url,{autoConnect:false,reconnection:true,reconnectionDelay:300,reconnectionDelayMax:2000,timeout:20000,transports:['websocket','polling']});
- const client={socket,index,state:null,maze:null,seq:0,busy:false,planned:false,goal:null,path:[],pathAt:0,token:null,role};
- socket.on('snapshot',s=>{observeCadence(client,s);recordMovement(client,s.me);const old=client.state;client.state=s;if(s.maze)client.maze=s.maze;if(old?.me?.state!==s.me?.state){if(s.me?.state==='INFECTED')stats.inflections++;if(s.me?.state==='ESCAPED')stats.escapes++;}if(client.state.me?.teleportVersion!==old?.me?.teleportVersion)client.path=[];countPacket(s);});
- socket.on('delta',d=>{observeCadence(client,d);recordMovement(client,d.me);merge(client,d);countPacket(d);});
- socket.on('disconnect',()=>{if(!running||roundBusy)return;if(client.planned)stats.intentionalDisconnects++;else stats.unexpectedDisconnects++;client.lostAt=performance.now();});
- socket.on('connect',async()=>{client.seq=0;if(client.token&&running&&!roundBusy){try{await request(socket,'room:resume',{code:currentCode,token:client.token});if(client.lostAt){stats.reconnections++;stats.reconnectMs.push(performance.now()-client.lostAt);client.lostAt=null;client.planned=false;}}catch(e){stats.errors.push(e.message);}}});
- socket.connect();await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('Conexão não estabelecida')),90000);socket.once('connect',()=>{clearTimeout(timer);resolve();});});return client;
-}
-function countPacket(data){stats.packets++;stats.packetBytes+=Buffer.byteLength(JSON.stringify(data));}
-function recordMovement(client,p){const old=client.state?.me;if(client.role!=='student'||!p?.position||!old?.position)return;const distance=Math.hypot(p.position.x-old.position.x,p.position.y-old.position.y);if(distance<50&&(p.teleportVersion===undefined||p.teleportVersion===old.teleportVersion))stats.travel[client.index].pixels+=distance;}
-function observeCadence(client,data){const now=performance.now();if(client.lastArrival&&data.clock>client.lastClock){stats.syncDelayMs.push(Math.max(0,(now-client.lastArrival)-(data.clock-client.lastClock)));if(stats.syncDelayMs.length>100000)stats.syncDelayMs.shift();}client.lastArrival=now;client.lastClock=data.clock;}
-async function newRound(){
- roundBusy=true;for(const c of clients)c.socket.disconnect();teacher?.socket.disconnect();clients=[];
- teacher=await connectClient('teacher');const created=await request(teacher.socket,'room:create',{config:{name:`Validação publicada • ${playerCount} alunos`,maxPlayers:24,teamCount:2,timeLimit}});currentCode=created.code;teacher.token=created.token;
- for(let i=0;i<playerCount;i++){const c=await connectClient('student',i),joined=await request(c.socket,'room:join',{code:currentCode,name:`Carga ${String(i+1).padStart(2,'0')}`});c.token=joined.token;clients.push(c);}
- await request(teacher.socket,'teacher:start');stats.rounds++;roundStarted=performance.now();roundBusy=false;console.log(`Rodada ${stats.rounds}: ${playerCount} clientes conectados na sala ${currentCode}.`);
-}
-function steer(c){
- const s=c.state,p=s?.me;if(!p||!c.maze||s.status!=='PLAYING')return;
- if(p.state==='ANSWERING'&&!p.successAt){if(c.busy)return;c.busy=true;const question=challengeById.get(p.challenge.id);request(c.socket,'player:answer',{challengeId:question.id,questionSerial:p.challenge.questionSerial,response:question.solution}).then(()=>stats.answers++).catch(e=>{if(!/disponível|Conexão/.test(e.message))stats.errors.push(e.message);}).finally(()=>c.busy=false);return;}
- if(p.powerChoice){if(c.busy)return;c.busy=true;const ids=p.powerChoice.ids,powerId=[...ids].sort((a,b)=>(stats.powers[a]||0)-(stats.powers[b]||0))[0];request(c.socket,'player:power',{choiceId:p.powerChoice.id,powerId}).then(()=>{stats.chests++;stats.powers[powerId]=(stats.powers[powerId]||0)+1;}).catch(e=>{if(!/inválida/.test(e.message))stats.errors.push(e.message);}).finally(()=>c.busy=false);return;}
- if(p.state==='ESCAPED'||p.state==='ANSWERING')return;
- let destination=c.maze.exit;
- if(p.state==='INFECTED'){
-  const target=s.players.filter(a=>['EXPLORING','ANSWERING'].includes(a.state)).sort((a,b)=>Math.hypot(a.position.x-p.position.x,a.position.y-p.position.y)-Math.hypot(b.position.x-p.position.x,b.position.y-p.position.y))[0];if(target)destination=positionToCell(target.position);
- }else if(c.index%3!==0){const chest=p.chests.filter(chest=>!chest.opened).sort((a,b)=>Math.hypot(a.x*36-p.position.x,a.y*36-p.position.y)-Math.hypot(b.x*36-p.position.x,b.y*36-p.position.y))[0];if(chest)destination=chest;}
- const now=performance.now();if(now-c.pathAt>800||!c.path.length||c.goal!==`${destination.x},${destination.y}`){let grid=c.maze.grid;if(s.walls.length){grid=grid.map(r=>[...r]);for(const w of s.walls)grid[w.y][w.x]=1;}c.path=findShortestPath({...c.maze,grid},positionToCell(p.position),destination);c.goal=`${destination.x},${destination.y}`;c.pathAt=now;}
- let target=c.path[0];while(target&&Math.abs((target.x+.5)*36-p.position.x)<=8&&Math.abs((target.y+.5)*36-p.position.y)<=8){c.path.shift();target=c.path[0];}
- let x=0,y=0;if(target){const dx=(target.x+.5)*36-p.position.x,dy=(target.y+.5)*36-p.position.y;if(Math.abs(dx)>8)x=Math.sign(dx);else if(Math.abs(dy)>8)y=Math.sign(dy);}
- if(p.effects.invertUntil>s.clock){x=-x;y=-y;}c.socket.volatile.emit('player:input',{seq:++c.seq,x,y});stats.inputs++;stats.travel[c.index].commands++;
-}
-try{
- await newRound();
- started=performance.now();stats.startedAt=new Date().toISOString();
- const inputTimer=setInterval(()=>{if(!roundBusy)for(const c of clients)if(c.socket.connected)steer(c);},100);
- let lastReconnect=performance.now(),lastSample=0,lastProgress=0;
- while(performance.now()-started<duration*1000){
-  await new Promise(resolve=>setTimeout(resolve,500));const now=performance.now();
-  if(!roundBusy&&['FINISHED','CANCELLED'].includes(teacher.state?.status)){stats.finishedRounds.push(teacher.state.result);await newRound();}
-  if(!roundBusy&&now-lastReconnect>45000){const c=clients[Math.floor(Math.random()*clients.length)];if(c.socket.connected){c.planned=true;c.socket.disconnect();setTimeout(()=>{if(running)c.socket.connect();},1500);}lastReconnect=now;}
-  if(!roundBusy&&now-lastSample>10000){try{const sample=await request(teacher.socket,'teacher:metrics');stats.samples.push({elapsedSeconds:(now-started)/1000,connected:clients.filter(c=>c.socket.connected).length,...sample.metrics});}catch(e){stats.errors.push(e.message);}lastSample=now;}
-  if(now-lastProgress>60000){console.log(`${Math.floor((now-started)/1000)}s: ${stats.inputs} comandos, ${stats.answers} respostas, ${stats.chests} baús, ${stats.inflections} infecções.`);lastProgress=now;}
- }
- clearInterval(inputTimer);running=false;await request(teacher.socket,'teacher:finish').catch(()=>{});
- stats.elapsedSeconds=(performance.now()-started)/1000;stats.completed=stats.elapsedSeconds>=duration;stats.finishedAt=new Date().toISOString();
- const percentile=(values,p)=>{const sorted=[...values].sort((a,b)=>a-b);return sorted[Math.min(sorted.length-1,Math.floor(sorted.length*p))]||0;};
- const maximum=key=>{const values=stats.samples.map(s=>s[key]).filter(v=>typeof v==='number'&&Number.isFinite(v));return values.length?Math.max(...values):null;};
- stats.summary={latencyMedianMs:percentile(stats.latencies,.5),latencyP95Ms:percentile(stats.latencies,.95),syncCadenceDelayP95Ms:percentile(stats.syncDelayMs,.95),reconnectP95Ms:percentile(stats.reconnectMs,.95),averagePacketBytes:stats.packetBytes/Math.max(1,stats.packets),tickMaxMs:maximum('tickMax'),tickDelayMaxMs:maximum('tickDelayMaxMs'),cpuPeakPercent:maximum('cpuPercent'),memoryFirstRss:stats.samples[0]?.memory.rss,memoryLastRss:stats.samples.at(-1)?.memory.rss};
- // Nunca salvar tokens das sessões no relatório.
- await mkdir('docs',{recursive:true});await writeFile(output,JSON.stringify(stats,null,2));console.log(JSON.stringify({completed:stats.completed,elapsedSeconds:stats.elapsedSeconds,rounds:stats.rounds,summary:stats.summary,errors:stats.errors.length},null,2));
-}catch(error){running=false;stats.completed=false;stats.errors.push(error.message);await writeFile(output,JSON.stringify(stats,null,2));console.error(error.message);process.exitCode=1;}finally{for(const c of clients)c.socket.disconnect();teacher?.socket.disconnect();}
+// Teste de carga: professor + N robôs numa sala, mede CPU do servidor, banda e correções.
+// Uso: LAB_DEBUG=1 node server/index.mjs   (em outro terminal)
+//      node scripts/load.mjs --bots 23 --seconds 120 [--http http://localhost:3000]
+import WebSocket from "ws";
+import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
+
+const args = Object.fromEntries(process.argv.slice(2).reduce((pairs, value, index, list) => (value.startsWith("--") ? [...pairs, [value.slice(2), list[index + 1]]] : pairs), []));
+const http = args.http || "http://localhost:3000";
+const bots = Number(args.bots || 23);
+const seconds = Number(args.seconds || 120);
+const health = async () => (await fetch(`${http}/health`)).json();
+
+const teacher = new WebSocket(`${http.replace(/^http/, "ws")}/ws`, { headers: { origin: "http://localhost:3000" } });
+let rid = 0;
+const pending = new Map();
+let teacherBytes = 0;
+teacher.on("message", (raw) => { teacherBytes += raw.length; const m = JSON.parse(raw.toString()); if (m.t === "ack") { pending.get(m.rid)?.(m); pending.delete(m.rid); } });
+const request = (t, payload = {}) => new Promise((ok, fail) => { const id = ++rid; pending.set(id, (m) => (m.ok ? ok(m) : fail(new Error(m.error)))); teacher.send(JSON.stringify({ t, rid: id, ...payload })); });
+await new Promise((resolve) => teacher.on("open", resolve));
+const { code } = await request("create", { name: "Carga", config: { teamCount: 4, maxPlayers: 24 } });
+console.log(`sala ${code}, entrando ${bots} robôs…`);
+const child = spawn(process.execPath, [fileURLToPath(new URL("./bots.mjs", import.meta.url)), "--url", `${http.replace(/^http/, "ws")}/ws`, "--code", code, "--bots", String(bots), "--seconds", String(seconds + 5)], { stdio: "inherit" });
+await new Promise((resolve) => setTimeout(resolve, 2500));
+await request("start");
+const before = await health();
+const started = Date.now();
+await new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+const after = await health();
+const wall = (Date.now() - started) / 1000;
+const cpu = after.cpuSeconds - before.cpuSeconds;
+const kb = after.traffic.kb - before.traffic.kb;
+console.log("\n===== resultado =====");
+console.log(`alunos: ${after.players} • duração ${wall.toFixed(0)} s`);
+console.log(`CPU do servidor: ${(cpu / wall * 100).toFixed(2)}% de um núcleo (JavaScript ${((after.cpuUserSeconds - before.cpuUserSeconds) / wall * 100).toFixed(2)}%; plano grátis do Render: 10%)`);
+console.log(`enviado pelo servidor: ${(kb / wall).toFixed(1)} KB/s → ${(kb / wall * 3600 / 1024).toFixed(0)} MB por hora de aula`);
+console.log(`movimentos recebidos: ${after.traffic.moves - before.traffic.moves} • correções por validação: ${after.traffic.corrections - before.traffic.corrections}`);
+console.log(`memória: ${after.memoryMb} MB • professor recebeu ${(teacherBytes / 1024).toFixed(0)} KB`);
+teacher.close();
+child.kill();
+process.exit(0);

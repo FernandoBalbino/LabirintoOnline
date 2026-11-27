@@ -1,0 +1,168 @@
+/* Barra de tarefas, Iniciar e ícones da área de trabalho no padrão do Windows 11.
+   O tom acompanha o papel de parede (data-shell-tone), como os temas "Windows (claro/escuro)". */
+:root {
+  --shell-bg: rgba(238, 240, 244, .74);
+  --shell-flyout: rgba(243, 244, 247, .86);
+  --shell-text: #1b1b1b;
+  --shell-muted: #5d5d5d;
+  --shell-stroke: rgba(0, 0, 0, .07);
+  --shell-hover: rgba(255, 255, 255, .55);
+  --shell-press: rgba(255, 255, 255, .38);
+  --shell-field: rgba(255, 255, 255, .7);
+  --shell-footer: rgba(0, 0, 0, .025);
+  --shell-accent: #005fb8;
+  --shell-indicator: #8a8a8a;
+  --shell-glyph: brightness(0) saturate(100%) opacity(.86);
+}
+:root[data-shell-tone="dark"] {
+  --shell-bg: rgba(28, 28, 32, .72);
+  --shell-flyout: rgba(36, 36, 40, .84);
+  --shell-text: #fff;
+  --shell-muted: rgba(255, 255, 255, .72);
+  --shell-stroke: rgba(255, 255, 255, .08);
+  --shell-hover: rgba(255, 255, 255, .07);
+  --shell-press: rgba(255, 255, 255, .04);
+  --shell-field: rgba(0, 0, 0, .22);
+  --shell-footer: rgba(0, 0, 0, .14);
+  --shell-accent: #4cc2ff;
+  --shell-indicator: rgba(255, 255, 255, .55);
+  --shell-glyph: brightness(0) invert(1);
+}
+
+/* ---------- Barra de tarefas ---------- */
+.taskbar {
+  border-top: 1px solid var(--shell-stroke);
+  color: var(--shell-text);
+  background: var(--shell-bg);
+  box-shadow: none;
+  -webkit-backdrop-filter: blur(30px) saturate(1.6);
+  backdrop-filter: blur(30px) saturate(1.6);
+}
+.taskbar-center { gap: 4px; }
+.taskbar-button { width: 40px; height: 40px; border: 1px solid transparent; border-radius: 4px; }
+.taskbar-button:hover, .taskbar-button.is-active { border-color: var(--shell-stroke); background: var(--shell-hover); }
+.taskbar-button:active { background: var(--shell-press); }
+.taskbar-button img { width: 24px; height: 24px; }
+#search-button img { filter: var(--shell-glyph); }
+.taskbar-button.is-open::after { right: auto; left: 50%; bottom: 2px; width: 6px; height: 3px; border-radius: 2px; background: var(--shell-indicator); transform: translateX(-50%); transition: width .18s ease; }
+.taskbar-button.is-active::after { width: 16px; background: var(--shell-accent); }
+.taskbar :is(.system-tray, .task-clock) { color: var(--shell-text); border: 1px solid transparent; }
+.system-tray:hover, .task-clock:hover { border-color: var(--shell-stroke); background: var(--shell-hover); }
+.system-tray { gap: 8px; padding: 0 9px; }
+.system-tray img { width: 16px; height: 16px; filter: var(--shell-glyph); }
+.task-clock { width: auto; min-width: 78px; padding: 0 9px; font-size: 12px; line-height: 16px; }
+.show-desktop { border-left-color: var(--shell-stroke); }
+.vpn-indicator { color: var(--shell-text); }
+
+/* ---------- Iniciar e Pesquisa ---------- */
+.start-menu, .search-panel {
+  border: 1px solid var(--shell-stroke);
+  border-radius: 8px;
+  color: var(--shell-text);
+  background: var(--shell-flyout);
+  box-shadow: 0 32px 64px rgba(0, 0, 0, .3), 0 2px 21px rgba(0, 0, 0, .22);
+  -webkit-backdrop-filter: blur(48px) saturate(1.5);
+  backdrop-filter: blur(48px) saturate(1.5);
+}
+.start-menu { width: min(642px, calc(100vw - 24px)); height: min(660px, calc(100dvh - var(--taskbar-height) - 24px)); }
+.start-menu .start-search, .search-panel .global-search {
+  height: 36px;
+  margin: 32px 32px 0;
+  border: 1px solid var(--shell-stroke);
+  border-radius: 18px;
+  padding: 0 16px;
+  background: var(--shell-field);
+}
+.search-panel .global-search { margin: 0; }
+.start-menu .start-search:focus-within, .search-panel .global-search:focus-within { border-color: var(--shell-accent); }
+.start-menu .start-search img, .search-panel .global-search img { width: 14px; height: 14px; filter: var(--shell-glyph); opacity: .8; }
+.start-menu .start-search input, .search-panel .global-search input { border: 0; color: var(--shell-text); background: transparent; font-size: 13px; }
+.start-menu input::placeholder, .search-panel input::placeholder { color: var(--shell-muted); }
+.start-menu .start-section-heading { margin: 26px 56px 12px; }
+.start-section-heading h2 { color: var(--shell-text); font-size: 14px; font-weight: 600; }
+.start-section-heading button { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--shell-stroke); border-radius: 4px; padding: 3px 10px; color: var(--shell-text); background: var(--shell-hover); font-size: 12px; }
+.start-menu .start-apps { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 2px 4px; padding: 0 40px 16px; }
+.start-apps button { height: 88px; justify-content: flex-start; gap: 6px; padding: 12px 2px 4px; border: 1px solid transparent; color: var(--shell-text); font-size: 12px; line-height: 15px; }
+.start-apps button span { display: -webkit-box; max-width: 100%; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; text-align: center; }
+.start-apps button:hover { border-color: var(--shell-stroke); background: var(--shell-hover); }
+.start-apps img { width: 32px; height: 32px; }
+.start-menu .start-footer { grid-template-columns: minmax(0, 1fr) 40px; min-height: 64px; padding: 0 52px; border-top: 1px solid var(--shell-stroke); background: var(--shell-footer); }
+.start-footer .profile-button, .power-button { color: var(--shell-text); border: 1px solid transparent; }
+.start-footer .profile-button { justify-self: start; padding: 6px 12px; font-size: 12px; font-weight: 400; }
+.start-footer .profile-button img { width: 32px; height: 32px; flex-basis: 32px; }
+.start-footer .profile-button:hover, .power-button:hover { border-color: var(--shell-stroke); background: var(--shell-hover); }
+.power-button img { filter: var(--shell-glyph); }
+.search-panel :is(p, small) { color: var(--shell-muted); }
+.search-panel button { color: var(--shell-text); }
+:root[data-shell-tone="dark"] .search-panel button:hover { background: var(--shell-hover); }
+:root[data-shell-tone="dark"] :is(.power-menu, .profile-menu) { color: #fff; border-color: rgba(255, 255, 255, .08); background: rgba(44, 44, 48, .96); }
+:root[data-shell-tone="dark"] :is(.power-menu, .profile-menu) button { color: #fff; }
+:root[data-shell-tone="dark"] :is(.power-menu, .profile-menu) button:hover { background: rgba(255, 255, 255, .07); }
+:root[data-shell-tone="dark"] .profile-menu small { color: rgba(255, 255, 255, .7); }
+:root[data-shell-tone="dark"] .profile-menu img[src*="power"] { filter: brightness(0) invert(1); }
+
+/* ---------- Área de trabalho ---------- */
+.desktop-icons { grid-template-rows: repeat(auto-fill, 86px); grid-auto-columns: 78px; gap: 2px; }
+.desktop-shortcut { width: 78px; height: 86px; gap: 4px; padding: 4px 2px 2px; border-radius: 3px; }
+.desktop-shortcut img { width: 44px; height: 44px; filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .3)); }
+.desktop-shortcut span { font-size: 12px; line-height: 15px; text-shadow: 0 1px 2px rgba(0, 0, 0, .9), 0 0 6px rgba(0, 0, 0, .55); display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+/* Como no Windows: o nome longo aparece inteiro ao passar o mouse ou selecionar. */
+.desktop-shortcut:is(:hover, .is-selected, :focus-visible) { position: relative; z-index: 3; align-self: start; height: auto; min-height: 86px; }
+.desktop-shortcut:is(:hover, .is-selected, :focus-visible) span { -webkit-line-clamp: unset; }
+.desktop-shortcut:hover { border-color: rgba(255, 255, 255, .16); background: rgba(255, 255, 255, .12); }
+.desktop-shortcut.is-selected { border-color: rgba(255, 255, 255, .3); background: rgba(160, 200, 255, .3); }
+.desktop-shortcut:focus-visible { outline: 1px dotted rgba(255, 255, 255, .9); outline-offset: -2px; }
+
+@media (max-width: 700px) {
+  .start-menu .start-apps { grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 0 16px 12px; }
+  .start-menu .start-section-heading { margin: 20px 24px 10px; }
+  .start-menu .start-search { margin: 20px 16px 0; }
+  .start-menu .start-footer { padding: 0 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .taskbar-button.is-open::after { transition: none; }
+}
+
+/* Energia no padrão do Windows 11: Suspender, Desligar e Reiniciar com ícones */
+.power-menu { width: 168px; }
+.power-menu button { display: flex; align-items: center; gap: 12px; padding: 9px 12px; font-size: 13px; }
+.power-menu .tm-ic { width: 16px; height: 16px; background: currentColor; -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; }
+
+/* telas de Reiniciando, Desligando e inicialização: fundo preto e pontinhos brancos girando */
+.power-screen { position: fixed; inset: 0; z-index: 10000; display: grid; place-content: center; justify-items: center; gap: 22px; background: #000; color: #fff; font: 300 22px "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif; animation: power-fade .35s ease-out; }
+.power-screen.is-hidden { display: none; }
+.power-screen p { margin: 0; }
+.power-screen.is-boot { gap: 0; }
+.boot-logo { width: 150px; height: 150px; object-fit: contain; margin-bottom: 30vh; }
+.power-screen.is-boot .win-spinner { position: absolute; bottom: 18vh; left: 50%; transform: translateX(-50%); }
+.power-screen.is-off { cursor: default; }
+.power-screen.is-off small { color: rgba(255,255,255,.55); font-size: 14px; }
+.power-screen.is-sleep small { opacity: 0; transition: opacity .6s .8s; }
+.power-screen.is-sleep:hover small { opacity: 1; }
+.power-on { display: grid; width: 92px; height: 92px; place-items: center; border: 2px solid rgba(255,255,255,.35); border-radius: 50%; background: transparent; color: #fff; cursor: pointer; transition: border-color .2s, transform .2s; }
+.power-on:hover { border-color: #4cc2ff; color: #4cc2ff; transform: scale(1.05); }
+.power-on .tm-ic { width: 38px; height: 38px; background: currentColor; -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+.win-spinner { position: relative; width: 48px; height: 48px; }
+.win-spinner i { position: absolute; inset: 0; animation: win-orbit 4.2s infinite; }
+.win-spinner i::before { position: absolute; top: 0; left: 50%; width: 5px; height: 5px; border-radius: 50%; background: #fff; content: ""; transform: translateX(-50%); }
+.win-spinner i:nth-child(2) { animation-delay: .24s; }
+.win-spinner i:nth-child(3) { animation-delay: .48s; }
+.win-spinner i:nth-child(4) { animation-delay: .72s; }
+.win-spinner i:nth-child(5) { animation-delay: .96s; }
+@keyframes win-orbit {
+  0% { transform: rotate(225deg); opacity: 1; animation-timing-function: ease-out; }
+  7% { transform: rotate(345deg); animation-timing-function: linear; }
+  30% { transform: rotate(455deg); animation-timing-function: ease-in-out; }
+  39% { transform: rotate(690deg); animation-timing-function: linear; }
+  70% { transform: rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
+  75% { transform: rotate(945deg); animation-timing-function: ease-out; }
+  76%, 100% { transform: rotate(945deg); opacity: 0; }
+}
+@keyframes power-fade { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .win-spinner i { animation-duration: 8s; } .power-screen { animation: none; } }
+.power-screen.is-boot { animation: none; }
+.boot-status { position: absolute; bottom: 9vh; left: 0; right: 0; margin: 0; color: rgba(255,255,255,.85); font-size: 15px; line-height: 1.6; text-align: center; }
+.power-screen.is-updating .boot-logo { display: none; }
+.power-screen.is-updating .win-spinner { position: relative; bottom: auto; left: auto; transform: none; }
+.power-screen.is-updating .boot-status { position: static; font-size: 22px; }
+.power-screen.is-updating { gap: 26px; }
