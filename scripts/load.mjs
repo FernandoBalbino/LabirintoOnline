@@ -11,7 +11,8 @@ const bots = Number(args.bots || 23);
 const seconds = Number(args.seconds || 120);
 const health = async () => (await fetch(`${http}/health`)).json();
 
-const teacher = new WebSocket(`${http.replace(/^http/, "ws")}/ws`, { headers: { origin: "http://localhost:3000" } });
+const origin = args.origin || "http://localhost:3000";
+const teacher = new WebSocket(`${http.replace(/^http/, "ws")}/ws`, { headers: { origin } });
 let rid = 0;
 const pending = new Map();
 let teacherBytes = 0;
@@ -20,7 +21,7 @@ const request = (t, payload = {}) => new Promise((ok, fail) => { const id = ++ri
 await new Promise((resolve) => teacher.on("open", resolve));
 const { code } = await request("create", { name: "Carga", config: { teamCount: 4, maxPlayers: 24 } });
 console.log(`sala ${code}, entrando ${bots} robôs…`);
-const child = spawn(process.execPath, [fileURLToPath(new URL("./bots.mjs", import.meta.url)), "--url", `${http.replace(/^http/, "ws")}/ws`, "--code", code, "--bots", String(bots), "--seconds", String(seconds + 5)], { stdio: "inherit" });
+const child = spawn(process.execPath, [fileURLToPath(new URL("./bots.mjs", import.meta.url)), "--url", `${http.replace(/^http/, "ws")}/ws`, "--code", code, "--bots", String(bots), "--seconds", String(seconds + 5), "--origin", origin], { stdio: "inherit" });
 await new Promise((resolve) => setTimeout(resolve, 2500));
 await request("start");
 const before = await health();
