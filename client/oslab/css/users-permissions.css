@@ -1,0 +1,71 @@
+.userspermissions-window .window-content { overflow: hidden; container-type: inline-size; background: #f2f7fc; }
+.users-learning-hero { color: #10213a; background: linear-gradient(125deg, #eef8ff, #ffffff 52%, #eeeaff); }
+.users-learning-hero .learning-app-mark { width: 64px; height: 64px; flex-basis: 64px; border-radius: 19px; background: linear-gradient(145deg, #dff7ff, #e8e8ff); box-shadow: 0 10px 28px rgba(55, 90, 190, .2); }
+.users-learning-hero .learning-app-mark img { width: 57px; height: 57px; object-fit: contain; filter: none; }
+.users-detail .learning-detail-icon img { width: 58px; height: 58px; object-fit: contain; filter: none; }
+.users-finale { max-width: 670px; margin: 16px auto 32px; padding: 24px; text-align: center; border: 1px solid #c9ddf0; border-radius: 24px; background: linear-gradient(145deg, #fff, #eef7ff); box-shadow: 0 14px 36px rgba(37, 78, 132, .12); }
+.users-finale img { width: 126px; height: 126px; object-fit: contain; }
+.learning-assistant.is-users-permissions .users-assistant-next { margin: 0 0 10px; padding: 10px 12px; border-radius: 9px; background: #edf5fc; color: #244968; font-size: 11px; line-height: 1.45; }
+
+.users-finale small { display: block; color: #0f6cbd; font-weight: 900; letter-spacing: .1em; }
+.users-finale h2 { margin: 6px 0; font-size: 29px; }
+.users-finale p { max-width: 510px; margin: auto; color: #587088; }
+
+.login-user-list { position: absolute; left: 28px; bottom: 28px; display: grid; gap: 8px; z-index: 3; }
+.login-user-list button { display: grid; min-width: 190px; min-height: 58px; grid-template-columns: 40px 1fr; align-items: center; gap: 11px; border: 1px solid transparent; border-radius: 6px; padding: 8px 12px; text-align: left; color: #fff; background: rgba(15, 23, 42, .38); backdrop-filter: blur(18px); }
+.login-user-list button:hover, .login-user-list button.is-selected { border-color: rgba(255,255,255,.58); background: rgba(15, 23, 42, .58); }
+.login-user-list img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.login-user-list strong, .login-user-list small { display: block; }
+.login-user-list small { margin-top: 2px; color: rgba(255,255,255,.76); font-size: 11px; }
+.login-avatar { object-fit: cover; }
+
+.profile-menu { position: absolute; left: 18px; bottom: 67px; width: 250px; z-index: 90; overflow: hidden; border: 1px solid rgba(130,145,165,.35); border-radius: 12px; padding: 7px; background: rgba(250,252,255,.96); box-shadow: 0 16px 42px rgba(16,24,40,.26); backdrop-filter: blur(28px); }
+.profile-menu button { display: flex; width: 100%; min-height: 42px; align-items: center; gap: 10px; border: 0; border-radius: 8px; padding: 7px 9px; text-align: left; background: transparent; color: #17243a; }
+.profile-menu button:hover { background: #e7eef7; }
+.profile-menu img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+.profile-menu i { display: block; height: 1px; margin: 5px 2px; background: #d7dee8; }
+
+.accounts-hero { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; border: 1px solid #dbe1e8; border-radius: 12px; padding: 18px; background: rgba(255,255,255,.8); }
+.accounts-hero > img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; }
+.accounts-hero h2, .accounts-hero p { margin: 0; }
+.accounts-hero p { color: #667386; font-size: 13px; }
+.accounts-list { display: grid; gap: 10px; }
+.account-card { border: 1px solid #d9dfe7; border-radius: 10px; background: rgba(255,255,255,.86); }
+.account-card > button { display: grid; width: 100%; grid-template-columns: 44px 1fr 18px; align-items: center; gap: 12px; border: 0; padding: 14px 16px; text-align: left; background: transparent; }
+.account-card > button > img:first-child { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+.account-card strong, .account-card small { display: block; }
+.account-card small { color: #647184; }
+.account-card-actions { display: flex; justify-content: flex-end; gap: 8px; border-top: 1px solid #e2e6eb; padding: 12px 14px; }
+.win-button { min-height: 34px; border: 1px solid #9ba7b5; border-radius: 4px; padding: 0 14px; background: #fff; color: #152033; font: inherit; font-weight: 600; }
+.win-button:hover { background: #f1f5f9; }
+.win-button.is-primary { border-color: #0067c0; background: #0067c0; color: #fff; }
+.add-user-panel { margin-top: 12px; border: 1px solid #d8dee7; border-radius: 10px; padding: 18px; background: #fff; }
+.add-user-panel h2, .add-user-panel p { margin: 0 0 8px; }
+.add-user-panel label { display: grid; gap: 5px; margin-top: 12px; font-size: 12px; font-weight: 600; }
+.add-user-panel input, .add-user-panel select { height: 38px; border: 1px solid #8f9aa8; border-radius: 4px; padding: 0 10px; font: inherit; }
+.add-user-panel footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+.account-error { min-height: 18px; margin: 8px 0 0; color: #b42318; font-size: 12px; }
+
+.user-homes { display: grid; grid-template-columns: repeat(auto-fill,minmax(180px,1fr)); gap: 12px; margin-top: 20px; }
+.user-home-tile { display: grid; grid-template-columns: 44px 1fr; align-items: center; gap: 10px; border: 1px solid #d8dee7; border-radius: 9px; padding: 12px; text-align: left; background: #fff; }
+.user-home-tile img { width: 42px; height: 42px; }
+.security-dialog { width: min(560px, calc(100vw - 36px)); }
+.security-dialog .permission-options { display: grid; gap: 9px; margin: 16px 0; }
+.security-dialog label { display: flex; align-items: center; gap: 9px; border: 1px solid #d6dde7; border-radius: 8px; padding: 11px; }
+.uac-root { position: fixed; inset: 0; z-index: 1200; display: grid; place-items: center; padding: 20px; background: rgba(0, 13, 38, .7); }
+.uac-root.is-hidden { display: none; }
+.uac-dialog { width: min(520px, calc(100vw - 32px)); border: 0; border-radius: 0; padding: 0; overflow: hidden; background: #f4f7fb; box-shadow: 0 24px 80px rgba(0,0,0,.46); }
+.uac-dialog header { padding: 30px 34px 20px; background: #0067c0; color: #fff; }
+.uac-dialog header img { width: 58px; height: 58px; float: left; margin-right: 16px; }
+.uac-dialog h2 { margin: 0 0 8px; font-size: 22px; }
+.uac-dialog header p { margin: 0; color: #e9f4ff; }
+.uac-dialog .uac-body { display: grid; gap: 9px; padding: 22px 34px; }
+.uac-dialog input, .uac-dialog select { height: 39px; border: 1px solid #8996a6; padding: 0 9px; }
+.uac-dialog footer { display: flex; justify-content: flex-end; gap: 10px; padding: 16px 34px 24px; }
+
+@media (max-width: 700px) {
+  .login-user-list { right: 12px; bottom: 72px; left: 12px; grid-template-columns: repeat(auto-fit,minmax(145px,1fr)); }
+  .login-user-list button { min-width: 0; }
+  .users-learning-hero { align-items: flex-start; }
+  .accounts-hero { align-items: flex-start; }
+}

@@ -1,0 +1,23 @@
+.install-lab-window .window-content { container-type: inline-size; }
+.install-learning-hero { background: linear-gradient(125deg, #073b73, #0f6cbd 58%, #27a4df); }
+.install-learning-hero .learning-app-mark { background: rgba(255, 255, 255, .18); }
+.install-learning-hero .learning-app-mark img { filter: none; }
+.install-mission-result, .install-visual-hint { display: flex; margin-top: 13px; padding: 13px; align-items: flex-start; gap: 10px; border-radius: 13px; }
+.install-mission-result { color: #12633f; background: #e8f7ef; }
+.install-visual-hint { color: #174d7a; background: #e9f4ff; }
+.install-mission-result img, .install-visual-hint img { width: 28px; height: 28px; }
+.install-mission-result p, .install-visual-hint span { margin: 0; }
+.install-mission-result strong, .install-visual-hint strong { display: block; }
+.install-lab-finale { max-width: 700px; margin: 20px auto 34px; padding: 26px; text-align: center; border: 1px solid #cce2f4; border-radius: 24px; background: linear-gradient(145deg, #fff, #eef8ff); box-shadow: 0 14px 40px rgba(29, 83, 126, .12); }
+.install-lab-finale > img { width: 150px; max-height: 142px; object-fit: contain; }
+.install-lab-finale > small { display: block; color: #0f6cbd; font-weight: 1000; letter-spacing: .1em; }
+.install-lab-finale h2 { margin: 7px 0; font-size: 30px; }
+.install-lab-finale p { max-width: 550px; margin: 0 auto; color: #557088; }
+.install-lab-finale div { display: flex; margin-top: 18px; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.install-lab-finale span { padding: 7px 11px; color: #0b558f; font-size: 12px; font-weight: 800; border-radius: 999px; background: #dceeff; }
+.learning-assistant.is-install-lab .assistant-shell { border-color: #8cc8ef; }
+.learning-assistant.is-install-lab header { background: linear-gradient(125deg, #eaf6ff, #fff); }
+
+@container (max-width: 650px) {
+  .install-lab-finale { padding: 18px; }
+}

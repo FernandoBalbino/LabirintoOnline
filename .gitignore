@@ -7,3 +7,4 @@ dist-worker/
 !.env.example
 qa-evidence/
 *.log
+.claude/

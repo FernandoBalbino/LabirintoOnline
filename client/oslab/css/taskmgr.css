@@ -1,0 +1,76 @@
+/* Trilha Gerenciador de Tarefas: robô, animação "como abrir", destaque da barra e Discord */
+.learning-assistant:is(.is-task-lab, .is-store-lab) { right: 14px; left: auto; width: 354px; max-width: calc(100vw - 28px); max-height: calc(100dvh - var(--taskbar-height) - 26px); z-index: 120; }
+.learning-assistant:is(.is-task-lab, .is-store-lab).is-collapsed { width: 94px; }
+.learning-assistant:is(.is-task-lab, .is-store-lab) .assistant-body { max-height: min(540px, calc(100dvh - var(--taskbar-height) - 135px)); overflow: auto; }
+.learning-assistant:is(.is-task-lab, .is-store-lab) .learning-instructions { margin: 0; }
+.learning-assistant:is(.is-task-lab, .is-store-lab) .learning-instructions li { font-size: 12px; }
+body:has(.learning-assistant.is-task-lab:not(.is-collapsed)) .taskmanager-window.is-maximized { right: 368px !important; width: auto !important; }
+
+/* ---------- animação: cursor → espaço vazio → zoom → 2 dedos → menu → Gerenciador ---------- */
+.tl-howto { max-width: 302px; margin: 0 auto 10px; border: 1px solid #cfe2f5; border-radius: 12px; overflow: hidden; background: #fff; }
+.learning-trail-scroller > .tl-howto { margin: 0 auto 22px; }
+.tl-stage { position: relative; height: 138px; overflow: hidden; background: linear-gradient(135deg, #1b3f8b, #3a6fd8 55%, #8d5ad8); }
+/* cena de tamanho fixo (300 × 138) para as coordenadas da animação valerem em qualquer lugar */
+.tl-zoom { left: 50% !important; width: 300px; margin-left: -150px; }
+.tl-zoom { position: absolute; top: 0; bottom: 0; transform-origin: 200px 127px; animation: tl-zoom 7s infinite; }
+.tl-window { position: absolute; top: 14px; left: 22px; width: 150px; height: 70px; border-radius: 6px; background: rgba(255,255,255,.88); box-shadow: 0 6px 16px rgba(0,0,0,.25); }
+.tl-window i { position: absolute; left: 10px; height: 6px; border-radius: 3px; background: #c9d6e8; }
+.tl-window i:nth-child(1) { top: 12px; width: 80px; } .tl-window i:nth-child(2) { top: 26px; width: 120px; } .tl-window i:nth-child(3) { top: 40px; width: 60px; }
+.tl-bar { position: absolute; right: 0; bottom: 0; left: 0; display: flex; height: 22px; align-items: center; gap: 4px; padding: 0 6px; background: rgba(32,32,36,.92); }
+.tl-icons { display: flex; gap: 6px; margin-left: 74px; }
+.tl-icons img { width: 12px; height: 12px; object-fit: contain; }
+.tl-empty { flex: 1; height: 16px; margin: 0 8px; border-radius: 4px; outline: 1.5px dashed transparent; animation: tl-empty 7s infinite; }
+.tl-clock { color: #fff; font-size: 8px; }
+.tl-menu { position: absolute; right: 60px; bottom: 26px; width: 150px; display: grid; gap: 2px; padding: 3px; border-radius: 6px; background: #2c2c2c; box-shadow: 0 6px 18px rgba(0,0,0,.45); color: #fff; font: 9px "Segoe UI", system-ui, sans-serif; opacity: 0; transform: translateY(6px); animation: tl-menu 7s infinite; }
+.tl-menu span { display: flex; overflow: hidden; text-overflow: ellipsis; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 4px; white-space: nowrap; }
+.tl-menu img { width: 10px; height: 10px; object-fit: contain; }
+.tl-menu .is-target { animation: tl-target 7s infinite; }
+.tl-cursor { position: absolute; top: 0; left: 0; width: 16px; height: 16px; filter: invert(1) drop-shadow(0 0 1px #000) drop-shadow(0 0 1px #000); animation: tl-cursor 7s infinite; }
+.tl-ring, .tl-click { position: absolute; width: 18px; height: 18px; margin: -9px 0 0 -9px; border: 2px solid #ffd54a; border-radius: 50%; opacity: 0; }
+.tl-ring { top: 127px; left: 200px; animation: tl-ring 7s infinite; }
+.tl-click { top: 80px; left: 160px; border-color: #4cc2ff; animation: tl-click 7s infinite; }
+.tl-pad { position: absolute; top: 8px; right: 8px; display: grid; justify-items: center; gap: 2px; opacity: 0; animation: tl-pad 7s infinite; }
+.tl-pad-surface { position: relative; display: block; width: 56px; height: 36px; border: 1.5px solid rgba(255,255,255,.9); border-radius: 6px; background: rgba(255,255,255,.12); }
+.tl-pad-surface i { position: absolute; top: 9px; width: 11px; height: 15px; border-radius: 6px 6px 5px 5px; background: #ffd54a; box-shadow: 0 0 0 3px rgba(255,213,74,.35); animation: tl-finger 7s infinite; }
+.tl-pad-surface i:first-child { left: 16px; } .tl-pad-surface i:last-child { left: 30px; }
+.tl-pad small { color: #fff; font: 700 9px "Nunito Sans OSLab", sans-serif; text-shadow: 0 1px 2px #000; }
+.tl-howto figcaption { padding: 8px 12px 10px; }
+.tl-howto ol { display: grid; gap: 3px; margin: 0; padding-left: 18px; color: #2b3a4d; font-size: 12px; }
+.tl-howto li { border-radius: 4px; padding: 1px 4px; }
+.tl-howto li:nth-child(1) { animation: tl-cap1 7s infinite; } .tl-howto li:nth-child(2) { animation: tl-cap2 7s infinite; } .tl-howto li:nth-child(3) { animation: tl-cap3 7s infinite; }
+@keyframes tl-zoom { 0%, 20% { transform: none; } 30%, 80% { transform: scale(1.55); } 92%, 100% { transform: none; } }
+@keyframes tl-cursor { 0% { transform: translate(110px, 36px); } 20%, 52% { transform: translate(198px, 125px); } 64%, 82% { transform: translate(158px, 78px); } 100% { transform: translate(110px, 36px); } }
+@keyframes tl-empty { 0%, 14% { outline-color: transparent; } 20%, 45% { outline-color: #ffd54a; } 52%, 100% { outline-color: transparent; } }
+@keyframes tl-ring { 0%, 34% { opacity: 0; transform: scale(.4); } 38% { opacity: 1; transform: scale(1); } 46% { opacity: 0; transform: scale(2); } 100% { opacity: 0; } }
+@keyframes tl-pad { 0%, 26% { opacity: 0; } 30%, 50% { opacity: 1; } 56%, 100% { opacity: 0; } }
+@keyframes tl-finger { 0%, 34% { transform: translateY(-4px); } 38%, 42% { transform: none; } 46%, 100% { transform: translateY(-4px); } }
+@keyframes tl-menu { 0%, 42% { opacity: 0; transform: translateY(6px); } 47%, 86% { opacity: 1; transform: none; } 92%, 100% { opacity: 0; } }
+@keyframes tl-target { 0%, 64% { background: transparent; } 68%, 86% { background: #3d6fd6; } 100% { background: transparent; } }
+@keyframes tl-click { 0%, 72% { opacity: 0; transform: scale(.4); } 75% { opacity: 1; transform: scale(1); } 82%, 100% { opacity: 0; transform: scale(1.8); } }
+@keyframes tl-cap1 { 0%, 14% { background: transparent; } 18%, 34% { background: #fff3c4; } 38%, 100% { background: transparent; } }
+@keyframes tl-cap2 { 0%, 34% { background: transparent; } 37%, 52% { background: #fff3c4; } 56%, 100% { background: transparent; } }
+@keyframes tl-cap3 { 0%, 60% { background: transparent; } 64%, 86% { background: #fff3c4; } 90%, 100% { background: transparent; } }
+/* sem animação: mostra a cena final parada (menu aberto e o item marcado) */
+@media (prefers-reduced-motion: reduce) {
+  .tl-zoom, .tl-empty, .tl-menu, .tl-menu .is-target, .tl-cursor, .tl-ring, .tl-click, .tl-pad, .tl-pad-surface i, .tl-howto li { animation: none; }
+  .tl-zoom { transform: scale(1.4); } .tl-menu { opacity: 1; transform: none; } .tl-menu .is-target { background: #3d6fd6; }
+  .tl-empty { outline-color: #ffd54a; } .tl-pad { opacity: 1; } .tl-cursor { transform: translate(158px, 78px); }
+}
+
+/* "Mostrar a barra": pulsa a barra de tarefas para o aluno achar */
+body.is-taskbar-hint .taskbar { animation: tl-taskbar 1.4s ease-in-out 3; }
+@keyframes tl-taskbar { 0%, 100% { box-shadow: inset 0 0 0 0 rgba(255,213,74,0); } 50% { box-shadow: inset 0 0 0 3px #ffd54a, 0 -8px 24px rgba(255,213,74,.45); } }
+@media (prefers-reduced-motion: reduce) { body.is-taskbar-hint .taskbar { animation: none; box-shadow: inset 0 0 0 3px #ffd54a; } }
+
+/* Discord: janela pequena de abertura, como a do aplicativo de verdade */
+.discord-window { width: 380px !important; height: 420px !important; min-width: 300px; min-height: 320px; }
+.discord-window .window-content { background: #313338; }
+.dc-splash { display: grid; height: 100%; place-content: center; justify-items: center; gap: 10px; padding: 24px; color: #fff; font: 14px "gg sans", "Segoe UI", system-ui, sans-serif; text-align: center; }
+.dc-splash img { width: 72px; height: 72px; animation: dc-bounce 1.6s ease-in-out infinite; }
+.dc-splash strong { font-size: 20px; }
+.dc-splash p { margin: 0; color: #b5bac1; }
+.dc-splash small { color: #949ba4; font-size: 12px; }
+.dc-splash button { width: 220px; height: 38px; border: 0; border-radius: 4px; background: #5865f2; color: #fff; font: inherit; opacity: .8; }
+.dc-splash.is-ready img { animation: none; }
+@keyframes dc-bounce { 50% { transform: translateY(-6px); } }
+@media (prefers-reduced-motion: reduce) { .dc-splash img { animation: none; } }

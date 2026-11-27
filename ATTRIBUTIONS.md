@@ -2,7 +2,9 @@
 
 ## Recursos novos do LabirintoOnline
 
-- Bandeiras, atlas dos dez poderes online e vírus controlável: desenhos SVG originais em pixel art, construídos para este projeto em `scripts/sprites.mjs`. Manifesto em `client/assets/maze-game/online-sprites.json`. Podem ser redistribuídos com o projeto.
+- Bandeiras, atlas dos dez poderes online e vírus controlável: desenhos SVG originais em pixel art feitos para este projeto. Manifesto em `client/assets/maze-game/online-sprites.json`. Podem ser redistribuídos com o projeto.
+- Os atlas em pixel art (personagem, laboratório, vírus/baús/poderes, sorte/eventos e meteoros) foram convertidos para WebP no tamanho usado no jogo (`*.webp`), sem alteração do desenho.
+- **Windows do OSLab** (`client/oslab/`): cópia do projeto [FernandoBalbino/OSLab](https://github.com/FernandoBalbino/OSLab), commit `ae1d8c9`, usada nas tarefas práticas. Inclui os avisos originais em `client/oslab/LICENSE-win11React.txt` e `client/oslab/THIRD_PARTY_NOTICES.md`. Adaptações: modo embutido (`js/labirinto-embed.js`, `js/labirinto-bridge.js`), papéis de parede recomprimidos em JPEG e remoção do modo offline nessa cópia.
 - Os atlas, fontes, recursos e sons do Labirinto da Informática original foram preservados. Base: CentralJogos, commit `e1db29efa16b865e2e3087de2c2502b73c826270`.
 
 Todos os recursos usados pelo site são armazenados localmente. Este arquivo complementa os créditos exibidos na interface.

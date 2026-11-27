@@ -1,26 +1,21 @@
+# Servidor do jogo (somente WebSocket). O site fica no GitHub Pages.
 services:
   - type: web
     name: labirinto-online
     runtime: node
     plan: free
     region: virginia
-    buildCommand: corepack pnpm install --frozen-lockfile
+    branch: main
+    buildCommand: npm ci --omit=dev
     startCommand: node server/index.mjs
     healthCheckPath: /health
-    autoDeployTrigger: off
+    autoDeploy: true
     envVars:
       - key: NODE_VERSION
-        value: 24
-      - key: CLIENT_ORIGIN
+        value: "24"
+      - key: ALLOWED_ORIGINS
         value: https://fernandobalbino.github.io
-      - key: REDIS_URL
-        fromService:
-          name: labirinto-online-state
-          type: keyvalue
-          property: connectionString
-  - type: keyvalue
-    name: labirinto-online-state
-    plan: free
-    region: virginia
-    maxmemoryPolicy: noeviction
-    ipAllowList: []
+      - key: SERVE_STATIC
+        value: "0"
+      - key: PUBLIC_CLIENT_URL
+        value: https://fernandobalbino.github.io/LabirintoOnline/

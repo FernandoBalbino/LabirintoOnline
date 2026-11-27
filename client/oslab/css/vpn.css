@@ -1,0 +1,426 @@
+.vpn-window .window-content,
+.google-page,
+.offline-browser {
+  min-height: 0;
+}
+
+.vpn-window .window-content {
+  overflow: auto;
+  background: #f4f7fb;
+  container-type: inline-size;
+}
+
+.vpn-app,
+.vpn-browser-shell,
+.vpn-lab-page {
+  font-family: "Nunito Sans OSLab", "Segoe UI", sans-serif;
+}
+
+.vpn-app {
+  min-height: 100%;
+  padding: 24px;
+  color: #17233a;
+  background:
+    radial-gradient(circle at 86% 4%, rgba(64, 156, 255, .18), transparent 28%),
+    #f4f7fb;
+}
+
+.vpn-app button,
+.vpn-browser-shell button,
+.vpn-browser-toolbar button,
+.vpn-browser-toolbar input,
+.vpn-lab-page button,
+.vpn-lab-page input {
+  min-height: 44px;
+  font: inherit;
+}
+
+.vpn-app button:focus-visible,
+.vpn-browser-shell button:focus-visible,
+.vpn-browser-toolbar button:focus-visible,
+.vpn-browser-toolbar input:focus-visible,
+.vpn-lab-page button:focus-visible,
+.vpn-lab-page input:focus-visible {
+  outline: 3px solid #68b7ff;
+  outline-offset: 2px;
+}
+
+.vpn-app-hero {
+  display: grid;
+  grid-template-columns: 68px 1fr auto;
+  align-items: center;
+  gap: 18px;
+  max-width: 1120px;
+  margin: 0 auto 18px;
+  padding: 22px 24px;
+  color: #fff;
+  border-radius: 24px;
+  background: linear-gradient(125deg, #172b4d, #0f4c81);
+  box-shadow: 0 18px 44px rgba(24, 50, 87, .18);
+}
+
+.vpn-app-hero.is-connected {
+  background: linear-gradient(125deg, #0b5c3d, #0f6cbd);
+}
+
+.vpn-shield {
+  display: grid;
+  width: 68px;
+  height: 68px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, .14);
+}
+
+.vpn-shield img { width: 36px; height: 36px; filter: brightness(0) invert(1); }
+.vpn-app-hero small { display: block; margin-bottom: 3px; color: #cfe6ff; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.vpn-app-hero h1 { margin: 0; font-size: clamp(22px, 3vw, 34px); line-height: 1.05; }
+.vpn-app-hero p { margin: 7px 0 0; color: #e5f2ff; }
+.vpn-app-hero > button { padding: 0 20px; color: #0f4c81; font-weight: 900; border: 0; border-radius: 14px; background: #fff; box-shadow: 0 4px 0 rgba(0, 0, 0, .16); }
+
+.vpn-live-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 1120px;
+  margin: 0 auto 18px;
+}
+
+.vpn-live-grid > span {
+  display: flex;
+  min-width: 0;
+  padding: 14px 16px;
+  flex-direction: column;
+  border: 1px solid #dce6f1;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.vpn-live-grid small { color: #64748b; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+.vpn-live-grid strong { margin-top: 3px; overflow-wrap: anywhere; font-size: 16px; line-height: 1.18; }
+
+.vpn-server-columns {
+  display: grid;
+  grid-template-columns: 1.25fr .75fr;
+  gap: 18px;
+  max-width: 1120px;
+  margin: auto;
+}
+
+.vpn-server-columns > section {
+  padding: 20px;
+  border: 1px solid #dce6f1;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 12px 32px rgba(36, 70, 110, .08);
+}
+
+.vpn-server-columns header small { color: #0f6cbd; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.vpn-server-columns h2 { margin: 3px 0 16px; font-size: 22px; }
+.vpn-section-copy { margin: -8px 0 14px; color: #64748b; line-height: 1.45; }
+.vpn-server-list { display: grid; gap: 9px; }
+
+.vpn-server {
+  display: grid;
+  width: 100%;
+  padding: 10px 13px;
+  grid-template-columns: 42px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  color: #17233a;
+  border: 1px solid #dce6f1;
+  border-radius: 14px;
+  background: #fff;
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.vpn-server:hover { transform: translateY(-2px); border-color: #79b8ec; box-shadow: 0 8px 18px rgba(15, 108, 189, .1); }
+.vpn-server.is-selected { border-color: #0f6cbd; background: #edf7ff; box-shadow: 0 0 0 2px rgba(15, 108, 189, .14); }
+.vpn-server > img { width: 38px; height: 28px; object-fit: cover; border: 1px solid rgba(0, 0, 0, .1); border-radius: 5px; }
+.vpn-server > span { display: flex; min-width: 0; flex-direction: column; }
+.vpn-server strong { font-size: 15px; }
+.vpn-server small { overflow: hidden; color: #68778c; text-overflow: ellipsis; white-space: nowrap; }
+.vpn-server em { color: #0f6cbd; font-size: 12px; font-style: normal; font-weight: 900; text-transform: uppercase; }
+
+.vpn-safety-note {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 13px;
+  color: #285b45;
+  border-radius: 14px;
+  background: #eaf8f1;
+}
+.vpn-safety-note img { width: 28px; }
+.vpn-safety-note span { display: flex; flex-direction: column; }
+.vpn-app-footer { display: flex; max-width: 1120px; margin: 14px auto 0; align-items: center; justify-content: space-between; color: #64748b; font-size: 12px; }
+.vpn-app-footer button { padding: 0 14px; color: #0f6cbd; font-weight: 800; border: 0; background: transparent; }
+
+.vpn-debug {
+  position: absolute;
+  z-index: 8;
+  inset: 12px;
+  overflow: auto;
+  padding: 20px;
+  color: #e9f3ff;
+  border: 1px solid #3b82f6;
+  border-radius: 18px;
+  background: rgba(7, 18, 36, .97);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .45);
+}
+.vpn-debug header { display: flex; align-items: center; justify-content: space-between; }
+.vpn-debug h2, .vpn-debug h3 { margin: 2px 0 12px; }
+.vpn-debug small { color: #7dd3fc; font-weight: 900; text-transform: uppercase; }
+.vpn-debug button { padding: 0 13px; color: #e9f3ff; border: 1px solid #315276; border-radius: 10px; background: #172b4d; }
+.vpn-debug-state { display: grid; margin: 15px 0; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.vpn-debug-state span { display: flex; padding: 10px; flex-direction: column; border-radius: 10px; background: #102442; }
+.vpn-debug-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+.vpn-debug-missions { display: grid; gap: 7px; }
+.vpn-debug-missions > span { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.vpn-debug-missions > span > button { flex: 1; text-align: left; }
+.vpn-debug-missions label { min-width: 112px; }
+.vpn-debug-reset { width: 100%; margin-top: 18px; border-color: #ef4444 !important; }
+
+.vpn-indicator {
+  display: inline-flex;
+  height: 38px;
+  padding: 0 9px;
+  align-items: center;
+  gap: 5px;
+  color: #095c3a;
+  border: 0;
+  border-radius: 8px;
+  background: #dff7ea;
+}
+.vpn-indicator img { width: 18px; height: 18px; }
+.vpn-indicator span { display: flex; max-width: 92px; overflow: hidden; flex-direction: column; font-size: 10px; line-height: 1.05; text-overflow: ellipsis; white-space: nowrap; }
+.vpn-indicator strong, .vpn-indicator small { overflow: hidden; text-overflow: ellipsis; }
+
+.vpn-browser-toolbar {
+  gap: 5px;
+  padding: 6px 9px;
+}
+.vpn-browser-toolbar form { display: flex; min-width: 0; flex: 1; align-items: center; border: 1px solid #ccd8e6; border-radius: 20px; background: #fff; }
+.vpn-browser-toolbar form:focus-within { border-color: #0f6cbd; box-shadow: 0 0 0 2px rgba(15, 108, 189, .16); }
+.vpn-browser-toolbar form input { min-width: 0; flex: 1; padding: 0 8px; border: 0; outline: none; background: transparent; }
+.vpn-browser-toolbar form button { min-width: 48px; padding: 0 12px; border: 0; border-radius: 18px; background: transparent; }
+.browser-lock { display: grid; width: 28px; height: 28px; margin-left: 5px; place-items: center; color: #fff; font-size: 9px; font-weight: 900; border-radius: 50%; background: #0f6cbd; }
+.browser-loading { width: 20px; height: 20px; border: 3px solid #dbeafe; border-top-color: #0f6cbd; border-radius: 50%; animation: vpn-spin .7s linear infinite; }
+
+.vpn-browser-shell { min-height: 100%; color: #152238; background: #f7f9fc; }
+.vpn-browser-home { min-height: 100%; padding: 42px clamp(24px, 6vw, 78px); background: radial-gradient(circle at 50% -20%, #cfeaff, transparent 55%), #f7f9fc; }
+.browser-home-brand { max-width: 600px; margin: 0 auto 32px; text-align: center; }
+.browser-home-brand img { width: 58px; height: 58px; padding: 12px; border-radius: 18px; background: #dff1ff; }
+.browser-home-brand small { display: block; margin-top: 10px; color: #0f6cbd; font-weight: 900; text-transform: uppercase; }
+.browser-home-brand h1 { margin: 4px 0; font-size: clamp(30px, 6vw, 54px); }
+.browser-home-brand p { color: #64748b; }
+.browser-shortcuts { display: grid; max-width: 860px; margin: auto; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.browser-shortcuts button { display: grid; min-width: 0; padding: 18px; grid-template-columns: 42px 1fr; gap: 2px 12px; text-align: left; border: 1px solid #dce6f1; border-radius: 17px; background: #fff; box-shadow: 0 9px 24px rgba(36, 70, 110, .08); }
+.browser-shortcuts img { width: 40px; height: 40px; grid-row: 1 / span 2; }
+.browser-shortcuts span { align-self: end; font-weight: 900; }
+.browser-shortcuts small { overflow: hidden; color: #758399; text-overflow: ellipsis; white-space: nowrap; }
+
+.netflix-site { min-height: 100%; padding-bottom: 34px; color: #fff; background: #101010; }
+.netflix-site > header { position: sticky; z-index: 2; top: 0; display: grid; padding: 12px 24px; grid-template-columns: auto minmax(220px, 460px) auto; align-items: center; gap: 22px; background: rgba(16, 16, 16, .94); }
+.netflix-wordmark { color: #e50914; font-size: 24px; font-weight: 1000; letter-spacing: -.05em; }
+.netflix-wordmark small { color: #aaa; font-size: 9px; letter-spacing: .02em; }
+.netflix-site form { display: flex; gap: 7px; }
+.netflix-site input { min-width: 0; height: 44px; flex: 1; padding: 0 14px; color: #fff; border: 1px solid #555; border-radius: 6px; background: #222; }
+.netflix-site form button { display: inline-flex; padding: 0 14px; align-items: center; gap: 6px; color: #fff; border: 0; border-radius: 6px; background: #e50914; }
+.netflix-site form button img { width: 17px; filter: invert(1); }
+.netflix-hero { min-height: 250px; display: flex; padding: 45px clamp(24px, 7vw, 76px); align-items: end; background: linear-gradient(90deg, rgba(0, 0, 0, .92), rgba(0, 0, 0, .15)), url("../assets/vpn/posters/poster-14.jpg") center 38% / cover; }
+.netflix-hero div { max-width: 520px; }
+.netflix-hero small { color: #6ee7b7; font-weight: 900; text-transform: uppercase; }
+.netflix-hero h1 { margin: 5px 0; font-size: clamp(31px, 5vw, 56px); }
+.netflix-row { padding: 18px 24px 0; }
+.netflix-row h2 { margin: 0 0 10px; font-size: 20px; }
+.netflix-row > div { display: grid; grid-template-columns: repeat(6, minmax(105px, 1fr)); gap: 10px; }
+.netflix-card { min-width: 0; overflow: hidden; border-radius: 8px; background: #222; }
+.netflix-card > img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; }
+.netflix-card > span { display: flex; padding: 9px; flex-direction: column; }
+.netflix-card strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.netflix-card small { color: #aaa; }
+.netflix-profiles { display: grid; min-height: 100%; place-content: center; text-align: center; }
+.netflix-profiles h1 { margin: 34px 0 20px; font-size: 36px; }
+.netflix-profiles > div:last-child { display: flex; justify-content: center; gap: 22px; }
+.netflix-profiles button { color: #ddd; border: 0; background: transparent; }
+.netflix-profiles button img { display: block; width: 92px; height: 92px; margin-bottom: 8px; object-fit: cover; border-radius: 12px; }
+.netflix-feature-result { display: grid; max-width: 920px; margin: 34px auto; padding: 0 24px; grid-template-columns: minmax(180px, 280px) 1fr; align-items: center; gap: 30px; }
+.netflix-feature-result > img { width: 100%; max-height: 390px; object-fit: cover; border-radius: 12px; }
+.netflix-feature-result h2 { margin: 6px 0; font-size: 42px; }
+.netflix-feature-result button { margin-right: 8px; padding: 0 18px; border: 0; border-radius: 6px; }
+.netflix-feature-result button:first-of-type { color: #fff; background: #e50914; }
+.netflix-empty { max-width: 620px; margin: 80px auto; padding: 0 24px; text-align: center; }
+.netflix-empty h2 { font-size: 30px; }
+
+.access-denied { display: grid; min-height: 100%; padding: 44px 24px; place-content: center; text-align: center; background: #f6f8fb; }
+.access-denied > img { width: 74px; margin: 0 auto 18px; padding: 15px; border-radius: 22px; background: #ffe8e8; }
+.access-denied > small { color: #b42318; font-weight: 900; letter-spacing: .09em; }
+.access-denied h1 { margin: 7px 0; font-size: 34px; }
+.access-denied p { max-width: 560px; color: #65758a; }
+.access-denied dl { display: grid; min-width: min(480px, 85vw); margin-top: 18px; grid-template-columns: 1fr 1fr; gap: 8px; }
+.access-denied dl div { padding: 12px; text-align: left; border-radius: 12px; background: #fff; }
+.access-denied dt { color: #718096; font-size: 12px; }
+.access-denied dd { margin: 3px 0 0; font-weight: 900; }
+
+.corporate-site, .school-site { min-height: 100%; background: #f4f8fc; }
+.corporate-site > header, .school-site > header, .speed-site > header, .meet-site > header, .myip-site > header { display: flex; min-height: 70px; padding: 12px 28px; align-items: center; gap: 12px; color: #fff; background: #103f68; }
+.corporate-site > header img, .school-site > header img, .speed-site > header img, .meet-site > header img, .myip-site > header img { width: 38px; filter: brightness(0) invert(1); }
+.corporate-site > header span, .school-site > header span, .speed-site > header span, .meet-site > header span { display: flex; flex-direction: column; }
+.corporate-site > header small, .school-site > header small { color: #bfe2ff; }
+.corporate-site > header em { margin-left: auto; padding: 7px 10px; color: #196a45; font-style: normal; font-weight: 900; border-radius: 999px; background: #ddf7e8; }
+.corporate-site main, .school-site main { max-width: 980px; margin: auto; padding: 30px; }
+.corporate-modules, .school-labs { display: grid; margin: 20px 0; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.corporate-modules button, .school-labs button { display: flex; padding: 16px; align-items: center; gap: 13px; text-align: left; color: #17233a; border: 1px solid #d8e4ef; border-radius: 14px; background: #fff; }
+.corporate-modules img, .school-labs img { width: 34px; }
+.corporate-modules span, .school-labs span { display: flex; flex-direction: column; }
+.corporate-modules small, .school-labs small { color: #66768a; }
+.ticket-row { display: grid; padding: 16px; grid-template-columns: 1fr auto auto; align-items: center; gap: 18px; border: 1px solid #d8e4ef; border-radius: 14px; background: #fff; }
+.ticket-row span { display: flex; flex-direction: column; }
+.ticket-row em { color: #966800; font-style: normal; font-weight: 900; }
+.ticket-row button, .site-back { padding: 0 15px; color: #fff; border: 0; border-radius: 10px; background: #0f6cbd; }
+.ticket-detail, .school-lab-detail { margin-top: 22px; padding: 26px; border: 1px solid #d8e4ef; border-radius: 18px; background: #fff; }
+.ticket-detail small, .school-lab-detail small { color: #0f6cbd; font-weight: 900; }
+.ticket-detail dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.ticket-detail dl div { padding: 12px; border-radius: 10px; background: #f1f6fb; }
+
+.myip-site { min-height: 100%; background: linear-gradient(145deg, #eff8ff, #fff); }
+.myip-site > header { background: #0f6cbd; }
+.myip-site > header span { font-size: 20px; font-weight: 1000; }
+.myip-site > header small { font-size: 10px; font-weight: 700; }
+.myip-site main { max-width: 780px; margin: auto; padding: 38px 28px; text-align: center; }
+.myip-site main > small { color: #0f6cbd; font-weight: 900; text-transform: uppercase; }
+.myip-site main > h1 { margin: 4px 0 16px; font-family: Consolas, monospace; font-size: clamp(34px, 7vw, 66px); letter-spacing: -.06em; }
+.myip-country { display: inline-flex; padding: 12px 18px; align-items: center; gap: 12px; border: 1px solid #d8e4ef; border-radius: 14px; background: #fff; }
+.myip-country img { width: 48px; }
+.myip-country span { display: flex; text-align: left; flex-direction: column; }
+.myip-site dl { display: grid; margin: 18px 0; grid-template-columns: 1fr 1fr; gap: 10px; }
+.myip-site dl div { padding: 14px; border-radius: 12px; background: #edf4fb; }
+.myip-site dt { color: #65758a; }
+.myip-site dd { margin: 3px 0; font-weight: 900; }
+.myip-site form { padding: 20px; text-align: left; border: 1px solid #d8e4ef; border-radius: 16px; background: #fff; }
+.myip-site fieldset { margin: 12px 0; border: 0; }
+.myip-site label { display: inline-flex; min-height: 44px; margin-right: 10px; align-items: center; gap: 7px; }
+.myip-site form button { padding: 0 18px; color: #fff; border: 0; border-radius: 10px; background: #0f6cbd; }
+.myip-site .is-correct { color: #157347; font-weight: 900; }
+
+.bank-site { min-height: 100%; color: #162636; background: #edf6f5; }
+.bank-site > header { display: flex; padding: 20px 30px; align-items: center; justify-content: space-between; color: #fff; background: #063f45; }
+.bank-site > header span { font-size: 25px; font-weight: 400; }
+.bank-site > header strong { color: #67e8c2; }
+.bank-site main { max-width: 760px; margin: auto; padding: 36px 26px; }
+.bank-site.is-blocked main { max-width: 540px; text-align: center; }
+.bank-site.is-blocked main > img { width: 72px; padding: 15px; border-radius: 50%; background: #ffe7e7; }
+.bank-site dl { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.bank-site dl div { padding: 13px; text-align: left; border-radius: 10px; background: #fff; }
+.bank-site dd { margin: 3px 0 0; font-weight: 900; }
+.bank-approved { display: flex; margin-bottom: 16px; padding: 14px; align-items: center; gap: 12px; color: #126345; border-radius: 14px; background: #dff8ed; }
+.bank-approved img { width: 36px; }
+.bank-approved span { display: flex; flex-direction: column; }
+.bank-balance { padding: 24px; color: #fff; border-radius: 18px; background: linear-gradient(120deg, #073f45, #0b766e); }
+.bank-balance h1 { margin: 4px 0; font-size: 42px; }
+.bank-actions { display: grid; margin-top: 12px; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.bank-actions button { border: 1px solid #cae1df; border-radius: 10px; background: #fff; }
+
+.speed-site, .meet-site { min-height: 100%; color: #ecf5ff; background: radial-gradient(circle at 50% 30%, #153d73, #071426 68%); }
+.speed-site > header, .meet-site > header { background: rgba(3, 13, 29, .6); }
+.speed-site main { max-width: 780px; margin: auto; padding: 35px 26px; text-align: center; }
+.speed-server { display: grid; margin-bottom: 24px; grid-template-columns: 1fr 1fr; gap: 10px; }
+.speed-server span { display: flex; padding: 13px; flex-direction: column; border: 1px solid rgba(255, 255, 255, .14); border-radius: 12px; background: rgba(255, 255, 255, .07); }
+.speed-start span { display: block; color: #7dd3fc; font-size: 56px; font-weight: 1000; }
+.speed-start small { display: block; margin-bottom: 20px; }
+.speed-start button, .speed-site main > button { padding: 0 24px; color: #06233f; font-weight: 1000; border: 0; border-radius: 999px; background: #67e8f9; box-shadow: 0 0 35px rgba(103, 232, 249, .25); }
+.speed-gauges { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.speed-gauges span { display: flex; padding: 22px 10px; flex-direction: column; border: 1px solid rgba(125, 211, 252, .26); border-radius: 18px; background: rgba(255, 255, 255, .07); }
+.speed-gauges strong { color: #7dd3fc; font-size: 42px; }
+.speed-gauges em { color: #94a3b8; font-style: normal; }
+.meet-site main { display: grid; max-width: 900px; margin: auto; padding: 38px 28px; grid-template-columns: 1.25fr .75fr; gap: 26px; }
+.meet-preview { position: relative; display: grid; min-height: 340px; place-items: center; overflow: hidden; border-radius: 22px; background: #17233a; }
+.meet-preview img { width: 230px; max-height: 280px; object-fit: contain; }
+.meet-preview span { position: absolute; bottom: 15px; left: 15px; padding: 7px 10px; border-radius: 8px; background: rgba(0, 0, 0, .55); }
+.meet-site aside { align-self: center; }
+.meet-quality { display: inline-flex; padding: 7px 10px; align-items: center; gap: 7px; border-radius: 999px; background: rgba(255, 255, 255, .1); }
+.meet-quality i { width: 9px; height: 9px; border-radius: 50%; background: #f59e0b; }
+.meet-quality.is-green i { background: #22c55e; }
+.meet-quality.is-red i { background: #ef4444; }
+.meet-quality.is-amber i { background: #f59e0b; }
+.meet-quality.is-blue i { background: #38bdf8; }
+.meet-site aside button { width: 100%; color: #06233f; font-weight: 900; border: 0; border-radius: 12px; background: #7dd3fc; }
+.meet-site aside button:disabled { opacity: .4; }
+.meet-joined { display: block; margin-top: 12px; color: #6ee7b7; }
+.school-lab-detail > div { display: grid; margin: 18px 0; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.school-lab-detail > div span { display: flex; padding: 16px; flex-direction: column; border-radius: 12px; background: #eef5fb; }
+.school-lab-detail > div strong { color: #0f6cbd; font-size: 30px; }
+
+.offline-browser-error, .offline-browser-success { display: grid; min-height: 100%; padding: 30px; place-content: center; text-align: center; }
+.offline-browser-error > span { font-size: 70px; font-weight: 1000; }
+.offline-browser-error button { padding: 0 18px; color: #fff; border: 0; border-radius: 10px; background: #0f6cbd; }
+.browser-secure { color: #18864b; font-weight: 900; }
+
+.vpn-lab-finale, .vpn-final-quiz { max-width: 650px; margin: 32px auto; padding: 26px; border: 1px solid #d8e4ef; border-radius: 22px; background: #fff; box-shadow: 0 14px 36px rgba(36, 70, 110, .1); }
+.vpn-lab-finale { text-align: center; }
+.vpn-lab-finale img { width: 160px; }
+.vpn-lab-finale small, .vpn-final-quiz > small { color: #0f6cbd; font-weight: 1000; letter-spacing: .08em; }
+.vpn-lab-finale ul { max-width: 470px; margin: 16px auto; text-align: left; }
+.vpn-final-quiz fieldset { margin: 14px 0; padding: 15px; border: 1px solid #dce6f1; border-radius: 14px; }
+.vpn-final-quiz label { display: flex; min-height: 44px; align-items: center; gap: 8px; }
+.vpn-quiz-error { color: #b42318; font-weight: 800; }
+.vpn-mission-explanation { display: flex; gap: 10px; margin-top: 14px; padding: 13px; border-radius: 13px; background: #eaf8f1; }
+.vpn-mission-explanation img { width: 28px; }
+.vpn-mission-explanation p { margin: 0; }
+.vpn-mission-explanation strong { display: block; }
+
+@keyframes vpn-spin { to { transform: rotate(360deg); } }
+
+@container (max-width: 780px) {
+  .vpn-app { padding: 14px; }
+  .vpn-app-hero { grid-template-columns: 54px 1fr; }
+  .vpn-app-hero > button { grid-column: 1 / -1; }
+  .vpn-shield { width: 54px; height: 54px; }
+  .vpn-live-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .vpn-server-columns { grid-template-columns: 1fr; }
+  .vpn-app-footer { align-items: flex-start; flex-direction: column; }
+}
+
+@container (max-width: 480px) {
+  .vpn-live-grid { grid-template-columns: 1fr; }
+  .vpn-server { grid-template-columns: 38px 1fr; }
+  .vpn-server em { grid-column: 2; }
+}
+
+@media (max-width: 900px) {
+  .vpn-app { padding: 14px; }
+  .vpn-app-hero { grid-template-columns: 54px 1fr; }
+  .vpn-app-hero > button { grid-column: 1 / -1; }
+  .vpn-shield { width: 54px; height: 54px; }
+  .vpn-live-grid { grid-template-columns: repeat(2, 1fr); }
+  .vpn-server-columns { grid-template-columns: 1fr; }
+  .browser-shortcuts { grid-template-columns: repeat(2, 1fr); }
+  .netflix-row > div { grid-template-columns: repeat(4, 1fr); }
+  .netflix-site > header { grid-template-columns: 1fr auto; }
+  .netflix-site > header form { grid-column: 1 / -1; grid-row: 2; }
+  .meet-site main { grid-template-columns: 1fr; }
+  .meet-preview { min-height: 240px; }
+}
+
+@media (max-width: 620px) {
+  .vpn-live-grid, .browser-shortcuts, .corporate-modules, .school-labs, .speed-server, .school-lab-detail > div { grid-template-columns: 1fr; }
+  .vpn-debug-state { grid-template-columns: repeat(2, 1fr); }
+  .vpn-server-columns > section { padding: 14px; }
+  .vpn-app-footer { align-items: flex-start; flex-direction: column; }
+  .netflix-row > div { display: flex; overflow-x: auto; }
+  .netflix-card { min-width: 130px; }
+  .netflix-feature-result { grid-template-columns: 1fr; }
+  .netflix-feature-result > img { max-height: 260px; }
+  .access-denied dl, .myip-site dl, .bank-site dl, .ticket-detail dl { grid-template-columns: 1fr; min-width: 0; }
+  .speed-gauges { grid-template-columns: 1fr; }
+  .speed-gauges span { padding: 10px; }
+  .bank-actions { grid-template-columns: 1fr; }
+  .vpn-indicator span { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vpn-server, .browser-loading { transition: none; animation: none; }
+}

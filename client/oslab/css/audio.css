@@ -1,0 +1,98 @@
+/* Trilha de Som: Configurações › Som, Aula On-line, instalador do driver de áudio, reinício e site Vertex */
+
+/* Configurações rápidas: dispositivo de saída embaixo do volume */
+.quick-audio-status { display:grid; gap:1px; width:100%; margin:-4px 0 4px; padding:6px 10px; border:0; border-radius:6px; background:transparent; color:inherit; font:inherit; text-align:left; cursor:pointer; }
+.quick-audio-status:hover { background:rgba(0,0,0,.05); }
+.quick-audio-status strong { font-size:12px; font-weight:600; }
+.quick-audio-status small { font-size:11px; opacity:.72; }
+#volume-slider:disabled { opacity:.4; }
+
+/* Configurações › Sistema › Som */
+.snd-page { max-width:980px; padding-bottom:28px; }
+.snd-h { margin:22px 0 8px; font-size:15px; font-weight:600; }
+.snd-tip { margin:4px 0 0; font-size:13px; color:#5c5c5c; }
+.snd-card { display:grid; gap:2px; border-radius:7px; overflow:hidden; }
+.snd-row, .snd-choice, .snd-link, .snd-empty { display:flex; align-items:center; gap:14px; min-height:62px; margin:0; padding:12px 18px; background:#fbfbfb; border:1px solid #e5e5e5; color:#1b1b1b; font-size:14px; }
+.snd-row > span:not(.snd-ic):not(.snd-label), .snd-choice > span, .snd-link > span { display:grid; gap:2px; flex:1; }
+.snd-row small, .snd-choice small, .snd-link small { font-size:12px; color:#5c5c5c; }
+.snd-ic { display:grid; place-items:center; width:24px; flex:none; }
+.snd-ic svg, .snd-iconbtn svg { width:20px; height:20px; fill:#1b1b1b; }
+.snd-choice { padding-left:56px; cursor:pointer; }
+.snd-choice input { width:18px; height:18px; margin:0; accent-color:#0067c0; }
+.snd-empty { justify-content:flex-start; padding-left:56px; color:#9b1c1c; font-weight:600; }
+.snd-label { min-width:160px; font-size:14px; }
+.snd-row input[type=range] { flex:1; max-width:320px; accent-color:#0067c0; }
+.snd-row input[type=range]:disabled { opacity:.45; }
+.snd-row b { min-width:28px; font-weight:600; text-align:right; }
+.snd-row select { min-width:280px; height:32px; padding:0 8px; border:1px solid #d0d0d0; border-radius:4px; background:#fff; font:inherit; }
+.snd-iconbtn { display:grid; place-items:center; width:34px; height:32px; border:1px solid transparent; border-radius:4px; background:transparent; cursor:pointer; }
+.snd-iconbtn:hover:not(:disabled) { background:#ededed; }
+.snd-iconbtn:disabled { opacity:.4; cursor:default; }
+.snd-iconbtn.is-muted svg { fill:#c42b1c; }
+.snd-link { border-left:1px solid #e5e5e5; text-align:left; font:inherit; cursor:pointer; }
+.snd-link:hover, .snd-choice:hover { background:#f5f5f5; }
+.snd-link img { width:14px; height:14px; opacity:.7; }
+.snd-app img { width:22px; height:22px; }
+.snd-dev .win-button { min-width:112px; }
+
+/* Aula On-line */
+.aula-app { min-height:100%; display:flex; flex-direction:column; gap:12px; padding:14px 16px; background:#1b1f27; color:#f1f5f9; }
+.aula-app > header { display:flex; align-items:center; gap:12px; }
+.aula-app > header strong { font-size:15px; }
+.aula-app > header small { margin-left:auto; color:#94a3b8; }
+.aula-live { padding:2px 8px; border-radius:4px; background:#dc2626; font-size:11px; font-weight:700; letter-spacing:.06em; }
+.aula-stage { flex:1; display:grid; grid-template-columns:1.6fr 1fr; gap:12px; min-height:220px; }
+.aula-tile { position:relative; display:grid; place-items:center; padding:18px; border-radius:12px; background:#2a303b; overflow:hidden; }
+.aula-avatar { position:relative; display:grid; place-items:center; width:110px; height:110px; border-radius:50%; background:linear-gradient(135deg,#f59e0b,#ec4899); font-size:38px; font-weight:800; }
+.aula-avatar::before, .aula-avatar::after { content:""; position:absolute; inset:-8px; border:3px solid #22c55e; border-radius:50%; opacity:0; }
+.is-speaking .aula-avatar::before { animation:aula-ring 1.4s ease-out infinite; }
+.is-speaking .aula-avatar::after { animation:aula-ring 1.4s ease-out .7s infinite; }
+@keyframes aula-ring { from { opacity:.9; transform:scale(.95); } to { opacity:0; transform:scale(1.35); } }
+.aula-name { position:absolute; left:12px; bottom:10px; display:flex; align-items:center; gap:6px; padding:3px 8px; border-radius:6px; background:rgba(0,0,0,.45); font-size:13px; }
+.aula-sound svg { display:block; width:16px; height:16px; fill:#f1f5f9; }
+.aula-caption { position:absolute; left:50%; bottom:46px; width:min(86%,520px); margin:0; padding:8px 12px; border-radius:8px; background:rgba(0,0,0,.6); text-align:center; font-size:14px; transform:translateX(-50%); }
+.aula-caption.is-off { color:#fca5a5; }
+.aula-cam { display:grid; justify-items:center; gap:8px; color:#94a3b8; }
+.aula-cam svg { width:46px; height:46px; fill:#64748b; }
+.aula-meter { position:absolute; right:12px; bottom:12px; display:flex; align-items:flex-end; gap:3px; height:22px; }
+.aula-meter i { width:4px; height:100%; border-radius:2px; background:#475569; transform:scaleY(.2); transform-origin:bottom; }
+.aula-meter.is-live i { background:#22c55e; animation:aula-bar .55s ease-in-out infinite alternate; }
+.aula-meter.is-live i:nth-child(2) { animation-delay:.1s; } .aula-meter.is-live i:nth-child(3) { animation-delay:.2s; } .aula-meter.is-live i:nth-child(4) { animation-delay:.05s; } .aula-meter.is-live i:nth-child(5) { animation-delay:.15s; } .aula-meter.is-live i:nth-child(6) { animation-delay:.25s; }
+@keyframes aula-bar { from { transform:scaleY(.2); } to { transform:scaleY(1); } }
+.aula-results { display:grid; gap:6px; min-height:22px; }
+.aula-result { margin:0; padding:8px 12px; border-radius:8px; font-size:13px; }
+.aula-result.is-ok { background:rgba(34,197,94,.16); color:#86efac; }
+.aula-result.is-bad { background:rgba(239,68,68,.16); color:#fca5a5; }
+.aula-controls { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; }
+.aula-controls .win-button { min-width:150px; }
+
+/* instalador e reinício */
+.dw-app.is-vertex aside { background:linear-gradient(180deg,#1f2937,#374151); }
+.dw-app.is-vertex aside small { display:block; margin-top:2px; font-size:12px; opacity:.8; }
+.aud-restart { position:fixed; inset:0; z-index:100000; display:grid; place-content:center; justify-items:center; gap:22px; background:#000; color:#fff; font:18px "Segoe UI",system-ui,sans-serif; animation:aud-fade .25s ease-out both; }
+.aud-spinner { position:relative; width:48px; height:48px; }
+.aud-spinner i { position:absolute; left:21px; top:0; width:6px; height:6px; border-radius:50%; background:#fff; transform-origin:3px 24px; animation:aud-dot 1.6s cubic-bezier(.5,.1,.5,1) infinite; }
+.aud-spinner i:nth-child(2) { animation-delay:.12s; } .aud-spinner i:nth-child(3) { animation-delay:.24s; } .aud-spinner i:nth-child(4) { animation-delay:.36s; } .aud-spinner i:nth-child(5) { animation-delay:.48s; }
+@keyframes aud-dot { from { transform:rotate(0); opacity:1; } 80% { opacity:1; } to { transform:rotate(360deg); opacity:.2; } }
+@keyframes aud-fade { from { opacity:0; } to { opacity:1; } }
+
+/* site de suporte Vertex: mesma estrutura do site Printix, com as cores da marca */
+.px-site.is-vertex .px-logo { color:#111827; font-style:normal; letter-spacing:.06em; text-transform:uppercase; }
+.px-site.is-vertex .px-top nav strong, .px-site.is-vertex .px-downloads nav strong { color:#b91c1c; box-shadow:inset 0 -3px #b91c1c; }
+.px-site.is-vertex .px-search button, .px-site.is-vertex .px-file > button { background:#b91c1c; }
+.px-site.is-vertex .px-search button:hover, .px-site.is-vertex .px-file > button:hover { background:#7f1d1d; }
+.px-site.is-vertex .px-file strong { color:#111827; }
+.px-site.is-vertex .px-foot { background:#111827; }
+.vx-laptop { width:100%; max-width:170px; height:auto; }
+.vx-laptop.is-big { max-width:280px; }
+.result-favicon.is-vertex { background:#111827; color:#fff; }
+
+@media(min-width:801px) {
+  /* com o robô aberto à direita, a página de Som e as Configurações rápidas ficam livres para clicar */
+  body:has(.learning-assistant:is(.is-audio-lab,.is-drivers-lab):not(.is-collapsed)) .snd-page { max-width:min(980px,calc(100vw - 720px)); }
+  body:has(#quick-panel:not(.is-hidden)) .learning-assistant:is(.is-audio-lab,.is-drivers-lab) { right:auto; left:14px; }
+  .app-window[data-app="audioinstaller"]:not(.is-maximized) { width:min(640px,72vw); height:min(450px,76vh); }
+  .app-window[data-app="aulaonline"]:not(.is-maximized) { width:min(720px,72vw); }
+}
+@media(max-width:700px) { .aula-stage { grid-template-columns:1fr; } .snd-label { min-width:0; } .snd-row { flex-wrap:wrap; } }
+@media(prefers-reduced-motion:reduce) { .is-speaking .aula-avatar::before, .is-speaking .aula-avatar::after, .aula-meter.is-live i, .aud-restart, .aud-spinner i { animation:none; } .aula-meter.is-live i { transform:scaleY(.7); } }

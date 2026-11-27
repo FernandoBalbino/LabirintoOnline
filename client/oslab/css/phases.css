@@ -1,0 +1,46 @@
+/* Trilhas em "fases": todas as missões visíveis de uma vez, sem rolar, e menos texto na tela.
+   Vale para todas as trilhas (o desenho vem de js/ui/learning-path.js). */
+.learning-hero { padding: 12px 24px; gap: 20px; }
+.learning-app-mark { width: 44px; height: 44px; flex-basis: 44px; border-radius: 14px; }
+.learning-app-mark img { width: 26px; height: 26px; }
+.learning-hero h1 { font-size: clamp(20px, 2vw, 26px); }
+.learning-hero p { display: -webkit-box; max-width: 640px; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 1; }
+.learning-stats { min-width: 260px; padding-bottom: 10px; }
+.learning-toolbar { min-height: 40px; padding: 2px 24px; }
+.learning-layout { grid-template-columns: minmax(0, 1fr) minmax(270px, 310px); }
+.learning-trail-scroller { padding: 16px 20px 20px; }
+.learning-trail-scroller > .wifi-finale { margin-bottom: 14px; padding: 14px; }
+.learning-trail-scroller > .wifi-finale img { width: 48px; height: 48px; }
+
+.phase-board { display: flex; flex-wrap: wrap; gap: 12px; align-content: flex-start; }
+.phase-unit { flex: 1 1 auto; min-width: 0; border: 1px solid var(--learning-line, #dce5ee); border-radius: 16px; padding: 10px 12px 12px; background: #fff; }
+.phase-unit h2 { display: flex; align-items: baseline; gap: 8px; margin: 0 0 8px; font-size: 14px; font-weight: 800; color: var(--learning-ink, #172033); }
+.phase-unit h2 span { color: var(--learning-blue, #0f6cbd); font-size: 10px; font-weight: 900; letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
+.phase-unit h2 em { margin-left: auto; color: var(--learning-muted, #5b6b7f); font-size: 11px; font-style: normal; font-weight: 800; }
+.phase-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.phase-tile { position: relative; display: grid; width: 104px; min-width: 0; height: 112px; flex: 1 0 104px; max-width: 150px; grid-template-rows: 52px auto; justify-items: center; align-content: start; gap: 6px; border: 2px solid #d6e3f0; border-radius: 14px; padding: 8px 6px 6px; background: #f7fbff; color: var(--learning-ink, #172033); font: inherit; cursor: pointer; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease; }
+.phase-tile:hover:not(:disabled) { transform: translateY(-2px); border-color: #75a8d4; box-shadow: 0 6px 14px rgba(15, 108, 189, .14); }
+.phase-tile:focus-visible { outline: 3px solid #ffb900; outline-offset: 2px; }
+.phase-num { position: absolute; top: 5px; left: 7px; color: #0f6cbd; font-size: 12px; font-weight: 900; }
+.phase-state { position: absolute; top: 6px; right: 6px; width: 16px; height: 16px; }
+.phase-icon { width: 34px; height: 34px; margin-top: 14px; object-fit: contain; }
+.phase-tile strong { display: -webkit-box; max-width: 100%; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 11.5px; font-weight: 800; line-height: 1.25; text-align: center; }
+.phase-tile.is-available { border-color: #8cbbe3; background: #fff; }
+.phase-tile.is-active { border-color: #0f6cbd; background: #e8f3fd; box-shadow: 0 0 0 3px rgba(15, 108, 189, .18); }
+.phase-tile.is-completed { border-color: #7ccfa0; background: #effaf3; }
+.phase-tile.is-completed .phase-num { color: #16834a; }
+.phase-tile.is-locked { border-style: dashed; background: #f2f4f7; color: #8a96a6; cursor: not-allowed; }
+.phase-tile.is-locked .phase-icon { filter: grayscale(1); opacity: .45; }
+.phase-tile.is-locked .phase-num { color: #8a96a6; }
+.phase-tile.is-selected { border-color: #0f6cbd; box-shadow: 0 0 0 3px rgba(15, 108, 189, .28); }
+
+/* painel da direita: só o essencial (o passo a passo aparece no robô durante a missão) */
+.learning-detail-panel { padding: 18px 18px 24px; }
+.learning-detail-panel :is(.learning-description, .drv-example, .learning-instructions, .learning-hint, .learning-objectives, ul, ol) { display: none; }
+.learning-detail-icon { width: 54px; height: 54px; margin-bottom: 10px; border-radius: 16px; }
+.learning-detail-icon img { width: 30px; height: 30px; }
+.learning-detail-heading h2 { font-size: 20px; }
+.learning-goal { margin: 12px 0; }
+.learning-detail-actions { margin-top: 14px; }
+@media (prefers-reduced-motion: reduce) { .phase-tile { transition: none; } .phase-tile:hover:not(:disabled) { transform: none; } }
+@media (max-width: 900px) { .learning-layout { grid-template-columns: 1fr; } .learning-detail-panel { border-left: 0; border-top: 1px solid var(--learning-line, #dce5ee); } }

@@ -1,0 +1,139 @@
+/* Shared Windows surfaces. Web pages keep their own service styles. */
+@font-face { font-family: "OSLab SettingsIcons"; src: url("../assets/fonts/SettingsIcons-win11React.woff2") format("woff2"); font-display: block; }
+.settings-symbol { display: inline-flex; width: 24px; height: 24px; align-items: center; justify-content: center; flex: 0 0 24px; font-family: "OSLab SettingsIcons"; font-size: 24px; font-style: normal; font-weight: 400; line-height: 1; color: var(--win-text); }
+.settings-row > .settings-symbol { margin-right: 2px; flex: 0 0 24px; }
+:root {
+  color-scheme: light;
+  --win-bg: #f3f3f3;
+  --win-surface: rgba(255, 255, 255, .68);
+  --win-solid: #fff;
+  --win-hover: rgba(0, 0, 0, .04);
+  --win-selected: rgba(0, 0, 0, .055);
+  --win-border: rgba(0, 0, 0, .08);
+  --win-text: #202020;
+  --win-muted: #606060;
+  --win-accent: #0067c0;
+  --win-icon-filter: none;
+  --glass: rgba(243, 243, 243, .87);
+  --glass-strong: rgba(245, 245, 245, .96);
+}
+
+.app-window { color: var(--win-text); background: var(--win-solid); border-color: var(--win-border); }
+.window-titlebar, .app-window:not(.is-focused) .window-titlebar { background: var(--win-bg); color: var(--win-text); }
+.window-toolbar { background: var(--win-bg); border-color: var(--win-border); color: var(--win-text); }
+.window-controls button:hover, .window-toolbar button:hover { background: var(--win-hover); }
+.window-controls .close-control:hover { background: #c42b1c; }
+.window-controls img, .window-toolbar > button img { filter: var(--win-icon-filter); }
+.settings-window .settings-title-search { display: none; }
+.settings-window .window-titlebar, .settings-window .window-content, .settings-shell { color: var(--win-text); background: var(--win-bg); }
+.settings-shell { grid-template-columns: 300px minmax(0, 1fr); }
+.settings-sidebar { padding: 16px 0 10px; }
+.settings-profile { height: 92px; padding: 0 16px 14px; gap: 16px; }
+.settings-profile > img, .settings-profile > span { transform: none; }
+.settings-profile > img { width: 60px; height: 60px; }
+.settings-profile small, .settings-page-heading p, .settings-main small, .accounts-hero p, .account-card small { color: var(--win-muted); }
+.settings-sidebar-search { display: flex; align-items: center; gap: 9px; margin: 8px 16px 20px; height: 32px; padding: 0 8px; border-radius: 4px; border-bottom: 1px solid var(--win-accent); background: var(--win-hover); }
+.settings-sidebar-search img { width: 16px; height: 16px; filter: var(--win-icon-filter); }
+.settings-sidebar-search input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--win-text); font-size: 13px; }
+.settings-nav { height: calc(100% - 152px); padding: 0 16px 12px; }
+.settings-nav-item { height: 36px; margin-bottom: 4px; padding: 0 12px; gap: 11px; }
+.settings-nav-item { font-size: 14px; }
+.detailed-settings-card .detailed-settings-row { font-size: 14px; }
+.settings-nav-item:hover { background: var(--win-hover); }
+.settings-nav-item.is-active { background: var(--win-selected); }
+.settings-nav-item.is-active::before { top: 10px; bottom: 10px; background: var(--win-accent); }
+.settings-nav-item img { width: 16px; height: 16px; flex-basis: 16px; }
+.settings-main { padding: 14px 24px 36px; }
+.settings-main > * { margin-left: 0; margin-right: auto; }
+.settings-page-heading { min-height: 54px; }
+.settings-page-heading h1 { color: var(--win-text); }
+.settings-card, .account-card { background: var(--win-surface); border-color: var(--win-border); color: var(--win-text); }
+.detailed-settings-card { display: grid; gap: 5px; padding: 0; border: 0; background: transparent; overflow: visible; }
+.detailed-settings-card .detailed-settings-row { min-height: 67px; padding: 12px 16px; border: 1px solid var(--win-border); border-radius: 4px; background: var(--win-surface); }
+.detailed-settings-row:hover { background: var(--win-selected); }
+.detailed-settings-row > img:first-child { width: 24px; height: 24px; object-fit: contain; }
+.settings-row strong { font-weight: 500; }
+.settings-row small { font-size: 12px; }
+.settings-main .settings-row strong { color: var(--win-text); }
+.settings-main .settings-row small { color: var(--win-muted); }
+.settings-chevron { filter: var(--win-icon-filter); width: 16px; height: 16px; }
+.settings-page-heading button img { filter: var(--win-icon-filter); }
+.accounts-hero { border: 0; padding: 12px 0; background: transparent; margin-bottom: 8px; border-radius: 0; gap: 16px; }
+.accounts-hero > img { width: 90px; height: 90px; }
+.accounts-hero h2 { font-size: 16px; font-weight: 500; }
+.accounts-hero p { max-width: 290px; line-height: 1.5; }
+.account-card select, .add-user-panel :is(input,select), .uac-body :is(input,select) { color: var(--win-text); background: var(--win-solid); border: 1px solid var(--win-border); border-bottom-color: var(--win-muted); border-radius: 4px; min-height: 34px; padding: 5px 10px; }
+.add-user-panel, .user-home-tile, .security-dialog label { background: var(--win-surface); border-color: var(--win-border); color: var(--win-text); }
+.account-card-actions { border-color: var(--win-border); }
+.win-button { background: var(--win-solid); color: var(--win-text); border-color: var(--win-border); border-bottom-color: var(--win-muted); font-weight: 400; }
+.win-button:hover { background: var(--win-selected); }
+.win-button.is-primary { background: #0067c0; color: white; }
+.uac-dialog { color: var(--win-text); background: var(--win-bg); }
+.oslab-dialog { color: var(--win-text); background: var(--win-bg); border-color: var(--win-border); }
+.oslab-dialog p { color: var(--win-muted); }
+.oslab-dialog footer button { background: var(--win-solid); color: var(--win-text); border-color: var(--win-border); }
+.oslab-dialog footer .is-primary { color: #fff; background: #0067c0; }
+.taskbar { background: var(--glass); color: var(--win-text); border-top-color: var(--win-border); }
+.taskbar :is(.system-tray,.clock-button) { color: var(--win-text); }
+.system-tray img, .quick-slider img { filter: var(--win-icon-filter); }
+.start-menu, .search-panel, .quick-panel, .calendar-panel, .context-menu, .context-submenu, .item-context-menu, .taskbar-context-menu { color: var(--win-text); background: var(--glass-strong); border-color: var(--win-border); }
+.start-menu :is(input,.start-search), .search-panel input, .global-search { background: var(--win-solid); color: var(--win-text); border-color: var(--win-border); }
+.start-menu :is(p,small), .search-panel small, .calendar-panel p { color: var(--win-muted); }
+.start-menu footer, .quick-panel footer { background: var(--win-hover); }
+.start-menu { display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; height: min(620px, calc(100dvh - var(--taskbar-height) - 24px)); min-height: 0; max-height: calc(100dvh - var(--taskbar-height) - 24px); padding: 0; overflow: hidden; }
+.start-menu .start-search { margin: 28px 32px 0; flex-shrink: 0; }
+.start-menu .start-section-heading { margin: 22px 48px 14px; }
+.start-menu .start-apps { overflow: auto; min-height: 0; align-content: start; padding: 0 28px 18px; gap: 8px; }
+.start-menu .start-footer { position: static; display: grid; grid-template-columns: minmax(0, 1fr) minmax(100px, 154px) 40px; gap: 12px; width: 100%; height: auto; min-height: 65px; padding: 10px 28px; border-color: var(--win-border); }
+.start-footer .profile-button { min-width: 0; max-width: 100%; text-align: left; }
+.start-footer .profile-button img { flex: 0 0 30px; }
+.start-footer .profile-button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.power-button img, .start-search img { filter: var(--win-icon-filter); }
+.profile-menu { z-index: 160; overflow-y: auto; background: var(--glass-strong); color: var(--win-text); border-color: var(--win-border); }
+.profile-menu button { color: var(--win-text); }
+.profile-menu button:hover { background: var(--win-hover); }
+.profile-menu i { background: var(--win-border); }
+.start-footer .profile-button:hover, .power-button:hover { background: var(--win-hover); }
+@media (max-width: 420px) { .start-menu .start-footer { padding: 10px 14px; gap: 8px; grid-template-columns: minmax(0, 1fr) 112px 36px; } .start-menu .start-search { margin: 18px 18px 0; } .start-menu .start-apps { padding: 0 12px 14px; } }
+.context-menu button:hover, .context-submenu button:hover, .item-context-menu button:hover, .taskbar-context-menu button:hover { background: var(--win-hover); }
+.quick-panel .quick-slider img, .quick-panel .battery-status img { filter: brightness(0); }
+.learning-instructions { margin: 12px 0; }
+.learning-instructions h3 { margin: 0 0 8px; font-size: 13px; }
+.learning-instructions ol { display: grid; gap: 8px; margin: 0; padding-left: 22px; }
+.learning-instructions li { position: relative; padding: 8px 10px; border-radius: 8px; color: var(--learning-muted); line-height: 1.55; font-size: 12px; }
+.learning-instructions li::marker { font-weight: 800; color: var(--learning-blue); }
+.learning-instructions li.is-current { color: var(--learning-ink); background: var(--learning-blue-soft); }
+.learning-instructions li.is-done { color: var(--learning-green); padding-right: 30px; }
+.learning-instructions li > img { position: absolute; right: 5px; top: 10px; width: 18px; height: 18px; }
+.learning-assistant.is-users-permissions { position: fixed; z-index: 96; }
+.learning-assistant.is-users-permissions.is-collapsed { pointer-events: none; }
+.learning-assistant.is-users-permissions.is-collapsed header button { pointer-events: auto; }
+.learning-assistant.is-users-permissions .assistant-body { max-height: calc(min(610px, 66vh) - 88px); }
+.userspermissions-window .window-content { background: var(--learning-bg); }
+.users-learning-hero { background: linear-gradient(125deg, var(--learning-blue-soft), var(--learning-surface) 52%, var(--learning-bg)); color: var(--learning-ink); }
+.users-detail .learning-detail-icon img { width: 48px; height: 48px; }
+.word-draft-label { display: grid; gap: 8px; width: 100%; color: #333; font-size: 14px; }
+.word-draft-label textarea { width: 100%; min-height: 200px; resize: vertical; padding: 12px; border: 1px solid #d5d5d5; border-radius: 4px; font: inherit; background: white; color: #222; }
+.word-page [data-word-save] { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+.word-page [data-word-save] img { width: 18px; height: 18px; filter: brightness(0) invert(1); }
+.account-card > :is(strong,small) { display: block; padding: 10px 16px; }
+@media (max-width: 900px) {
+  .settings-shell { grid-template-columns: 220px minmax(0, 1fr); }
+  .settings-profile { gap: 10px; }
+  .settings-profile > img { width: 44px; height: 44px; }
+  .settings-main { padding: 14px 16px 28px; }
+}
+@media (max-width: 620px) {
+  .settings-shell { grid-template-columns: 56px minmax(0, 1fr); }
+  .settings-profile, .settings-sidebar-search { display: none; }
+  .settings-nav { height: 100%; padding: 4px; }
+  .settings-nav-item { padding: 0; justify-content: center; }
+  .settings-nav-item span { display: none; }
+  .settings-nav-item img { width: 20px; height: 20px; }
+  .accounts-hero > img { width: 60px; height: 60px; }
+  .learning-assistant.is-users-permissions { right: 8px; bottom: calc(var(--taskbar-height) + 8px); max-height: 65vh; }
+}
+.profile-menu button > span { min-width: 0; }
+.profile-menu strong, .profile-menu small { display: block; }
+.profile-menu small { margin-top: 3px; color: var(--win-muted); }
+.settings-accent-preview { display: block; width: 56px; height: 32px; border-radius: 4px; background: #0067c0; }

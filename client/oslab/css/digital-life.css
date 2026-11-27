@@ -1,0 +1,452 @@
+@font-face{font-family:DLRoboto;src:url(../assets/digital/gmail/roboto-bold.woff2) format("woff2");font-weight:700 900;font-display:swap}
+@font-face{font-family:DLRoboto;src:url(../assets/digital/gmail/roboto.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:NetflixSans;src:url(../assets/digital/netflix/NetflixSans-Rg.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:NetflixSans;src:url(../assets/digital/netflix/NetflixSans-Md.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:NetflixSans;src:url(../assets/digital/netflix/NetflixSans-Bd.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:NetflixSans;src:url(../assets/digital/netflix/NetflixSans-Blk.woff2) format("woff2");font-weight:900;font-display:swap}
+.dl-site{--accent:#1a73e8;--surface:#fff;--ink:#202124;container-type:inline-size;min-height:100%;background:var(--surface);color:var(--ink);font:14px/1.5 DLRoboto,Arial,sans-serif;overflow-wrap:anywhere}
+.dl-site *{box-sizing:border-box}
+.dl-site h1,.dl-site h2,.dl-site p{margin:0 0 18px}
+.dl-site h1{font-size:32px;line-height:1.22;font-weight:500;letter-spacing:-.6px}
+.dl-site h2{font-size:21px}
+.dl-site main,.dl-site aside,.dl-site form,.dl-site header{min-width:0}
+.dl-site button{min-height:40px;padding:9px 17px;background:transparent;border:0;border-radius:6px;color:inherit;font:inherit;cursor:pointer}
+.dl-site button:hover{background:color-mix(in srgb,currentColor 10%,transparent)}
+.dl-site button:disabled{opacity:.5;cursor:wait}
+.dl-site :is(button,input,select,[tabindex]):focus-visible{outline:3px solid #69a5ff;outline-offset:3px}
+.dl-site input,.dl-site select{min-width:0;max-width:100%;font:inherit;color:inherit}
+.dl-site .dl-primary{background:var(--accent);color:#fff;font-weight:700;border:1px solid transparent}
+.dl-site .dl-primary:hover{filter:brightness(1.12)}
+.dl-brand{display:inline-flex;align-items:center;gap:8px;font-size:25px;font-weight:700;white-space:nowrap}
+.dl-google-word{font-size:32px;letter-spacing:-1.5px}
+.dl-google-word i{font-style:normal;color:#4285f4}
+.dl-google-word i:nth-child(2),.dl-google-word i:nth-child(6){color:#ea4335}
+.dl-google-word i:nth-child(3){color:#fbbc05}
+.dl-google-word i:nth-child(5){color:#34a853}
+.dl-ms-grid{width:22px;height:22px;background:conic-gradient(#7fba00 0 25%,#ffb900 0 50%,#00a4ef 0 75%,#f25022 0);position:relative}
+.dl-ms-grid:before,.dl-ms-grid:after{content:"";position:absolute;background:white}
+.dl-ms-grid:before{width:2px;height:100%;left:10px}.dl-ms-grid:after{height:2px;width:100%;top:10px}
+.dl-auth-stage{min-height:560px;padding:60px 36px 30px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dl-auth-card{width:min(100%,1000px);padding:36px;display:grid;grid-template-columns:1fr 1fr;gap:44px;border-radius:28px;background:#1f1f1f;color:#e3e3e3}
+.dl-auth-heading .dl-brand{margin-bottom:24px}
+.dl-auth-heading h1{font-size:38px;font-weight:400;max-width:440px}
+.dl-auth-heading p{font-size:16px}
+.dl-auth-body{padding-top:60px;position:relative}
+.dl-field{display:block;position:relative;margin-bottom:18px;color:inherit;text-align:left}
+.dl-field>span{display:block;margin:0 0 6px;font-size:13px}
+.dl-field input,.dl-field select{width:100%;height:52px;padding:12px 14px;border:1px solid #8e918f;border-radius:4px;background:transparent;color:inherit}
+.dl-field input:focus,.dl-field select:focus{border-color:var(--accent)}
+.dl-field select option{color:#202124;background:#fff}
+.dl-check{display:flex;gap:10px;align-items:center;margin:14px 0;font-size:14px}
+.dl-check input{width:18px;height:18px;accent-color:var(--accent)}
+.dl-form-actions{display:flex;align-items:center;justify-content:flex-end;gap:14px;margin-top:26px;flex-wrap:wrap}
+.dl-date{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:10px}
+.dl-error{color:#c93434;font-size:14px;margin:12px 0!important}
+.dl-error:empty{display:none}
+.dl-note{font-size:13px;color:inherit;opacity:.8}
+.dl-auth-footer{width:min(100%,960px);display:flex;justify-content:space-between;gap:20px;font-size:11px;margin-top:24px}
+.dl-gmail .dl-auth-stage{--accent:#a8c7fa;background:#2c2d2d;color:#e3e3e3}
+.dl-gmail .dl-auth-card .dl-primary{border-radius:25px;color:#062e6f;padding-inline:26px}
+.dl-gmail .dl-auth-card .dl-error{color:#ffb4ab}
+.dl-create-menu{background:#3c4043;box-shadow:0 10px 26px #0006;border-radius:14px;position:absolute;z-index:4;right:80px;bottom:45px;overflow:hidden}
+.dl-create-menu button{display:block;width:100%;text-align:left;padding:14px 18px}
+.dl-outlook{--accent:#0067b8}
+.dl-outlook .dl-auth-stage{background:radial-gradient(ellipse at 15% 30%,#f7dfdb,transparent 50%),radial-gradient(ellipse at 85% 20%,#dff1ed,transparent 50%),#eef2f8}
+.dl-outlook .dl-auth-card{width:450px;max-width:100%;display:block;padding:38px 44px;border-radius:0;background:#fff;color:#1b1b1b;box-shadow:0 2px 6px #0003}
+.dl-outlook .dl-auth-heading h1{font-size:26px;font-weight:600}
+.dl-outlook .dl-auth-heading .dl-brand{font-size:21px;color:#666;margin-bottom:24px}
+.dl-outlook .dl-auth-body{padding-top:0}
+.dl-outlook .dl-field input{border:0;border-bottom:1px solid #666;border-radius:0;padding-inline:0}
+.dl-outlook .dl-primary{border-radius:0;min-width:105px}
+.dl-yahoo{--accent:#6001d2}
+.dl-yahoo .dl-auth-stage{background:#f5f8ff}
+.dl-yahoo .dl-auth-card{display:block;width:440px;max-width:100%;border-radius:0;background:white;color:#232a31;box-shadow:0 3px 18px #d8deee}
+.dl-yahoo .dl-auth-heading{text-align:center}
+.dl-yahoo .dl-brand{color:#6001d2;font-size:40px;letter-spacing:-2px}
+.dl-yahoo .dl-auth-heading h1{font-size:25px;font-weight:700}
+.dl-yahoo .dl-auth-body{padding:0}
+.dl-yahoo .dl-form-actions{display:block}.dl-yahoo .dl-form-actions button{width:100%;border-radius:24px;margin-bottom:8px}
+.dl-netflix{--accent:#e50914;--surface:#141414;--ink:#fff}
+.dl-netflix .dl-brand{color:#e50914;font-family:Arial,sans-serif;font-weight:900;font-size:31px;letter-spacing:-1px}
+.dl-netflix .dl-auth-stage{background:linear-gradient(#0009,#000c),url(../assets/digital/photos/325188.jpg) center/cover;min-height:650px}
+.dl-netflix .dl-auth-card{display:block;background:#000b;width:450px;max-width:100%;padding:42px 58px;border-radius:4px;color:#fff}
+.dl-netflix .dl-auth-heading h1{font-size:32px;font-weight:700}
+.dl-netflix .dl-auth-heading p{font-size:14px;color:#ccc}
+.dl-netflix .dl-auth-body{padding:0}
+.dl-netflix .dl-form-actions{display:flex;flex-direction:column}
+.dl-netflix .dl-form-actions button{width:100%}
+.dl-netflix .dl-error,.dl-spotify .dl-error{color:#ffb4ab}
+.dl-netflix .dl-field input{background:#161616c0;border-color:#808080;height:56px}
+.dl-netflix-header{display:flex;align-items:center;gap:18px;padding:14px 4%;background:#141414;min-height:74px}
+.dl-netflix-header>.dl-primary,.dl-netflix-header>.dl-media-search{margin-left:auto}
+.dl-netflix-header .dl-media-search{max-width:300px}
+.dl-netflix-landing{min-height:500px;padding:100px 6% 70px;background:linear-gradient(90deg,#000c,#0004),var(--hero) center/cover}
+.dl-netflix-landing h1{font-size:52px;font-weight:800;letter-spacing:-1.6px}
+.dl-netflix-landing p{max-width:520px;font-size:18px}
+.dl-netflix-landing .dl-primary{font-size:22px;padding:12px 28px}
+.dl-netflix-landing small{display:block;margin-top:20px;color:#ddd}
+.dl-kicker{display:block;font-size:12px;letter-spacing:3px;font-weight:700;margin-bottom:18px}
+.dl-netflix-setup{max-width:860px;margin:auto;padding:34px 30px 65px}
+.dl-netflix-setup>small,.dl-profiles>small{font-size:11px;letter-spacing:2px;color:#aaa}
+.dl-netflix-setup h1{margin-top:10px}
+.dl-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:32px}
+.dl-plans button{display:flex;flex-direction:column;align-items:flex-start;gap:24px;padding:24px;border:1px solid #666;background:linear-gradient(150deg,#661534,#252344);border-radius:16px;min-height:255px;text-align:left}
+.dl-plans strong{font-size:24px}.dl-plans b{font-size:26px}.dl-plans small{color:#ccc}
+.dl-demo-card{background:linear-gradient(140deg,#dd1b33,#421442);width:300px;max-width:100%;padding:22px;border-radius:14px;display:grid;gap:22px;margin:24px 0}
+.dl-demo-card>span{font-size:11px;letter-spacing:2px}
+.dl-demo-card strong{font-size:23px}
+.dl-netflix-setup form{max-width:460px}
+.dl-payment-progress{padding:30px;background:#222;border-radius:10px;animation:dl-pulse .8s alternate infinite}
+@keyframes dl-pulse{to{opacity:.4}}
+.dl-payment-success{padding:22px;background:#173d29;border-radius:10px}
+.dl-profiles{padding:70px 25px;min-height:470px;text-align:center}
+.dl-profiles h1{font-size:42px;margin:20px 0 34px}
+.dl-profiles form{max-width:350px;margin:auto}
+.dl-profile-tile{display:inline-flex;flex-direction:column;gap:12px;color:#aaa!important;font-size:20px!important}
+.dl-profile-tile img{width:144px;height:144px;object-fit:cover;border-radius:4px}
+.dl-profile-tile:hover img{outline:3px solid white}
+.dl-netflix-hero{padding:55px 5% 55px;min-height:400px;background:linear-gradient(0deg,#141414,transparent 40%),linear-gradient(90deg,#000b,transparent 85%),var(--hero) center/cover}
+.dl-netflix-hero h1{font-size:58px;font-weight:900;line-height:.97;letter-spacing:-1.5px}
+.dl-netflix-hero p{max-width:430px;font-size:16px;color:#eee}
+.dl-netflix .dl-light-button{background:white;color:#141414;font-weight:700;font-size:17px;padding:11px 28px}
+.dl-netflix-catalog{padding:8px 4% 50px}
+.dl-chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 26px}
+.dl-chips button{border:1px solid #ffffff40;min-height:34px;padding:5px 15px;border-radius:18px}
+.dl-chips .is-selected{background:var(--ink);color:var(--surface)}
+.dl-media-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px 16px}
+.dl-site .dl-media-card{display:flex;flex-direction:column;gap:6px;align-items:stretch;padding:0;border-radius:8px;text-align:left;min-width:0;overflow:hidden}
+.dl-media-card>strong{font-size:15px;line-height:1.4;padding-top:5px}
+.dl-media-card>span:last-child{color:#8e8e8e;font-size:12px}
+.dl-thumbnail{position:relative;overflow:hidden;border-radius:8px}
+.dl-thumbnail img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;transition:transform .2s}
+.dl-media-card:hover img{transform:scale(1.045)}
+.dl-thumbnail small{position:absolute;bottom:7px;right:7px;background:#000b;color:#fff;border-radius:4px;font-size:11px;padding:2px 6px}
+.dl-media-search{display:flex;align-items:center;border:1px solid #777;border-radius:4px;min-width:120px;flex:1}
+.dl-media-search input{border:0;outline:none;background:transparent;padding:10px 14px;width:100%;color:inherit}
+.dl-media-search button{padding:7px 16px;border-left:1px solid #777;border-radius:0;font-size:22px}
+.dl-netflix-watch{padding:25px 5% 55px;max-width:1150px;margin:auto}
+.dl-player{position:relative;border-radius:12px;overflow:hidden;background:#000;aspect-ratio:16/9;color:#fff;margin-bottom:18px}
+.dl-player>img{width:100%;height:100%;object-fit:cover;opacity:.7}
+.dl-player-caption{position:absolute;inset:0;padding:6%;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(90deg,#0008,transparent)}
+.dl-player-caption span{letter-spacing:3px;font-size:10px}
+.dl-player-caption strong{font-size:clamp(22px,4cqw,42px);line-height:1.1;margin:12px 0;max-width:75%}
+.dl-player-caption p{font-size:13px}
+.dl-player-controls{display:flex;gap:10px;align-items:center;position:absolute;inset:auto 0 0;padding:12px;background:#000c}
+.dl-player-controls button{white-space:nowrap;min-height:36px;padding:5px 10px}
+.dl-player-controls progress{width:100%;min-width:35px;accent-color:#e50914;height:6px}
+.dl-player-controls output{font-size:11px;white-space:nowrap}
+.dl-watch h1{font-size:23px;letter-spacing:0}
+.dl-watch-meta{display:flex;justify-content:space-between;gap:20px;font-size:13px;margin-bottom:18px}
+.dl-description{padding:18px;border-radius:10px;background:#ffffff13;font-size:14px}
+.dl-yt-mark{background:#f03;color:white;font-size:16px;padding:0 8px;border-radius:8px}
+.dl-youtube{--surface:#fff;--ink:#0f0f0f}
+.dl-youtube .dl-brand{font-family:Arial,sans-serif;font-size:24px;letter-spacing:-1px}
+.dl-youtube-header{display:flex;gap:16px;align-items:center;padding:9px 24px}
+.dl-youtube-header .dl-media-search{max-width:530px;margin:0 auto;border-radius:30px;border-color:#ccc;overflow:hidden}
+.dl-youtube-header .dl-media-search button{background:#f8f8f8;border-color:#ccc;min-width:58px}
+.dl-youtube .dl-outline{border:1px solid #ddd;color:#065fd4;border-radius:25px}
+.dl-youtube-layout{display:grid;grid-template-columns:205px 1fr}
+.dl-youtube-layout main{padding:12px 28px 50px}
+.dl-youtube-sidebar{padding:12px;display:flex;flex-direction:column;gap:8px}
+.dl-youtube-sidebar button{text-align:left;padding:10px 18px;white-space:nowrap}
+.dl-youtube-sidebar .is-selected{background:#f2f2f2}
+.dl-youtube-sidebar p,.dl-youtube-sidebar small{font-size:13px;padding:10px;color:#555}
+.dl-youtube-sidebar hr{border:0;border-top:1px solid #ddd;width:100%}
+.dl-youtube .dl-chips button{border:0;background:#f2f2f2;border-radius:7px;font-weight:700}
+.dl-youtube .dl-chips .is-selected{background:#0f0f0f;color:white}
+.dl-youtube .dl-media-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:32px 20px}
+.dl-youtube .dl-media-card>strong{font-size:15px}
+.dl-youtube .dl-media-card>span:last-child{color:#606060}
+.dl-avatar{border-radius:50%!important;background:#7b1fa2!important;color:#fff!important;min-width:38px;font-size:17px!important}
+.dl-youtube-watch{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:22px;padding:22px 30px 40px}
+.dl-youtube-watch .dl-description{background:#f2f2f2}
+.dl-suggestions{display:grid;gap:18px;align-content:start}
+.dl-suggestions h2{font-size:18px}
+.dl-youtube-profile{text-align:center;padding:65px 25px}
+.dl-youtube-profile>.dl-avatar{display:inline-grid;place-items:center;width:90px;height:90px;font-size:35px!important;margin-bottom:22px}
+.dl-youtube-profile button{margin:20px 8px}
+.dl-youtube .dl-auth-card,.dl-drive .dl-auth-card{background:#1f1f1f}
+.dl-youtube .dl-auth-stage,.dl-drive .dl-auth-stage{background:#2c2d2d;color:#fff}
+.dl-mail{background:#f6f8fc;color:#202124;min-height:570px}
+.dl-mail>header{display:flex;align-items:center;gap:22px;padding:12px 22px;min-height:68px}
+.dl-mail-menu{font-size:20px}
+.dl-gmail-logo{width:109px;height:40px;object-fit:contain}
+.dl-mail>header form{display:flex;align-items:center;flex:1;max-width:630px;margin-left:32px;border-radius:24px;background:#eaf1fb;padding:0 10px}
+.dl-mail>header form>input{flex:1;border:0;background:transparent;width:100%;padding:12px;font-size:15px}
+.dl-mail>header .dl-form-actions{margin:0}
+.dl-mail>header .dl-primary{background:transparent;color:#555}
+.dl-mail>header .dl-error{display:none}
+.dl-mail-layout{display:grid;grid-template-columns:235px 1fr;padding:0 16px 26px 0}
+.dl-mail-layout>aside{display:flex;align-items:stretch;flex-direction:column;padding:12px 15px 20px 0;font-size:14px}
+.dl-mail-layout>aside>button{text-align:left}
+.dl-mail .dl-compose{background:#c2e7ff;margin:0 20px 20px 16px;padding:18px;border-radius:16px;font-weight:bold}
+.dl-mail-layout .is-selected{background:#d3e3fd;border-radius:0 22px 22px 0;padding-left:22px}
+.dl-mail-layout>aside small,.dl-mail-layout>aside p{padding:20px 20px 0;margin:0;color:#5f6368;font-size:12px}
+.dl-mail-layout>main{background:#fff;border-radius:18px;min-height:440px;overflow:hidden}
+.dl-mail-tools{display:flex;align-items:center;gap:18px;padding:12px 20px;color:#5f6368;font-size:12px}
+.dl-mail-tools>span{margin-left:auto}
+.dl-mail-tab{color:#0b57d0;border-bottom:3px solid #0b57d0;max-width:230px;padding:15px 25px;font-weight:700}
+.dl-site .dl-mail-row{display:grid;grid-template-columns:20px minmax(110px,180px) 1fr 35px;align-items:center;width:100%;gap:12px;border-radius:0;border-bottom:1px solid #eceff1;padding:14px 20px;font-size:13px;text-align:left;background:#f2f6fc}
+.dl-mail-row.is-unread{background:#fff;font-weight:bold}
+.dl-mail-row:hover{box-shadow:0 1px 4px #0002}
+.dl-mail-star{font-size:21px;color:#8b8b8b}
+.dl-message{padding:24px 30px}
+.dl-message h1{font-size:25px;margin:24px 0}
+.dl-message small{color:#666}
+.dl-message-body{padding:24px 0;white-space:pre-wrap;user-select:text;font-size:16px;line-height:1.8}
+.dl-code{font-size:38px;font-family:monospace;letter-spacing:8px;user-select:all}
+.dl-message button{color:#0b57d0}
+.dl-mail-outlook>header{background:#0078d4;color:white}
+.dl-mail-outlook>header .dl-brand{font-size:25px}
+.dl-mail-outlook>header form{border-radius:3px;background:#fff;color:#333}
+.dl-mail-outlook .dl-compose{background:#0078d4;color:#fff;border-radius:3px}
+.dl-mail-outlook .dl-mail-layout>main{border-radius:0}
+.dl-mail-yahoo>header{background:#6001d2;color:white}
+.dl-mail-yahoo .dl-brand{color:white;font-size:29px}
+.dl-mail-yahoo .dl-compose{background:#6001d2;color:white;border-radius:25px}
+.dl-mail-yahoo>header form{background:#fff;color:#333}
+.dl-mail-yahoo .is-selected{background:#eadcff;color:#6001d2}
+.dl-mail-yahoo .dl-mail-tab{color:#6001d2;border-color:#6001d2}
+.dl-spotify{--accent:#1ed760;--surface:#121212;--ink:#fff}
+.dl-spotify .dl-primary{color:#121212;border-radius:28px}
+.dl-spotify-welcome{padding:70px 8%;min-height:530px;background:radial-gradient(at top right,#285941,transparent 60%),#121212}
+.dl-spotify-welcome h1{font-size:56px;font-weight:800;margin:36px 0 20px}
+.dl-spotify-welcome button{margin:15px 10px 15px 0}
+.dl-spotify .dl-outline{border:1px solid #aaa;border-radius:25px}
+.dl-spotify .dl-auth-stage{background:linear-gradient(#292929,#121212);color:#fff}
+.dl-spotify .dl-auth-card{display:block;background:#121212;width:580px;max-width:100%;padding:35px 75px;text-align:center;border-radius:8px}
+.dl-spotify .dl-auth-heading h1{font-size:35px;font-weight:800}
+.dl-spotify .dl-auth-body{padding:0}
+.dl-spotify .dl-form-actions{flex-direction:column}
+.dl-spotify .dl-form-actions button{width:100%}
+.dl-spotify-header{display:flex;align-items:center;gap:24px;padding:16px 24px;background:#000}
+.dl-spotify-header .dl-media-search{border-radius:26px;border-color:#555;max-width:430px;margin:auto}
+.dl-spotify-layout{display:grid;grid-template-columns:220px 1fr;gap:8px;padding:8px}
+.dl-spotify-layout>aside{background:#181818;border-radius:8px;padding:22px 14px;color:#b3b3b3}
+.dl-spotify-layout>aside h2{font-size:18px;color:#fff}
+.dl-spotify-layout>aside button{display:block;text-align:left;margin-bottom:10px}
+.dl-spotify-layout>aside p{font-size:12px;padding:12px}
+.dl-spotify-layout>main{background:linear-gradient(#244139,#181818 340px);border-radius:8px;padding:25px;min-height:500px}
+.dl-spotify .dl-media-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.dl-spotify .dl-media-grid>article{background:#ffffff08;padding:12px;border-radius:10px;min-width:0}
+.dl-spotify .dl-thumbnail img{aspect-ratio:1;object-fit:cover}
+.dl-spotify .dl-favorite{color:#1ed760;font-size:13px;padding:9px 2px}
+.dl-discord{--accent:#5865f2;--surface:#313338;--ink:#f2f3f5}
+.dl-discord-welcome{background:radial-gradient(ellipse at bottom right,#959eff,#404eed);min-height:540px;padding:65px 7%}
+.dl-discord-welcome h1{font-size:58px;font-weight:900;letter-spacing:-1px;margin:32px 0 22px}
+.dl-discord-welcome .dl-primary{background:#fff;color:#313338;margin-right:18px;border-radius:24px}
+.dl-discord .dl-auth-stage{background:radial-gradient(at bottom right,#9da4ff,#5865f2)}
+.dl-discord .dl-auth-card{display:block;width:500px;max-width:100%;background:#313338;border-radius:5px;padding:32px}
+.dl-discord .dl-auth-heading{text-align:center}
+.dl-discord .dl-auth-heading h1{font-size:26px;font-weight:700}
+.dl-discord .dl-auth-heading .dl-brand{margin-bottom:20px}
+.dl-discord .dl-auth-body{padding:0}
+.dl-discord .dl-field input,.dl-discord .dl-field select{background:#1e1f22;border:0}
+.dl-discord .dl-form-actions{flex-direction:column}.dl-discord .dl-form-actions button{width:100%}
+.dl-discord-layout{display:grid;grid-template-columns:64px 215px 1fr;min-height:560px}
+.dl-discord-servers{background:#1e1f22;display:flex;flex-direction:column;gap:18px;align-items:center;padding-top:18px}
+.dl-discord-servers span{display:grid;place-items:center;width:42px;height:42px;border-radius:15px;background:#5865f2;font-weight:bold}
+.dl-discord-channels{background:#2b2d31;padding:18px 12px;display:flex;flex-direction:column}
+.dl-discord-channels h2{font-size:16px}
+.dl-discord-channels p{color:#80848e;padding:13px;font-size:13px}
+.dl-discord-channels footer{margin-top:auto;background:#232428;padding:10px}
+.dl-discord-layout>main{padding:0 28px 40px}
+.dl-discord-layout>main header{padding:16px 0;border-bottom:1px solid #222;margin-bottom:30px}
+.dl-discord-layout h1{font-size:28px;font-weight:800}
+.dl-discord-layout form{max-width:460px}
+.dl-community-message{border-left:3px solid #5865f2;padding:20px;background:#383b43;margin-top:24px}
+.dl-drive{--surface:#f8fafd;--ink:#1f1f1f;--accent:#0b57d0}
+.dl-drive-header{display:flex;align-items:center;gap:28px;padding:20px 28px}
+.dl-drive-header>span:nth-child(2){margin-left:auto;color:#555;font-size:13px}
+.dl-drive-layout{display:grid;grid-template-columns:210px 1fr;padding:10px 22px 35px 0;min-height:520px}
+.dl-drive-layout>aside{padding:10px 20px;display:flex;flex-direction:column;gap:20px}
+.dl-drive-new{padding:17px 25px;background:white;box-shadow:0 2px 5px #0002;border-radius:18px;align-self:flex-start}
+.dl-drive-layout>aside p{font-size:12px;color:#555}
+.dl-drive-layout>main{background:#fff;border-radius:20px;padding:28px}
+.dl-drive-layout form{display:flex;gap:16px;align-items:center;flex-wrap:wrap;max-width:580px}
+.dl-drive-layout form .dl-field{flex:1;min-width:160px}
+.dl-drive-layout .dl-form-actions{margin:8px 0 0}
+.dl-folder-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-top:25px}
+.dl-folder{display:flex;gap:14px;align-items:center;background:#eef3f9;padding:20px;border-radius:10px;font-size:14px}
+.dl-empty{padding:70px 30px;text-align:center}
+.dl-google-search{background:#fff;color:#202124;min-height:100%}
+.dl-trail-detail{overflow:auto}
+.dl-trail-detail .learning-detail-actions{flex-wrap:wrap}
+.dl-trail-summary{padding:28px;background:#ecf7f1;border-radius:18px;color:#174d39;margin:20px}
+.dl-trail-summary h2{font-size:26px}
+.dl-trail-page .learning-toolbar>span{font-size:13px}
+.learning-assistant.is-digital-life .assistant-checklist{max-height:150px;overflow:auto}
+@container (max-width:900px){
+ .dl-auth-stage{padding:30px 22px;min-height:490px}
+ .dl-auth-card{gap:25px;padding:28px}
+ .dl-auth-heading h1{font-size:31px}
+ .dl-auth-body{padding-top:45px}
+ .dl-youtube-layout{grid-template-columns:150px 1fr}
+ .dl-youtube-layout main{padding:12px 16px 35px}
+ .dl-youtube-sidebar{padding:10px 4px}
+ .dl-youtube-sidebar button{padding:8px}
+ .dl-youtube .dl-media-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .dl-youtube-watch{grid-template-columns:minmax(0,1fr) 200px;padding:20px 16px;gap:16px}
+ .dl-youtube-header{padding:9px 14px;gap:12px}
+ .dl-media-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .dl-mail-layout{grid-template-columns:180px 1fr}
+ .dl-mail>header{gap:12px;padding:12px}
+ .dl-mail>header form{margin-left:0}
+ .dl-site .dl-mail-row{grid-template-columns:18px minmax(90px,120px) 1fr;gap:8px;padding:12px}
+ .dl-mail-row small{display:none}
+ .dl-netflix-header{gap:8px;padding:12px 20px}
+ .dl-netflix-header .dl-brand{font-size:26px}
+ .dl-netflix-header>button{padding:7px 10px}
+ .dl-spotify-layout{grid-template-columns:170px 1fr}
+ .dl-spotify-layout>main{padding:20px}
+ .dl-spotify .dl-media-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .dl-discord-layout{grid-template-columns:50px 160px 1fr}
+ .dl-discord-layout>main{padding:0 20px 30px}
+}
+@container (max-width:620px){
+ .dl-auth-card{display:block;border-radius:20px}.dl-auth-body{padding-top:20px}
+ .dl-auth-heading h1{font-size:28px}.dl-auth-heading .dl-brand{margin-bottom:15px}
+ .dl-auth-footer{flex-wrap:wrap}
+ .dl-netflix .dl-auth-card,.dl-spotify .dl-auth-card{padding:28px}
+ .dl-netflix-header{flex-wrap:wrap}.dl-netflix-header .dl-media-search{order:5;flex-basis:100%;max-width:none}
+ .dl-netflix-landing{padding:60px 30px}.dl-netflix-landing h1{font-size:38px}
+ .dl-netflix-hero h1{font-size:42px}.dl-netflix-hero{padding:45px 25px}
+ .dl-media-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .dl-plans{grid-template-columns:1fr}.dl-plans button{min-height:140px;gap:10px}
+ .dl-youtube-layout{grid-template-columns:1fr}.dl-youtube-sidebar{display:none}
+ .dl-youtube-header{flex-wrap:wrap}.dl-youtube-header .dl-media-search{order:5;flex-basis:100%;max-width:none}
+ .dl-youtube-watch{grid-template-columns:1fr}.dl-suggestions{grid-template-columns:1fr 1fr}.dl-suggestions h2{grid-column:1/-1}
+ .dl-player-controls{padding:6px;gap:4px}.dl-player-controls button{font-size:11px}.dl-player-controls output{font-size:9px}
+ .dl-mail-layout{grid-template-columns:1fr;padding:0 10px 20px}.dl-mail-layout>aside{display:none}
+ .dl-mail>header{flex-wrap:wrap}.dl-mail>header form{order:5;flex-basis:100%;max-width:none}
+ .dl-message{padding:20px}.dl-message h1{font-size:23px}
+ .dl-spotify-header{flex-wrap:wrap;gap:15px}.dl-spotify-header .dl-media-search{order:5;flex-basis:100%;max-width:none}
+ .dl-spotify-layout{grid-template-columns:1fr}.dl-spotify-layout>aside{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px}
+ .dl-spotify-layout>aside h2,.dl-spotify-layout>aside p{display:none}.dl-spotify-layout>aside button{margin:0}
+ .dl-spotify-welcome h1,.dl-discord-welcome h1{font-size:40px}
+ .dl-discord-layout{grid-template-columns:48px 1fr}.dl-discord-channels{grid-column:2;flex-direction:row;flex-wrap:wrap;gap:10px}.dl-discord-channels p{display:none}
+ .dl-discord-layout>main{grid-column:2}.dl-discord-servers{grid-row:1/3}
+ .dl-drive-layout{grid-template-columns:1fr;padding:10px}.dl-drive-layout>aside{display:none}
+ .dl-drive-header{flex-wrap:wrap;gap:12px;padding:15px}.dl-drive-header>span:nth-child(2){font-size:11px}
+ .dl-folder-grid{grid-template-columns:1fr 1fr}
+}
+@media(prefers-reduced-motion:reduce){.dl-site *{animation:none!important;transition:none!important}}
+
+.learning-assistant.is-digital-life:not(.is-collapsed){right:auto;left:14px}
+
+.dl-youtube-logo{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}.dl-youtube-logo img:first-child{width:30px;height:22px}.dl-youtube-logo img:last-child{width:70px;height:22px}
+
+/* Fit the available content area of each virtual browser, including maximize/restore. */
+.sim-browser-window .offline-browser:has(>.dl-site){padding:0;height:auto;min-height:100%;width:100%;flex:1 0 auto}
+.dl-site{display:flex;flex-direction:column;width:100%;min-width:0;min-height:var(--dl-viewport-height,100%)}
+.dl-site>:is(.dl-auth-stage,.dl-mail,.dl-youtube-layout,.dl-spotify-layout,.dl-discord-layout,.dl-drive-layout,.dl-empty,.dl-spotify-welcome,.dl-discord-welcome,.dl-netflix-landing,.dl-profiles){flex:1}
+.dl-site .dl-auth-stage{min-height:var(--dl-viewport-height,560px);padding-block:clamp(24px,5cqw,60px)}
+.dl-site .dl-mail{display:flex;flex-direction:column;min-height:0}
+.dl-mail-layout{flex:1;min-height:0}.dl-mail-layout>main{min-height:0}
+.dl-site>.dl-netflix-landing{display:flex;flex-direction:column;justify-content:center;min-height:0}
+.dl-site>.dl-spotify-welcome,.dl-site>.dl-discord-welcome{min-height:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+.dl-site .dl-brand-icon{width:32px;height:32px;object-fit:contain;flex:0 0 auto;vertical-align:middle}
+.dl-site .dl-brand-icon[src$="discord-white.svg"],.dl-site .dl-brand-icon[src$="discord.svg"]{width:38px}
+.dl-site .dl-brand-icon[src$="netflix.png"]{width:26px;height:36px}
+.dl-site .dl-icon{width:21px;height:21px;object-fit:contain;vertical-align:middle;flex:0 0 auto}
+.dl-site button:has(>.dl-icon){display:inline-flex;align-items:center;justify-content:center;gap:9px}
+.dl-site aside button:has(>.dl-icon){justify-content:flex-start}
+.dl-site .dl-mail-row{display:grid}
+.dl-mail>header [data-digital-action=logout]{margin-left:auto}
+.dl-site [data-digital-action=logout]{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:#e8edf3;border:1px solid #ccd4de;border-radius:8px;color:#263238;font-weight:700;min-height:42px;white-space:nowrap;flex-shrink:0}
+.dl-site [data-digital-action=logout]:hover{background:#d8e2ee}
+.dl-mail-outlook [data-digital-action=logout],.dl-mail-yahoo [data-digital-action=logout]{background:#fff;color:#202124;border-color:#fff}
+.dl-netflix [data-digital-action=logout],.dl-discord [data-digital-action=logout]{background:#e50914;color:white;border-color:transparent}
+.dl-discord [data-digital-action=logout]{background:#b8313c;margin-top:12px;width:100%}
+.dl-site.dl-spotify [data-digital-action=logout]{background:white;color:#121212;border-color:white}
+.dl-netflix .dl-icon,.dl-spotify .dl-icon,.dl-discord .dl-icon{filter:invert(1)}
+.dl-netflix [data-digital-action=logout] .dl-icon,.dl-discord [data-digital-action=logout] .dl-icon{filter:invert(1)}
+.dl-spotify [data-digital-action=logout] .dl-icon,.dl-netflix .dl-light-button .dl-icon{filter:none}
+.dl-site.dl-spotify .dl-favorite{display:inline-flex;align-items:center;gap:9px;padding:10px 18px;min-height:44px;border-radius:24px;background:#1ed760;color:#071d0f;font-size:14px;font-weight:700;margin-top:12px;border:2px solid #1ed760}
+.dl-site.dl-spotify .dl-favorite:hover{background:#3ee67e;transform:translateY(-1px)}
+.dl-site.dl-spotify .dl-favorite.is-favorite{background:#163d28;color:#7ff0a6;border-color:#44d883}
+.dl-spotify .dl-favorite .dl-icon{filter:none}.dl-spotify .dl-favorite.is-favorite .dl-icon{filter:invert(1)}
+.dl-spotify .dl-media-grid>article{display:flex;flex-direction:column;align-items:flex-start}
+.dl-spotify .dl-media-card{width:100%}.dl-spotify .dl-media-grid>article>[data-digital-action=open-favorite]{margin-top:6px;text-decoration:underline}
+.dl-site .dl-discord-servers .dl-brand-icon{width:29px;height:29px}
+.dl-drive-new,.dl-drive-layout>aside>strong{display:flex;align-items:center;gap:12px}
+.dl-folder .dl-icon{width:30px;height:30px}
+.dl-site .dl-player{height:clamp(225px,calc(var(--dl-viewport-height,640px)*.66),680px);aspect-ratio:auto}
+.dl-player-controls .dl-icon{filter:invert(1)}
+.dl-site .dl-player-controls button{font-size:13px}.dl-player-controls output{min-width:72px;text-align:center}
+.dl-current-step{padding:10px 12px;border-radius:8px;background:#edf4ff;color:#174d7e;font-size:13px!important}
+.learning-assistant.is-digital-life .assistant-body{max-height:calc(min(610px,66vh) - 88px);overflow:auto}
+.dl-trail-detail .learning-goal p{line-height:1.65}
+@container (min-width:1400px){.dl-youtube .dl-media-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.dl-media-grid{grid-template-columns:repeat(5,minmax(0,1fr))}.dl-spotify .dl-media-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.dl-youtube-watch{grid-template-columns:minmax(0,1fr) 340px;padding-inline:4%}.dl-auth-card{width:min(100%,1040px)}}
+@container (max-width:900px){.dl-mail-layout{grid-template-columns:210px 1fr}.dl-mail-layout>aside{padding-right:8px}.dl-site .dl-player{height:clamp(225px,calc(var(--dl-viewport-height,640px)*.60),500px)}}
+@container (max-width:620px){.dl-mail-layout{grid-template-columns:1fr}.dl-site [data-digital-action=logout]{min-height:40px;padding:8px 12px}.dl-site .dl-player-controls button{font-size:11px;padding:6px}.dl-player-controls output{min-width:55px}.dl-site .dl-player-controls .dl-icon{width:16px;height:16px}.dl-spotify .dl-favorite{width:100%}.dl-mail>header [data-digital-action=logout]{margin-left:auto}}
+
+.dl-netflix-watch{width:100%}.dl-netflix-setup{width:100%}.dl-trail-page .learning-app-mark{background:transparent;box-shadow:none}.dl-trail-page .learning-app-mark img{filter:none;width:64px;height:64px}.dl-google-search .result-favicon{width:28px;height:28px;flex:0 0 28px;overflow:hidden;background:transparent}.dl-google-search .result-favicon .dl-brand-icon{width:20px;height:20px;max-width:20px;max-height:20px;object-fit:contain;flex:0 0 20px}.dl-site .dl-brand-icon[src$="yahoo-icon.png"],.dl-google-search .dl-brand-icon[src$="yahoo-icon.png"]{border-radius:6px}
+
+/* Netflix: referências de entrada e cadastro fornecidas em 11/10/2026. */
+.dl-netflix{font-family:NetflixSans,Arial,sans-serif;--accent:#ff0a18}
+.dl-netflix-wordmark{display:block;width:150px;height:auto}
+.dl-netflix-header .dl-netflix-wordmark{width:110px}
+.dl-site>.dl-netflix-landing{position:relative;display:block;padding:0;min-height:var(--dl-viewport-height,600px);background:linear-gradient(to bottom,#0009 0%,#0009 60%,#000b 100%),url(../assets/digital/netflix/landing-background.jpg) center top/cover;overflow:hidden}
+.dl-netflix-landing-header{position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(100%,1260px);padding:24px 30px;display:flex;justify-content:space-between;align-items:center;gap:24px;z-index:1}
+.dl-netflix-landing-header>div{display:flex;align-items:center;gap:12px}
+.dl-netflix-landing-header .dl-primary{min-height:32px;padding:5px 16px;font-size:14px;border-radius:4px}
+.dl-netflix-language{display:inline-flex;align-items:center;position:relative;border:1px solid #888;border-radius:4px;padding:3px 9px;gap:5px;height:32px;background:#2229;color:#fff}
+.dl-netflix-language .dl-icon{width:16px;height:16px}
+.dl-netflix-language select{background:transparent;border:0;color:inherit;font-weight:500;max-width:130px}
+.dl-netflix-language option{color:#111;background:white}
+.dl-netflix-landing-main{width:100%;max-width:740px;margin:0 auto;text-align:center;padding:clamp(135px,calc(var(--dl-viewport-height,600px)*.34),330px) 30px 150px}
+.dl-netflix-landing-main h1{font-size:clamp(32px,calc(var(--dl-viewport-height,600px)*.071),64px);font-weight:900;line-height:1.25;letter-spacing:0;margin:0 0 24px}
+.dl-netflix-landing-main .dl-netflix-price{font-size:20px;font-weight:500;line-height:1.2;max-width:none;margin:0 0 32px}
+.dl-netflix-landing-main .dl-netflix-invite{font-size:16px;line-height:1.25;max-width:none;margin:0 0 18px}
+.dl-netflix-start{display:grid;grid-template-columns:minmax(0,1fr) 185px;gap:8px;text-align:left;max-width:664px;margin:auto}
+.dl-netflix-start .dl-field{margin:0;position:relative}
+.dl-netflix-start .dl-field>span{position:absolute;left:16px;top:7px;font-size:11px;opacity:0;pointer-events:none}
+.dl-netflix-start .dl-field:focus-within>span,.dl-netflix-start .dl-field:has(input:not(:placeholder-shown))>span{opacity:1}
+.dl-netflix-start .dl-field:focus-within input,.dl-netflix-start input:not(:placeholder-shown){padding-top:22px;padding-bottom:6px}
+.dl-netflix-start input{background:#232323b3;border-color:#888;height:56px;padding:16px;font-size:16px}
+.dl-netflix-start .dl-primary{display:inline-flex;align-items:center;justify-content:center;gap:12px;font-size:24px;padding:10px 16px;height:56px;border-radius:4px}
+.dl-netflix-start .dl-icon{width:24px;height:24px}
+.dl-netflix-start .dl-error{grid-column:1/-1;color:#ffb4ab}
+.dl-netflix-landing-curve{position:absolute;bottom:-75px;left:-5%;width:110%;height:90px;border-top:4px solid #e50942;border-radius:50% 50% 0 0;background:radial-gradient(ellipse at top,#182758,#080d20 65%)}
+.dl-netflix-flow{display:flex;flex:1;flex-direction:column;min-height:var(--dl-viewport-height,650px);background:#e0e0e0;color:#000;--ink:#000}
+.dl-netflix-flow-header{border-bottom:1px solid #d1d1d1;flex:none}
+.dl-netflix-flow-header>div{width:min(100%,1260px);margin:auto;min-height:92px;padding:22px 30px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.dl-netflix-flow-header button{font-size:14px;font-weight:500}
+.dl-netflix-flow-main{width:min(100%,535px);padding:clamp(45px,calc(var(--dl-viewport-height,650px)*.18),160px) 30px 90px;margin:0 auto;flex:1}
+.dl-netflix-flow-main.is-wide{width:min(100%,940px)}
+.dl-netflix-flow-main>small{font-size:14px;display:block;margin-bottom:5px}
+.dl-netflix-flow-main h1{font-size:32px;font-weight:700;letter-spacing:0;line-height:1.25;margin-bottom:18px}
+.dl-netflix-flow-main p{font-size:16px;line-height:1.3}
+.dl-netflix-devices{display:block;width:245px;max-width:100%;height:auto;margin:0 auto 24px}
+.dl-netflix-flow-main .dl-field input{background:transparent;color:#000;border:1px solid #777}
+.dl-netflix-flow-main .dl-field>span{font-size:14px}
+.dl-netflix-flow-main .dl-form-actions{gap:8px;margin-top:30px}
+.dl-netflix-flow-main .dl-form-actions .dl-primary{font-size:24px;min-height:56px;border-radius:4px}
+.dl-netflix-flow-main .dl-error{color:#b6000e}
+.dl-netflix-flow-main .dl-plans{color:#fff}
+.dl-netflix-flow-main .dl-demo-card{color:#fff}
+.dl-netflix-flow-main .dl-payment-progress,.dl-netflix-flow-main .dl-payment-success{color:#fff}
+.dl-netflix-flow-main [data-digital-action=demo-card]{border:1px solid #555;background:#fff;color:#222;margin-top:6px;width:100%}
+.dl-netflix-flow-main [data-browser-open-tab]{border:1px solid #999;background:#fff;margin:0 0 20px}
+.dl-netflix-flow-footer{border-top:1px solid #ddd;color:#555}
+.dl-netflix-flow-footer>div{width:min(100%,1260px);margin:auto;padding:55px 30px 30px}
+.dl-netflix-flow-footer nav{display:grid;grid-template-columns:repeat(4,1fr);gap:0 30px;margin-bottom:20px}
+.dl-netflix-flow-footer button{padding:6px 0;min-height:32px;font-size:14px;text-align:left;text-decoration:underline}
+.dl-netflix-flow-footer .dl-netflix-language{background:transparent;color:#555;height:38px}
+.dl-netflix-flow-footer .dl-icon{filter:none}
+@container(max-width:900px){
+ .dl-netflix-landing-header{padding:24px}.dl-netflix-wordmark{width:130px}
+ .dl-netflix-landing-main{padding-top:130px;padding-bottom:100px}.dl-netflix-landing-main h1{font-size:38px}
+ .dl-netflix-flow-main{padding-top:45px}.dl-netflix-flow-footer>div{padding-top:30px}
+}
+@container(max-width:620px){
+ .dl-netflix-wordmark{width:100px}.dl-netflix-landing-header{padding:20px 16px;gap:8px}
+ .dl-netflix-language{padding-inline:5px}.dl-netflix-language select{max-width:100px;font-size:12px}
+ .dl-netflix-landing-main{padding:115px 22px 80px}.dl-netflix-landing-main h1{font-size:32px}
+ .dl-netflix-landing-main .dl-netflix-price{font-size:17px;margin-bottom:24px}
+ .dl-netflix-start{grid-template-columns:1fr}.dl-netflix-start .dl-primary{justify-self:center;width:165px;font-size:20px}
+ .dl-netflix-flow-header>div{min-height:76px;padding:18px 24px}
+ .dl-netflix-flow-main{padding:38px 24px 55px}.dl-netflix-flow-main h1{font-size:28px}
+ .dl-netflix-flow-footer nav{grid-template-columns:repeat(2,1fr);gap:10px}
+}
