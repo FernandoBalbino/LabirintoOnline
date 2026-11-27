@@ -15,7 +15,7 @@ const stats = { anchors: 0, ageSum: 0, ageMax: 0, bytes: 0, messages: 0, correct
 
 function bot(index) {
   return new Promise((resolve) => {
-    const ws = new WebSocket(url, { headers: { origin: "http://localhost:3000" } });
+    const ws = new WebSocket(url, { headers: { origin: args.origin || "http://localhost:3000" } });
     let rid = 0;
     let me = null;
     let grid = null;
